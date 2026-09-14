@@ -88,4 +88,54 @@
 })();
 </script>
 
+
+<div class="clear-confirm-overlay" id="clearConfirmOverlay" aria-hidden="true">
+  <div class="clear-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="clearConfirmTitle">
+    <div class="clear-confirm-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 3.5 21 20H3L12 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3 id="clearConfirmTitle">Are you sure you want to delete the notifications?</h3>
+    <p>This action will remove all notifications, including unread notifications. This cannot be undone.</p>
+    <div class="clear-confirm-buttons">
+      <button type="button" class="clear-confirm-no" id="clearConfirmNo">No</button>
+      <button type="button" class="clear-confirm-yes" id="clearConfirmYes">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var overlay=document.getElementById('clearConfirmOverlay');
+  var yes=document.getElementById('clearConfirmYes');
+  var no=document.getElementById('clearConfirmNo');
+  var activeForm=null;
+  document.querySelectorAll('.clear-notification-form').forEach(function(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      activeForm=form;
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden','false');
+    });
+  });
+  function closeModal(){
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    activeForm=null;
+  }
+  if(no) no.addEventListener('click',closeModal);
+  if(yes) yes.addEventListener('click',function(){
+    if(activeForm) activeForm.submit();
+    closeModal();
+  });
+  if(overlay) overlay.addEventListener('click',function(e){
+    if(e.target===overlay) closeModal();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && overlay && overlay.classList.contains('show')) closeModal();
+  });
+})();
+</script>
+
 </body></html>

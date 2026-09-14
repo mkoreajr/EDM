@@ -36,6 +36,18 @@ if($res){ while($row=$res->fetch_assoc()){ if($row!==null) $items[]=$row; } }
 <div class="notification-cleared-message">All notifications have been cleared.</div>
 <?php endif; ?>
 
+<div class="notification-top-actions">
+<?php if($totalNotifications>0): ?>
+  <form method="post" class="clear-notification-form">
+    <input type="hidden" name="action" value="clear_notifications">
+    <button class="clear-notifications-btn" type="submit">Clear Notifications</button>
+  </form>
+<?php endif; ?>
+<?php if($totalNotifications>5): ?>
+  <a class="view-more-notifications" href="notifications_history.php">View More Notifications <span>→</span></a>
+<?php endif; ?>
+</div>
+
 <div class="notification-page-list">
 <?php if(!$items): ?>
   <div class="notification-empty-card">No notifications.</div>
@@ -49,17 +61,7 @@ if($res){ while($row=$res->fetch_assoc()){ if($row!==null) $items[]=$row; } }
 <?php endforeach; ?>
 <?php endif; ?>
 
-<div class="notification-actions">
-<?php if($totalNotifications>5): ?>
-  <a class="view-more-notifications" href="notifications_history.php">View More Notifications <span>→</span></a>
-<?php endif; ?>
-<?php if($totalNotifications>0): ?>
-  <form method="post" onsubmit="return confirm('Clear all notifications, including unread notifications? This cannot be undone.');">
-    <input type="hidden" name="action" value="clear_notifications">
-    <button class="clear-notifications-btn" type="submit">Clear Notifications</button>
-  </form>
-<?php endif; ?>
-</div>
+
 </div>
 
 <?php require "partials/footer.php"; ?>
