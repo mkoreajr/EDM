@@ -671,3 +671,37 @@ body.app-body{min-height:100vh}
   font-weight:700;
 }
 .all-notifications span{font-size:16px}
+
+/* Notification clearing */
+.notification-actions{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:18px auto 0;
+}
+.notification-actions form{margin:0}
+.clear-notifications-btn{
+  min-width:190px;
+  padding:11px 18px;
+  border:1px solid #c63b43;
+  border-radius:8px;
+  background:#fff;
+  color:#b3262f;
+  cursor:pointer;
+  font:700 13px Arial,Helvetica,sans-serif;
+}
+.clear-notifications-btn:hover{background:#fff0f0;border-color:#a91f28}
+.notification-cleared-message{
+  width:min(900px,100%);
+  box-sizing:border-box;
+  margin:20px auto 0;
+  padding:10px 14px;
+  border:1px solid #b9dfcf;
+  border-radius:8px;
+  background:#eaf8f1;
+  color:#08764c;
+  text-align:center;
+  font:600 12px Arial,Helvetica,sans-serif;
+}

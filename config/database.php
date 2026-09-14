@@ -13,6 +13,7 @@ class CompatResult{
   public function __construct(private $stmt){}
   public function fetch_assoc(){ $r=$this->stmt->fetch(PDO::FETCH_ASSOC); return $r===false?null:$r; }
   public function fetch(){return $this->fetch_assoc();}
+  public function rowCount(){return $this->stmt->rowCount();}
 }
 class CompatStmt{
   public function __construct(private $stmt){}
