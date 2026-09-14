@@ -64,6 +64,17 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         }
     }
 
+    if($action==='rename_user'){
+        $id=(int)($_POST['user_id']??0); $name=trim($_POST['new_name']??'');
+        if($id<=0 || $name==='') $adminError='A valid name is required.';
+        elseif(mb_strlen($name)>100) $adminError='Name is too long.';
+        else{
+          $up=$conn->prepare("UPDATE users SET name=? WHERE id=?"); $up->bind_param("si",$name,$id); $up->execute();
+          if($id===(int)$_SESSION['user_id']) $_SESSION['name']=$name;
+          $adminMessage='User name updated successfully. The role remains unchanged.';
+        }
+    }
+
     if($action==='reset_user'){
         $id=(int)($_POST['user_id']??0);
         if($id>0){
@@ -284,6 +295,12 @@ try {
                 <td><span class="active-status">Active</span><?php if(!empty($u['must_change_password'])):?><small class="must-change-label">Password change required</small><?php endif;?></td>
                 <td>
                   <div class="user-actions">
+                    <form method="post" class="rename-inline">
+                      <input type="hidden" name="user_action" value="rename_user">
+                      <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">
+                      <input class="rename-input" name="new_name" value="<?=e($u['name'])?>" aria-label="Rename user">
+                      <button class="user-action-btn rename" type="submit">Rename</button>
+                    </form>
                     <form method="post">
                       <input type="hidden" name="user_action" value="reset_user">
                       <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">

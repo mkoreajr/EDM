@@ -20,3 +20,6 @@ Deploy through Render Blueprint using render.yaml.
 - Fixed Settings database variable error by using the application's PDO compatibility connection `$conn`.
 
 - Added the requested global footer to all pages via `partials/footer.php`: © 2024 EDM Kienyeji Egg Shop. All rights reserved. / “Fresh Eggs • Healthy Families • A Better Tomorrow”.
+
+- Cashier role is restricted to Home, Sales (POS), Customers, receipt/notification/password functions; admin-only pages are protected server-side.
+- Added administrator/user renaming while preserving roles, global no-stock messaging, and red below-50-tray stock warnings.

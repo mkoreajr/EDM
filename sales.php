@@ -21,19 +21,21 @@ if(isset($_POST['save_sale'])){
     }
 }
 $products=$conn->query("SELECT * FROM products WHERE stock_quantity>0 ORDER BY name");
+$productCount=(int)$conn->query("SELECT COUNT(*) AS c FROM products WHERE stock_quantity>0")->fetch_assoc()['c'];
 $customers=$conn->query("SELECT * FROM customers ORDER BY name");
 $recent=$conn->query("SELECT s.*,COALESCE(c.name,'Walk-in Customer') customer FROM sales s LEFT JOIN customers c ON c.id=s.customer_id ORDER BY s.id DESC LIMIT 30");
 require "partials/header.php";
 ?>
 <?php if($message): ?><div class="alert danger"><?=e($message)?></div><?php endif;?>
+<?php if($productCount===0): ?><div class="alert danger stock-no-sale">No stock available. Please contact the administrator to update stock before making a sale.</div><?php endif; ?>
 <div class="panel"><h3>New Sale</h3><form method="post">
 <div class="form-grid"><div class="field"><label>Customer</label><select name="customer_id"><option value="0">Walk-in Customer</option><?php while($c=$customers->fetch_assoc()): ?><option value="<?=$c['id']?>"><?=e($c['name'])?></option><?php endwhile;?></select></div>
-<div class="field"><label>Product</label><select name="product_id" id="product" required><?php while($p=$products->fetch_assoc()): ?><option value="<?=$p['id']?>" data-price="<?=$p['selling_price']?>" data-stock="<?=$p['stock_quantity']?>"><?=e($p['name'])?> - <?=e($p['unit'])?> (Stock: <?=money($p['stock_quantity'])?>)</option><?php endwhile;?></select></div>
+<div class="field"><label>Product</label><select name="product_id" id="product" required <?= $productCount===0 ? "disabled" : "" ?>><?php while($p=$products->fetch_assoc()): ?><option value="<?=$p['id']?>" data-price="<?=$p['selling_price']?>" data-stock="<?=$p['stock_quantity']?>"><?=e($p['name'])?> - <?=e($p['unit'])?> (Stock: <?=money($p['stock_quantity'])?>)</option><?php endwhile;?></select></div>
 <div class="field"><label>Quantity</label><input type="number" step="0.01" min="0.01" name="quantity" id="qty" required></div>
 <div class="field"><label>Unit Price (TZS)</label><input id="price" readonly></div>
 <div class="field"><label>Total Amount (TZS)</label><input id="total" readonly></div>
 <div class="field"><label>Payment Method</label><select name="payment_method" required><option>Cash</option><option>Mobile Money</option><option>Bank</option></select></div></div>
-<div class="form-actions"><button class="btn primary" name="save_sale">Save Sale & Print Receipt</button></div></form></div>
+<div class="form-actions"><button class="btn primary" name="save_sale" <?= $productCount===0 ? "disabled" : "" ?>>Save Sale & Print Receipt</button></div></form></div>
 <div class="panel" style="margin-top:20px"><h3>Recent Sales</h3><div class="table-wrap"><table class="table"><tr><th>Sale No.</th><th>Date</th><th>Customer</th><th>Payment</th><th>Total</th><th></th></tr>
 <?php while($r=$recent->fetch_assoc()): ?><tr><td><?=e($r['sale_number'])?></td><td><?=e($r['sale_date'])?></td><td><?=e($r['customer'])?></td><td><?=e($r['payment_method'])?></td><td>TZS <?=money($r['total_amount'])?></td><td><a class="btn btn-sm secondary" href="receipt.php?id=<?=$r['id']?>">Receipt</a></td></tr><?php endwhile;?></table></div></div>
 <script>const p=document.getElementById('product'),q=document.getElementById('qty'),pr=document.getElementById('price'),t=document.getElementById('total');function calc(){let o=p.options[p.selectedIndex],price=+o.dataset.price||0;pr.value=price.toLocaleString();t.value=((+q.value||0)*price).toLocaleString()}p.addEventListener('change',calc);q.addEventListener('input',calc);calc();</script>

@@ -295,3 +295,12 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
   }
   .footer-tagline{white-space:normal}
 }
+
+.stock-alert{display:flex;align-items:center;gap:10px;margin:0 0 16px;padding:10px 14px;border:1px solid #efb1b1;border-left:5px solid #d72b2b;border-radius:8px;background:#fff0f0;color:#8e2020;font:400 11px Arial,Helvetica,sans-serif}
+.stock-alert:before{content:"!";width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:#d72b2b;color:#fff;font-weight:800}
+.stock-alert strong{font-weight:800;color:#b51f28;white-space:nowrap}.stock-alert span{color:#8d3b40}
+.stock-alert-empty{background:#fff1f1;border-color:#e8aaaa}
+.stock-no-sale{margin-bottom:14px}button:disabled,.btn:disabled{opacity:.5;cursor:not-allowed}
+.rename-inline{display:flex;align-items:center;gap:4px}.rename-input{width:125px;height:28px;border:1px solid #dbe4ec;border-radius:5px;padding:0 7px;color:#33415a;background:#fff;font:400 9px Arial,Helvetica,sans-serif}
+.user-action-btn.rename{color:#285a9f;border-color:#bdd0e8}.user-action-btn.rename:hover{background:#eef5ff}
+@media(max-width:900px){.stock-alert{align-items:flex-start;flex-wrap:wrap}.stock-alert span{width:100%}.rename-inline{flex-wrap:wrap}}
