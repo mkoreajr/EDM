@@ -1,5 +1,5 @@
 <?php
-session_start();
+if(session_status() !== PHP_SESSION_ACTIVE){ session_start(); }
 require_once __DIR__ . "/config/database.php";
 
 function e($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
@@ -15,16 +15,18 @@ function password_change_required(){
         $st->bind_param("i",$uid);
         $st->execute();
         $u=$st->get_result()->fetch_assoc();
-        return !empty($u['must_change_password']);
-    }catch(Throwable $e){ return false; }
+        return is_array($u) && !empty($u['must_change_password']);
+    }catch(Throwable $e){
+        return false;
+    }
 }
 
-if(!isset($_SESSION['user_id'])){
+if(empty($_SESSION['user_id'])){
     header("Location: index.php");
     exit;
 }
 
-$currentPage=basename($_SERVER['PHP_SELF']);
+$currentPage=basename((string)($_SERVER['PHP_SELF'] ?? ''));
 if(password_change_required() && !in_array($currentPage,['change_password.php','logout.php'],true)){
     header("Location: change_password.php?required=1");
     exit;

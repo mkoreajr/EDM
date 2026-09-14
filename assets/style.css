@@ -318,3 +318,40 @@ body.app-body{min-height:100vh;display:flex;flex-direction:column}
  .footer-content{flex-direction:column;gap:3px;font-size:10px}
  .footer-tagline{white-space:normal}
 }
+
+/* FINAL LAYOUT: footer stays compact at the bottom of the content area */
+body.app-body{min-height:100vh}
+.app-body>.content{
+  min-height:100vh;
+  min-height:100dvh;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+}
+.app-body>.content>.app-topbar{flex:none}
+.app-body>.content>.app-footer{margin-top:auto;flex:none}
+.app-footer{width:100%;box-sizing:border-box;padding:10px 0 14px}
+.footer-content{
+  width:100%;
+  box-sizing:border-box;
+  border-top:1px solid #e5ebe9;
+  padding:9px 2px 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:38px;
+  text-align:center;
+  font-size:12px;
+  line-height:1.35;
+  color:#526788;
+}
+.footer-tagline{color:#52628f;font-style:italic;white-space:nowrap}
+@media(max-width:700px){
+ .app-footer{padding:8px 0 12px}
+ .footer-content{flex-direction:column;gap:3px;font-size:10px}
+ .footer-tagline{white-space:normal}
+}
+
+.app-topbar{position:relative;z-index:50}
+.top-actions,.dropdown-wrap{position:relative}
+.notification-dropdown,.profile-dropdown{z-index:2000}
