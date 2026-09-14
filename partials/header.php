@@ -33,7 +33,7 @@
     if($uid){
       $ur=$conn->query("SELECT COUNT(*) AS unread_count FROM notifications WHERE user_id={$uid} AND read_at IS NULL");
       if($ur){ $unread=(int)($ur->fetch_assoc()['unread_count']??0); }
-      $nr=$conn->query("SELECT id,title,message,read_at,created_at FROM notifications WHERE user_id={$uid} ORDER BY created_at DESC LIMIT 6");
+      $nr=$conn->query("SELECT id,title,message,read_at,created_at FROM notifications WHERE user_id={$uid} ORDER BY created_at DESC LIMIT 5");
       if($nr){ while($row=$nr->fetch_assoc()){ $notifItems[]=$row; } }
     }
   ?>
@@ -54,7 +54,7 @@
           </a>
         <?php endforeach; endif;?>
         </div>
-        <a class="all-notifications" href="notifications.php">View all notifications</a>
+        <a class="all-notifications" href="notifications.php">View More Notifications <span>→</span></a>
       </div>
     </div>
     <div class="dropdown-wrap profile-wrap">

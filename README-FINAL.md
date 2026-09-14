@@ -25,3 +25,5 @@ Deploy through Render Blueprint using render.yaml.
 - Added administrator/user renaming while preserving roles, global no-stock messaging, and red below-50-tray stock warnings.
 
 - Fixed auth warning defensively and changed the footer to a compact centered footer that stays at the bottom of short pages.
+
+- Notifications now show the latest 5 with a centered “View More Notifications →” link to full notification history; the topbar dropdown also shows 5.

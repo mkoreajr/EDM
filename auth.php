@@ -32,7 +32,7 @@ if(password_change_required() && !in_array($currentPage,['change_password.php','
     exit;
 }
 
-$cashierPages=['dashboard.php','sales.php','customers.php','receipt.php','notifications.php','change_password.php','logout.php'];
+$cashierPages=['dashboard.php','sales.php','customers.php','receipt.php','notifications.php','notifications_history.php','change_password.php','logout.php'];
 if(!is_admin() && !in_array($currentPage,$cashierPages,true)){
     header("Location: dashboard.php");
     exit;
