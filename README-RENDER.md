@@ -1,5 +1,10 @@
-# EDM Kienyeji Egg Shop — Single Approved Login Artwork
-The approved login image is rendered exactly once as the full-screen background. Functional controls are transparent overlays positioned over the existing Username, Password, Remember me, Forgot password and Sign In areas, so there are no duplicated boxes or duplicated labels.
+# EDM Kienyeji Egg Shop — Real Coded Login
+
+The approved chicken/egg artwork is used ONLY for the left visual panel.
+The login side is NOT an image overlay: Username, Password, Remember Me, Sign In,
+payment cards and other controls are real HTML/CSS controls.
+
+This removes the duplicate-box problem completely.
 
 Deploy with Render -> New -> Blueprint using render.yaml.
 Login: admin / admin123
