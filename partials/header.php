@@ -23,8 +23,45 @@
 <header class="topbar app-topbar">
   <button class="menu-btn" type="button" aria-label="Menu">☰</button>
   <div class="searchbox"><span>⌕</span><input type="search" placeholder="Search products, customers, sales..."></div>
+  <?php
+    $uid=(int)($_SESSION['user_id']??0);
+    $unread=0; $notifItems=[];
+    if($uid){
+      $nr=$conn->query("SELECT id,title,message,read_at,created_at FROM notifications WHERE user_id={$uid} ORDER BY created_at DESC LIMIT 6");
+      if($nr){ while($row=$nr->fetch_assoc()){ $notifItems[]=$row; if(empty($row['read_at'])) $unread++; } }
+    }
+  ?>
   <div class="top-actions">
-    <button class="notify" type="button" aria-label="Notifications">♧<i>3</i></button>
-    <div class="profile"><span class="avatar"><?=strtoupper(substr((string)($_SESSION['name']??'Admin'),0,2))?></span><div><strong><?=e($_SESSION['name']??'Administrator')?></strong><small><?=e($_SESSION['role']??'Admin')?></small></div><span class="chev">⌄</span></div>
+    <div class="dropdown-wrap notification-wrap">
+      <button class="notify" id="notificationButton" type="button" aria-label="Notifications" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <?php if($unread>0):?><i id="notificationCount"><?=min($unread,99)?></i><?php endif;?>
+      </button>
+      <div class="dropdown notification-dropdown" id="notificationDropdown">
+        <div class="dropdown-head"><strong>Notifications</strong><span><?=number_format($unread)?> unread</span></div>
+        <div class="notification-list">
+        <?php if(!$notifItems):?><div class="empty-notifications">No notifications.</div><?php else: foreach($notifItems as $n): ?>
+          <a class="notification-item <?=empty($n['read_at'])?'unread':''?>" href="notifications.php?id=<?=(int)$n['id']?>">
+            <span class="n-icon"><svg viewBox="0 0 24 24"><path d="M12 4a7 7 0 0 0-7 7v3l-2 3h18l-2-3v-3a7 7 0 0 0-7-7Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 20h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+            <span class="n-copy"><strong><?=e($n['title'])?></strong><small><?=e($n['message'])?></small></span>
+            <?php if(empty($n['read_at'])):?><b class="unread-mark">Unread</b><?php endif;?>
+          </a>
+        <?php endforeach; endif;?>
+        </div>
+        <a class="all-notifications" href="notifications.php">View all notifications</a>
+      </div>
+    </div>
+    <div class="dropdown-wrap profile-wrap">
+      <button class="profile profile-button" id="profileButton" type="button" aria-expanded="false">
+        <span class="avatar"><?=strtoupper(substr((string)($_SESSION['name']??'Admin'),0,2))?></span>
+        <span class="profile-text"><strong><?=e($_SESSION['name']??'Administrator')?></strong><small><?=e($_SESSION['role']??'Admin')?></small></span>
+        <span class="chev">⌄</span>
+      </button>
+      <div class="dropdown profile-dropdown" id="profileDropdown">
+        <div class="profile-menu-head"><span class="avatar small-avatar"><?=strtoupper(substr((string)($_SESSION['name']??'Admin'),0,2))?></span><div><strong><?=e($_SESSION['name']??'Administrator')?></strong><small><?=e($_SESSION['role']??'Admin')?></small></div></div>
+        <a href="change_password.php"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Change Password</a>
+        <a class="logout-link" href="logout.php"><svg viewBox="0 0 24 24"><path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M14 8l4 4-4 4M18 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log Out</a>
+      </div>
+    </div>
   </div>
 </header>

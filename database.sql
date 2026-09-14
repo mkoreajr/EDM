@@ -9,4 +9,8 @@ CREATE TABLE IF NOT EXISTS purchases(id BIGSERIAL PRIMARY KEY,supplier_id BIGINT
 CREATE TABLE IF NOT EXISTS purchase_items(id BIGSERIAL PRIMARY KEY,purchase_id BIGINT NOT NULL REFERENCES purchases(id) ON DELETE CASCADE,product_id BIGINT NOT NULL REFERENCES products(id),quantity NUMERIC(12,2) NOT NULL,unit_cost NUMERIC(12,2) NOT NULL,total NUMERIC(12,2) NOT NULL);
 CREATE TABLE IF NOT EXISTS expenses(id BIGSERIAL PRIMARY KEY,expense_name VARCHAR(100) NOT NULL,amount NUMERIC(12,2) NOT NULL,expense_date DATE NOT NULL,description TEXT,created_by BIGINT NOT NULL REFERENCES users(id),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS stock_movements(id BIGSERIAL PRIMARY KEY,product_id BIGINT NOT NULL REFERENCES products(id),movement_type VARCHAR(20) NOT NULL CHECK(movement_type IN ('Purchase','Sale','Adjustment')),quantity NUMERIC(12,2) NOT NULL,reference_id BIGINT,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS notifications(id BIGSERIAL PRIMARY KEY,user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,title VARCHAR(150) NOT NULL,message TEXT NOT NULL,read_at TIMESTAMP NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
 INSERT INTO users(name,username,password,role) SELECT 'Administrator','admin',encode(digest('admin123','sha256'),'hex'),'Admin' WHERE NOT EXISTS(SELECT 1 FROM users WHERE username='admin');
+INSERT INTO notifications(user_id,title,message) SELECT id,'Welcome to EDM Kienyeji Egg Shop','Your administrator account is ready. You can manage sales, products and stock from the dashboard.' FROM users u WHERE u.username='admin' AND NOT EXISTS(SELECT 1 FROM notifications n WHERE n.user_id=u.id);
+
