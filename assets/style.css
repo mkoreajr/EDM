@@ -355,3 +355,98 @@ body.app-body{min-height:100vh}
 .app-topbar{position:relative;z-index:50}
 .top-actions,.dropdown-wrap{position:relative}
 .notification-dropdown,.profile-dropdown{z-index:2000}
+
+/* Forced first-login/reset password: centered popup-style screen */
+.password-required-mode{background:#f3f8f5}
+.password-required-mode>.sidebar,
+.password-required-mode>.content>.app-topbar{display:none!important}
+.password-required-mode>.content{
+  margin-left:0!important;
+  padding:0!important;
+  width:100%!important;
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+}
+.password-required-page{
+  flex:1;
+  width:100%;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 20px;
+}
+.password-required-card{
+  width:min(470px,100%);
+  box-sizing:border-box;
+  background:#fff;
+  border:1px solid #dce9e2;
+  border-radius:18px;
+  padding:32px 34px;
+  box-shadow:0 18px 50px rgba(15,75,54,.12);
+  text-align:center;
+}
+.password-required-icon{
+  width:54px;height:54px;margin:0 auto 13px;border-radius:50%;
+  display:grid;place-items:center;background:#e5f6ed;color:#008e5b;
+}
+.password-required-icon svg{width:26px;height:26px}
+.password-required-card .welcome-kicker{color:#008e5b;font-weight:800;letter-spacing:3px}
+.password-required-card h1{margin:7px 0 9px;color:#064b35;font-size:29px}
+.password-required-subtitle{margin:0 auto 23px;max-width:390px;color:#607184;font-size:14px;line-height:1.55}
+.password-required-form{text-align:left}
+.password-required-form .field{margin-bottom:15px}
+.password-required-form .field label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:#243a35}
+.password-required-form input{
+  width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid #d1dce0;
+  border-radius:8px;outline:0;background:#fff;font:400 14px Arial,Helvetica,sans-serif;
+}
+.password-required-form input:focus{border-color:#008e5b;box-shadow:0 0 0 3px rgba(0,142,91,.10)}
+.password-required-submit{width:100%;margin-top:4px}
+.password-required-card .alert{text-align:left;font-size:12px}
+.password-required-mode .app-footer{
+  flex:none;
+  margin-top:0!important;
+  padding:10px 24px 14px!important;
+}
+.password-required-mode .footer-content{
+  width:100%;
+  max-width:none;
+  margin:0;
+  border-top:1px solid #e5ebe9;
+  padding:9px 0 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  text-align:center;
+  font-size:12px;
+}
+.password-required-mode .footer-content>div:first-child{text-align:left}
+.password-required-mode .footer-tagline{text-align:right;white-space:nowrap}
+@media(max-width:700px){
+ .password-required-page{padding:20px 14px}
+ .password-required-card{padding:26px 20px}
+ .password-required-mode .app-footer{padding:8px 14px 12px!important}
+ .password-required-mode .footer-content{flex-direction:column;gap:3px}
+ .password-required-mode .footer-content>div:first-child,
+ .password-required-mode .footer-tagline{text-align:center;white-space:normal}
+}
+
+/* Global footer alignment: left/right, vertically centered */
+.app-footer{width:100%;box-sizing:border-box;margin-top:auto;padding:10px 0 14px}
+.footer-content{
+  width:100%;box-sizing:border-box;
+  display:flex!important;justify-content:space-between!important;align-items:center!important;
+  text-align:center;gap:24px;
+  border-top:1px solid #e5ebe9;padding:9px 0 0;
+  font-size:12px;line-height:1.35;color:#526788;
+}
+.footer-content>div:first-child{text-align:left}
+.footer-tagline{text-align:right;color:#52628f;font-style:italic;white-space:nowrap}
+@media(max-width:700px){
+ .footer-content{flex-direction:column!important;gap:3px;font-size:10px}
+ .footer-content>div:first-child,.footer-tagline{text-align:center;white-space:normal}
+}

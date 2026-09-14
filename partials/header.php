@@ -2,7 +2,7 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title><?=e($pageTitle)?> - EDM Kienyeji Egg Shop</title><link rel="stylesheet" href="assets/style.css">
-</head><body class="app-body">
+</head><body class="app-body <?=!empty($required) ? "password-required-mode" : ""?>">
 <aside class="sidebar">
   <div class="side-brand">
     <div class="side-egg brand-mark-code"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M12 2C8.5 5.2 6 9.1 6 13.1A6 6 0 0 0 18 13c0-4-2.5-7.8-6-11Z" fill="currentColor"/></svg></div>
