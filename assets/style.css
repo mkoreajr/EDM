@@ -258,3 +258,40 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
 .user-action-btn.delete:hover{background:#fff0f0}
 @media(max-width:1100px){.create-user-form{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:700px){.create-user-form{grid-template-columns:1fr}.temporary-password-box{grid-template-columns:1fr}.user-actions{flex-direction:column;align-items:flex-start}}
+
+
+/* Global footer — appears on every page through partials/footer.php */
+.app-footer{
+  margin-top:28px;
+  padding:0 0 18px;
+  color:#566987;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.footer-line{
+  height:1px;
+  background:#e3e9e8;
+  margin-bottom:12px;
+}
+.footer-content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  padding:0 2px;
+  font-size:13px;
+  line-height:1.5;
+}
+.footer-tagline{
+  color:#53628f;
+  font-style:italic;
+  white-space:nowrap;
+}
+@media(max-width:700px){
+  .footer-content{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+    font-size:11px;
+  }
+  .footer-tagline{white-space:normal}
+}

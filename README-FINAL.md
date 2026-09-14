@@ -18,3 +18,5 @@ Deploy through Render Blueprint using render.yaml.
 
 - Admin User Management now supports creating Cashier/Admin users, deleting users, resetting passwords, and forcing a password change on first login/reset.
 - Fixed Settings database variable error by using the application's PDO compatibility connection `$conn`.
+
+- Added the requested global footer to all pages via `partials/footer.php`: © 2024 EDM Kienyeji Egg Shop. All rights reserved. / “Fresh Eggs • Healthy Families • A Better Tomorrow”.
