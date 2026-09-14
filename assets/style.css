@@ -564,3 +564,65 @@ body.app-body{min-height:100vh}
 
 .centered-page-intro{width:100%;text-align:center;display:flex;justify-content:center}
 .centered-page-intro>div{width:100%;text-align:center}
+
+/* Cashier first-login/reset password background — green + yellow */
+.password-required-mode{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,230,75,.42) 0 110px, transparent 111px),
+    radial-gradient(circle at 91% 82%, rgba(0,112,75,.18) 0 180px, transparent 181px),
+    linear-gradient(125deg,#005d40 0%,#0a8b5c 32%,#dff0b1 66%,#fff0a0 100%)!important;
+  overflow-x:hidden;
+}
+.password-required-mode>.content{
+  position:relative;
+  background:transparent!important;
+}
+.password-required-mode>.content:before,
+.password-required-mode>.content:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:0;
+}
+.password-required-mode>.content:before{
+  width:420px;height:420px;
+  right:-180px;top:-160px;
+  background:rgba(255,220,45,.18);
+}
+.password-required-mode>.content:after{
+  width:360px;height:360px;
+  left:-180px;bottom:20px;
+  background:rgba(255,255,255,.10);
+}
+.password-required-page{
+  position:relative;
+  z-index:2;
+}
+.password-required-card{
+  border:1px solid rgba(255,255,255,.75)!important;
+  box-shadow:0 24px 65px rgba(0,55,38,.25)!important;
+  backdrop-filter:blur(5px);
+}
+.password-required-card .welcome-kicker{
+  color:#008653!important;
+}
+.password-required-submit{
+  background:#00764d!important;
+  border-color:#00764d!important;
+}
+.password-required-submit:hover{
+  background:#005f3e!important;
+}
+.password-required-mode .app-footer{
+  position:relative;
+  z-index:2;
+  color:#fff;
+}
+.password-required-mode .footer-content{
+  border-top-color:rgba(255,255,255,.35)!important;
+  color:#fff!important;
+}
+.password-required-mode .footer-tagline{
+  color:#fff5a5!important;
+}
