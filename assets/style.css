@@ -705,3 +705,321 @@ body.app-body{min-height:100vh}
   text-align:center;
   font:600 12px Arial,Helvetica,sans-serif;
 }
+
+/* =========================================================
+   FINAL RESPONSIVE LAYOUT
+   Works across desktop, laptop, tablet and mobile screens.
+   ========================================================= */
+
+*{box-sizing:border-box}
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;overflow-x:hidden}
+img,svg,video,canvas{max-width:100%;height:auto}
+
+.app-body{
+  width:100%;
+  min-width:0;
+  overflow-x:hidden;
+}
+.app-body>.sidebar{
+  flex:0 0 var(--sidebar-width,250px);
+  min-width:0;
+}
+.app-body>.content{
+  min-width:0;
+  width:auto;
+  max-width:100%;
+  overflow-x:hidden;
+}
+.app-topbar{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+.main-content{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  padding-left:clamp(16px,2vw,28px);
+  padding-right:clamp(16px,2vw,28px);
+}
+
+/* Prevent long labels/values from forcing horizontal scrolling */
+h1,h2,h3,h4,p,a,button,label,td,th,span{
+  overflow-wrap:anywhere;
+}
+table{max-width:100%}
+.panel,.card,.stat-card,.quick-card,.notification-page-item{
+  max-width:100%;
+}
+
+/* Tablet */
+@media (max-width:1100px){
+  .app-body>.sidebar{
+    width:220px;
+    flex-basis:220px;
+  }
+  .app-body>.content{
+    margin-left:220px!important;
+  }
+  .app-topbar{
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+  .searchbox{
+    width:min(390px,38vw)!important;
+  }
+  .top-actions{gap:10px!important}
+  .page-intro h1{font-size:30px!important}
+  .stats-grid,.kpi-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .quick-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+/* Small tablet / large phone */
+@media (max-width:850px){
+  .app-body>.sidebar{
+    width:0!important;
+    flex-basis:0!important;
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+  .app-body>.content{
+    margin-left:0!important;
+    width:100%!important;
+  }
+  .app-topbar{
+    padding:10px 14px!important;
+    gap:10px!important;
+  }
+  .menu-toggle{
+    display:flex!important;
+    flex:none!important;
+  }
+  .searchbox{
+    flex:1!important;
+    width:auto!important;
+    max-width:none!important;
+    min-width:0!important;
+  }
+  .searchbox input{min-width:0!important}
+  .top-actions{flex:none!important}
+  .profile-details{display:none!important}
+  .profile-button{padding-right:5px!important}
+  .profile-button .chevron{display:none!important}
+  .main-content{
+    padding:18px 16px!important;
+  }
+  .content-grid,.settings-grid,.three-column,.dashboard-grid{
+    grid-template-columns:1fr!important;
+  }
+  .form-grid,.form-row{
+    grid-template-columns:1fr!important;
+  }
+  .notification-page-list{
+    width:min(760px,100%)!important;
+  }
+}
+
+/* Phone */
+@media (max-width:600px){
+  .app-topbar{
+    min-height:64px!important;
+    padding:8px 10px!important;
+  }
+  .menu-toggle{
+    width:38px!important;
+    height:38px!important;
+    font-size:22px!important;
+  }
+  .searchbox{
+    min-height:38px!important;
+    padding:0 10px!important;
+  }
+  .searchbox input{
+    font-size:12px!important;
+  }
+  .searchbox input::placeholder{
+    font-size:11px!important;
+  }
+  .notify{
+    width:38px!important;
+    height:38px!important;
+  }
+  .profile{
+    gap:6px!important;
+    padding:0!important;
+  }
+  .avatar{
+    width:38px!important;
+    height:38px!important;
+  }
+
+  .main-content{
+    padding:15px 11px!important;
+  }
+  .page-intro{
+    margin-bottom:18px!important;
+  }
+  .page-intro h1{
+    font-size:25px!important;
+    line-height:1.15!important;
+  }
+  .page-intro p{
+    font-size:12px!important;
+  }
+
+  .stats-grid,.kpi-grid,.quick-grid{
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .stat-card,.quick-card{
+    min-height:88px!important;
+  }
+
+  .panel,.card{
+    padding:16px!important;
+    border-radius:12px!important;
+  }
+  .panel h3,.card h3{
+    font-size:16px!important;
+  }
+
+  .notification-page-heading h1{
+    font-size:27px!important;
+  }
+  .notification-page-item{
+    min-height:auto!important;
+    padding:17px 12px!important;
+    gap:8px!important;
+  }
+  .notification-page-item>div{
+    min-width:0!important;
+    max-width:none!important;
+  }
+  .notification-page-item p{
+    font-size:11px!important;
+    line-height:1.45!important;
+  }
+  .notification-page-item small{
+    font-size:9px!important;
+  }
+  .unread-label{
+    font-size:9px!important;
+    padding:3px 6px!important;
+  }
+  .notification-actions{
+    flex-direction:column!important;
+    width:100%!important;
+  }
+  .notification-actions>*,
+  .notification-actions form,
+  .view-more-notifications,
+  .clear-notifications-btn{
+    width:100%!important;
+    max-width:340px!important;
+  }
+
+  .footer-content{
+    padding-top:8px!important;
+    gap:4px!important;
+    font-size:9px!important;
+  }
+
+  /* Tables become horizontally scrollable inside their own area,
+     never across the whole page. */
+  .table-wrap,.table-responsive,.panel:has(table){
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    min-width:600px;
+  }
+
+  /* Settings / user management */
+  .user-actions{
+    flex-wrap:wrap!important;
+  }
+  .rename-inline{
+    width:100%!important;
+  }
+  .rename-input{
+    flex:1!important;
+    min-width:0!important;
+    width:auto!important;
+  }
+
+  /* Forms and buttons */
+  .form-actions{
+    flex-direction:column!important;
+    align-items:stretch!important;
+  }
+  .form-actions .btn{
+    width:100%!important;
+  }
+  input,select,textarea{
+    max-width:100%!important;
+    font-size:13px!important;
+  }
+
+  /* Forced password-change screen */
+  .password-required-page{
+    padding:18px 12px!important;
+  }
+  .password-required-card{
+    width:100%!important;
+    max-width:430px!important;
+    padding:23px 17px!important;
+    border-radius:15px!important;
+  }
+  .password-required-card h1{
+    font-size:24px!important;
+  }
+  .password-required-subtitle{
+    font-size:12px!important;
+  }
+  .password-required-mode .footer-content{
+    flex-direction:column!important;
+    text-align:center!important;
+  }
+}
+
+/* Very small phones */
+@media (max-width:380px){
+  .app-topbar{gap:6px!important}
+  .searchbox{padding:0 7px!important}
+  .searchbox input::placeholder{content:"Search..."!important}
+  .main-content{padding:12px 8px!important}
+  .notification-page-item{padding:14px 9px!important}
+  .notification-page-item .notification-dot{width:7px!important;height:7px!important}
+  .avatar{width:34px!important;height:34px!important;font-size:11px!important}
+  .notify{width:34px!important;height:34px!important}
+}
+
+/* Mobile sidebar overlay when opened */
+@media (max-width:850px){
+  .sidebar.mobile-open{
+    width:250px!important;
+    flex-basis:250px!important;
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    z-index:1000!important;
+    overflow-y:auto!important;
+    box-shadow:12px 0 30px rgba(0,0,0,.18);
+  }
+  .sidebar-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.28);
+    z-index:999;
+  }
+}
+
+@media(max-width:850px){
+  .password-required-mode>.content{width:100%!important;margin-left:0!important}
+}

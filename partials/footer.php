@@ -59,4 +59,33 @@
   });
 })();
 </script>
+
+<script>
+(function(){
+  var toggle=document.querySelector('.menu-toggle');
+  var sidebar=document.querySelector('.sidebar');
+  if(!toggle || !sidebar) return;
+  var backdrop;
+  toggle.addEventListener('click',function(e){
+    e.preventDefault(); e.stopPropagation();
+    var open=sidebar.classList.toggle('mobile-open');
+    if(open){
+      backdrop=document.createElement('div');
+      backdrop.className='sidebar-backdrop';
+      document.body.appendChild(backdrop);
+      backdrop.addEventListener('click',function(){
+        sidebar.classList.remove('mobile-open');
+        if(backdrop) backdrop.remove();
+      });
+    }else if(backdrop){backdrop.remove();backdrop=null;}
+  });
+  window.addEventListener('resize',function(){
+    if(window.innerWidth>850){
+      sidebar.classList.remove('mobile-open');
+      if(backdrop){backdrop.remove();backdrop=null;}
+    }
+  });
+})();
+</script>
+
 </body></html>
