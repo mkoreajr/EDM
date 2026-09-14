@@ -9,7 +9,7 @@ if(isset($_GET['id'])){
 $pageTitle="Notifications"; $active=""; require "partials/header.php";
 $res=$conn->query("SELECT id,title,message,read_at,created_at FROM notifications WHERE user_id=".(int)$_SESSION['user_id']." ORDER BY created_at DESC");
 ?>
-<div class="page-intro"><div><div class="welcome-kicker">ACCOUNT</div><h1>Notifications</h1><p class="muted">Read your latest system notifications.</p></div></div>
+<div class="page-intro notification-page-heading"><div style="width:100%;text-align:center"><div class="welcome-kicker">ACCOUNT</div><h1>Notifications</h1><p class="muted">Read your latest system notifications.</p></div></div>
 <div class="notification-page-list">
 <?php while($n=$res->fetch_assoc()): ?>
 <a class="notification-page-item <?=empty($n['read_at'])?'unread':''?>" href="notifications.php?id=<?=(int)$n['id']?>">

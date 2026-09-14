@@ -450,3 +450,34 @@ body.app-body{min-height:100vh}
  .footer-content{flex-direction:column!important;gap:3px;font-size:10px}
  .footer-content>div:first-child,.footer-tagline{text-align:center;white-space:normal}
 }
+
+/* Notifications: centered reading area */
+.notification-page-list{
+  width:min(860px,100%);
+  margin:0 auto;
+}
+.notification-page-item{
+  width:100%;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-align:center;
+}
+.notification-page-item>div{
+  flex:1;
+  text-align:center;
+}
+.notification-page-item strong,
+.notification-page-item p,
+.notification-page-item small{
+  display:block;
+  text-align:center;
+}
+.notification-page-item .unread-label{
+  flex:none;
+}
+@media(max-width:700px){
+  .notification-page-list{width:100%}
+  .notification-page-item{align-items:flex-start}
+}
