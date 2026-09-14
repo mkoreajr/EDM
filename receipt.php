@@ -87,7 +87,7 @@ body{
 .receipt-thanks{text-align:center;padding:17px 16px 7px;color:#4e665e;font-size:11px;font-weight:700;font-style:italic}
 .receipt-tagline{text-align:center;color:#5d6e69;font-size:10px;font-style:italic;padding-bottom:5px}
 .barcode-area{text-align:center;padding:9px 16px 20px}
-#receiptBarcode{width:min(330px,85%);height:76px}
+#receiptBarcode{display:block;width:min(330px,85%);height:76px;margin:0 auto}
 .barcode-caption{font-size:10px;color:#394f48;margin-top:2px;letter-spacing:.3px}
 .scan-note{font-size:9px;color:#71827d;margin-top:5px}
 @media(max-width:560px){
@@ -188,25 +188,61 @@ body{
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/JsBarcode/3.11.6/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 (function(){
   var receiptCode=<?=json_encode($s['sale_number'])?>;
-  var lookupUrl=location.origin + location.pathname.replace(/receipt\.php$/,'receipt_lookup.php') + '?code=' + encodeURIComponent(receiptCode);
+  var lookupUrl=location.origin + location.pathname.replace(/receipt\\.php$/,'receipt_lookup.php') + '?code=' + encodeURIComponent(receiptCode);
 
-  function makeBarcode(){
-    if(window.JsBarcode){
-      JsBarcode("#receiptBarcode", lookupUrl, {
-        format:"CODE128",
-        displayValue:false,
-        height:62,
-        width:1.7,
-        margin:4
-      });
+  /*
+   * Self-contained Code 39 barcode.
+   * No image file and no barcode library are required, so it also appears
+   * when the receipt is printed/saved as PDF.
+   */
+  var code39={
+    "0":"101001101101","1":"110100101011","2":"101100101011","3":"110110010101",
+    "4":"101001101011","5":"110100110101","6":"101100110101","7":"101001011011",
+    "8":"110100101101","9":"101100101101","A":"110101001011","B":"101101001011",
+    "C":"110110100101","D":"101011001011","E":"110101100101","F":"101101100101",
+    "G":"101010011011","H":"110101001101","I":"101101001101","J":"101011001101",
+    "K":"110101010011","L":"101101010011","M":"110110101001","N":"101011010011",
+    "O":"110101101001","P":"101101101001","Q":"101010110011","R":"110101011001",
+    "S":"101101011001","T":"101011011001","U":"110010101011","V":"100110101011",
+    "W":"110011010101","X":"100101101011","Y":"110010110101","Z":"100110110101",
+    "-":"100101011011",".":"110010101101"," ":"100110101101","$":"100100100101",
+    "/":"100100101001","+":"100101001001","%":"101001001001","*":"100101101101"
+  };
+
+  function drawCode39(svgId, value){
+    var svg=document.getElementById(svgId);
+    if(!svg) return;
+    var data="*"+String(value).toUpperCase()+"*";
+    var quiet=10, narrow=2, wide=5, gap=2;
+    var x=quiet, bars=[];
+    for(var c=0;c<data.length;c++){
+      var pattern=code39[data[c]] || code39["-"];
+      for(var i=0;i<pattern.length;i++){
+        var isBar=(i%2===0), w=(pattern[i]==="1"?wide:narrow);
+        if(isBar) bars.push({x:x,w:w});
+        x+=w;
+      }
+      x+=gap;
     }
+    var total=x+quiet, h=72;
+    svg.setAttribute("viewBox","0 0 "+total+" "+h);
+    svg.setAttribute("preserveAspectRatio","none");
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+    var ns="http://www.w3.org/2000/svg";
+    bars.forEach(function(b){
+      var r=document.createElementNS(ns,"rect");
+      r.setAttribute("x",b.x);r.setAttribute("y","3");
+      r.setAttribute("width",b.w);r.setAttribute("height","58");
+      r.setAttribute("fill","#111");
+      svg.appendChild(r);
+    });
   }
-  makeBarcode();
+
+  drawCode39("receiptBarcode", receiptCode);
 
   var pdf=document.getElementById('downloadPdf');
   if(pdf){
