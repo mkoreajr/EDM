@@ -9,12 +9,12 @@
     <div><strong>EDM <span>KIENYEJI</span></strong><b>— EGG SHOP —</b><small>Fresh Eggs • Healthy Families</small></div>
   </div>
   <nav class="side-nav">
-    <a class="<?=($active??'')==='dashboard'?'active':''?>" href="dashboard.php"><span class="nav-ico">⌂</span>Home</a>
-    <a class="<?=($active??'')==='sales'?'active':''?>" href="sales.php"><span class="nav-ico">🛒</span>Sales (POS)</a>
-    <a class="<?=($active??'')==='products'?'active':''?>" href="products.php"><span class="nav-ico">🥚</span>Products</a>
-    <a class="<?=($active??'')==='inventory'?'active':''?>" href="inventory.php"><span class="nav-ico">▣</span>Stock</a>
-    <a class="<?=($active??'')==='customers'?'active':''?>" href="customers.php"><span class="nav-ico">♟</span>Customers</a>
-    <a class="<?=($active??'')==='settings'?'active':''?>" href="settings.php"><span class="nav-ico">⚙</span>Settings</a>
+    <a class="<?=($active??'')==='dashboard'?'active':''?>" href="dashboard.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7v8a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1v-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Home</a>
+    <a class="<?=($active??'')==='sales'?'active':''?>" href="sales.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2 11h10l2-8H6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.4" fill="currentColor"/><circle cx="17" cy="19" r="1.4" fill="currentColor"/></svg></span>Sales (POS)</a>
+    <a class="<?=($active??'')==='products'?'active':''?>" href="products.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-2.9 3.1-6 6.9-6 11a6 6 0 0 0 12 0c0-4.1-3.1-7.9-6-11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.2 16.3c.7 1 1.6 1.5 2.8 1.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Products</a>
+    <a class="<?=($active??'')==='inventory'?'active':''?>" href="inventory.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 4l8 3.5-8 3-8-3Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7.5V16l8 4 8-4V7.5M12 10.5V20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m7 9 5 2 5-2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>Stock</a>
+    <a class="<?=($active??'')==='customers'?'active':''?>" href="customers.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 19c.7-3.1 2.8-5 6.5-5s5.8 1.9 6.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>Customers</a>
+    <a class="<?=($active??'')==='settings'?'active':''?>" href="settings.php"><span class="nav-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m19.4 13.5 1.1.9-1.8 3-1.3-.6a8 8 0 0 1-2 1.1L15 19.3h-3.5l-.4-1.4a8 8 0 0 1-2-1.1l-1.3.6-1.8-3 1.1-.9a8 8 0 0 1 0-2.3l-1.1-.9 1.8-3 1.3.6a8 8 0 0 1 2-1.1l.4-1.4H15l.4 1.4a8 8 0 0 1 2 1.1l1.3-.6 1.8 3-1.1.9a8 8 0 0 1 0 2.3Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>Settings</a>
   </nav>
   <div class="side-slogan">Kuku Bora,<br>Mayai Bora,<br>Maisha Bora</div>
   <div class="side-bottom">Fresh Eggs<br>Healthy Families<br>A Better Tomorrow</div>

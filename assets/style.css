@@ -68,3 +68,18 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
 .code-egg:nth-child(2){transform:translateY(-13px) rotate(8deg)}.code-egg:nth-child(3){transform:translate(20px,2px) rotate(-7deg)}
 .hero-leaf{font-size:0;width:70px;height:35px;background:#67a94b;border-radius:100% 0 100% 0;opacity:.75}
 .leaf-a{left:7%;top:16%;transform:rotate(28deg)}.leaf-b{right:9%;bottom:18%;transform:rotate(125deg)}
+
+/* FINAL REQUEST: text-only Good Day card and code-only icons */
+.welcome-banner{display:block!important;min-height:285px!important;padding:42px 46px!important;background:linear-gradient(135deg,#effaf4 0%,#ffffff 55%,#fff8d8 100%)!important;position:relative!important}
+.welcome-banner:after{content:"";position:absolute;right:34px;top:34px;width:92px;height:92px;border-radius:50%;border:10px solid #ffd43f;opacity:.45}
+.welcome-copy{position:relative;z-index:2;width:100%!important}
+.welcome-banner .welcome-kicker{color:#008e5b!important}
+.welcome-banner h1{color:#004f36!important}
+.welcome-banner p{color:#425a51!important}
+.hero-art{display:none!important}
+.stat-icon svg,.quick-card>span svg,.nav-ico svg,.info-box>span svg{width:28px;height:28px;display:block}
+.stat-icon{font-size:0}
+.quick-card>span{font-size:0}
+.nav-ico{font-size:0!important;display:grid;place-items:center}
+.nav-ico svg{width:23px;height:23px}
+@media(max-width:900px){.side-egg{font-size:0}.side-egg svg{width:28px;height:28px}.welcome-banner{padding:32px 28px!important}.welcome-banner:after{right:20px;top:20px}}
