@@ -48,7 +48,7 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
   </div>
 </div>
 <?php else: ?>
-<div class="page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div>
+<div class="page-intro centered-page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div>
 <div class="panel password-panel">
 <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 <?php if($success):?><div class="alert success"><?=e($success)?></div><div class="form-actions"><a class="btn primary" href="dashboard.php">Continue to Dashboard</a></div><?php endif;?>

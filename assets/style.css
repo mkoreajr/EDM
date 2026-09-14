@@ -481,3 +481,86 @@ body.app-body{min-height:100vh}
   .notification-page-list{width:100%}
   .notification-page-item{align-items:flex-start}
 }
+
+/* FINAL CENTER ALIGNMENT — Notifications + Change Password */
+.notification-page-heading{
+  width:100%!important;
+  display:flex!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.notification-page-heading>div{
+  width:100%!important;
+  text-align:center!important;
+}
+.notification-page-list{
+  width:min(900px,100%)!important;
+  margin:28px auto 0!important;
+}
+.notification-page-item{
+  width:100%!important;
+  min-height:110px;
+  box-sizing:border-box;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:22px 28px!important;
+}
+.notification-page-item>div{
+  flex:1 1 auto!important;
+  max-width:720px;
+  text-align:center!important;
+}
+.notification-page-item strong,
+.notification-page-item p,
+.notification-page-item small{
+  text-align:center!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.notification-page-item .notification-dot{
+  flex:none!important;
+}
+.notification-page-item .unread-label{
+  flex:none!important;
+}
+
+/* Normal Change Password page */
+.page-intro:has(+ .password-panel){
+  width:100%;
+  text-align:center;
+  display:flex;
+  justify-content:center;
+}
+.page-intro:has(+ .password-panel)>div{
+  width:100%;
+  text-align:center;
+}
+.password-panel{
+  width:min(650px,100%)!important;
+  margin:24px auto 0!important;
+}
+.password-form{
+  width:min(560px,100%)!important;
+  margin:0 auto!important;
+}
+.password-panel .form-actions{
+  justify-content:center!important;
+}
+
+/* Forced password-change screen remains perfectly centered */
+.password-required-page{
+  align-items:center!important;
+  justify-content:center!important;
+}
+.password-required-card{
+  margin:0 auto!important;
+  text-align:center!important;
+}
+
+@media(max-width:700px){
+  .notification-page-list{margin-top:20px!important}
+  .notification-page-item{padding:18px 16px!important}
+}
+
+.centered-page-intro{width:100%;text-align:center;display:flex;justify-content:center}
+.centered-page-intro>div{width:100%;text-align:center}
