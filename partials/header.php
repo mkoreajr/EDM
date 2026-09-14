@@ -72,3 +72,26 @@
     </div>
   </div>
 </header>
+<?php
+$lowStockProducts=[];
+$lsr=$conn->query("SELECT name, stock_quantity, unit FROM products WHERE stock_quantity > 0 AND unit = 'Tray' AND stock_quantity < 50 ORDER BY stock_quantity ASC");
+if($lsr){ while($lr=$lsr->fetch_assoc()){ $lowStockProducts[]=$lr; } }
+?>
+<?php if($lowStockProducts): ?>
+<div class="low-stock-alert" role="alert">
+  <span class="low-stock-alert-icon">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span>
+    <strong>Stock Low:</strong>
+    <?=count($lowStockProducts)===1 ? 'A product' : count($lowStockProducts).' products'?> <?=count($lowStockProducts)===1 ? 'has' : 'have'?> less than 50 trays in stock.
+    <?php foreach($lowStockProducts as $li): ?>
+      <b><?=e($li['name'])?>: <?=number_format((float)$li['stock_quantity'],2)?> trays</b><?php if($li!==end($lowStockProducts)): ?>, <?php endif;?>
+    <?php endforeach; ?>
+  </span>
+  <a href="inventory.php">View Stock</a>
+</div>
+<?php endif; ?>
