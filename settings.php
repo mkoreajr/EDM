@@ -1,12 +1,92 @@
 <?php
 require "auth.php";
+require_admin();
 $pageTitle="Settings";
 $active="settings";
 require "partials/header.php";
 
+
+$adminMessage=''; $adminError=''; $temporaryPassword='';
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $action=$_POST['user_action']??'';
+
+    if($action==='create_user'){
+        $name=trim($_POST['user_name']??'');
+        $username=trim($_POST['user_username']??'');
+        $role=$_POST['user_role']??'Cashier';
+        $password=$_POST['user_password']??'';
+        $confirm=$_POST['user_password_confirm']??'';
+
+        if($name==='' || $username==='' || $password===''){
+            $adminError='Name, username and password are required.';
+        }elseif(!in_array($role,['Cashier','Admin'],true)){
+            $adminError='Invalid user role.';
+        }elseif(strlen($password)<6){
+            $adminError='Password must be at least 6 characters.';
+        }elseif($password!==$confirm){
+            $adminError='Password confirmation does not match.';
+        }else{
+            try{
+                $check=$conn->prepare("SELECT id FROM users WHERE username=? LIMIT 1");
+                $check->bind_param("s",$username); $check->execute();
+                if($check->get_result()->fetch_assoc()){
+                    $adminError='That username already exists.';
+                }else{
+                    $hash=hash('sha256',$password);
+                    $ins=$conn->prepare("INSERT INTO users(name,username,password,role,must_change_password) VALUES(?,?,?,?,TRUE) RETURNING id");
+                    $ins->bind_param("ssss",$name,$username,$hash,$role); $ins->execute();
+                    $newRow=$ins->get_result()->fetch_assoc();
+                    $newId=(int)($newRow['id']??0);
+                    if($newId){
+                        $msg=$conn->prepare("INSERT INTO notifications(user_id,title,message) VALUES(?,?,?)");
+                        $title='New account created';
+                        $message='Your EDM Kienyeji Egg Shop account was created. Sign in with the temporary password provided by the administrator and change it before continuing.';
+                        $msg->bind_param("iss",$newId,$title,$message); $msg->execute();
+                    }
+                    $adminMessage="User \"$name\" created successfully. The user must change the temporary password at first login.";
+                }
+            }catch(Throwable $e){
+                $adminError='Could not create user. Please check the username and database.';
+            }
+        }
+    }
+
+    if($action==='delete_user'){
+        $id=(int)($_POST['user_id']??0);
+        if($id===(int)$_SESSION['user_id']){
+            $adminError='You cannot delete the account you are currently using.';
+        }elseif($id>0){
+            try{
+                $del=$conn->prepare("DELETE FROM users WHERE id=?");
+                $del->bind_param("i",$id); $del->execute();
+                $adminMessage=$del ? 'User deleted successfully.' : 'User could not be deleted.';
+            }catch(Throwable $e){ $adminError='User could not be deleted.'; }
+        }
+    }
+
+    if($action==='reset_user'){
+        $id=(int)($_POST['user_id']??0);
+        if($id>0){
+            try{
+                $temporaryPassword='EDM'.random_int(100000,999999);
+                $hash=hash('sha256',$temporaryPassword);
+                $up=$conn->prepare("UPDATE users SET password=?,must_change_password=TRUE WHERE id=?");
+                $up->bind_param("si",$hash,$id); $up->execute();
+
+                $msg=$conn->prepare("INSERT INTO notifications(user_id,title,message) VALUES(?,?,?)");
+                $title='Password reset';
+                $message='Your password was reset by the administrator. Use the temporary password provided to you, then create a new password before continuing.';
+                $msg->bind_param("iss",$id,$title,$message); $msg->execute();
+
+                $adminMessage='Password reset successfully. Give the temporary password below to the user.';
+            }catch(Throwable $e){ $adminError='Password could not be reset.'; }
+        }
+    }
+}
+
 $users = [];
 try {
-    $result = $db->query("SELECT id,name,username,role FROM users ORDER BY id ASC");
+    $result = $conn->query("SELECT id,name,username,role,must_change_password FROM users ORDER BY id ASC");
     while ($row = $result->fetch_assoc()) { $users[] = $row; }
 } catch (Throwable $e) {
     $users = [];
@@ -159,8 +239,34 @@ try {
         </div>
         <div>
           <h2>User Management</h2>
-          <p>Manage system users and their access.</p>
+          <p>Create Cashier/Admin accounts, reset passwords and remove users.</p>
         </div>
+      </div>
+
+      <?php if($adminError):?><div class="alert danger settings-alert"><?=e($adminError)?></div><?php endif;?>
+      <?php if($adminMessage):?><div class="alert success settings-alert"><?=e($adminMessage)?></div><?php endif;?>
+      <?php if($temporaryPassword):?>
+        <div class="temporary-password-box">
+          <strong>Temporary password</strong>
+          <span><?=e($temporaryPassword)?></span>
+          <small>Give this password to the user. The system will force a password change at the next login.</small>
+        </div>
+      <?php endif;?>
+
+      <div class="create-user-box">
+        <div class="create-user-title">Create New User</div>
+        <form method="post" class="create-user-form">
+          <input type="hidden" name="user_action" value="create_user">
+          <div class="settings-field"><label>Full Name</label><input name="user_name" type="text" required></div>
+          <div class="settings-field"><label>Username</label><input name="user_username" type="text" required></div>
+          <div class="settings-field"><label>Role</label><select name="user_role"><option value="Cashier">Cashier</option><option value="Admin">Admin</option></select></div>
+          <div class="settings-field"><label>Temporary Password</label><input name="user_password" type="password" minlength="6" required></div>
+          <div class="settings-field"><label>Confirm Password</label><input name="user_password_confirm" type="password" minlength="6" required></div>
+          <div class="create-user-submit"><button class="add-user-btn filled" type="submit">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Create User
+          </button></div>
+        </form>
       </div>
 
       <div class="user-table-wrap">
@@ -174,11 +280,24 @@ try {
               <tr>
                 <td><?= $i+1 ?></td>
                 <td><strong><?=e($u['name'])?></strong><small>@<?=e($u['username'])?></small></td>
-                <td><?=e($u['role'])?></td>
-                <td><span class="active-status">Active</span></td>
-                <td><a class="user-edit-btn" href="change_password.php">
-                  <svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16zM13 7l4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg> Edit
-                </a></td>
+                <td><span class="role-badge"><?=e($u['role'])?></span></td>
+                <td><span class="active-status">Active</span><?php if(!empty($u['must_change_password'])):?><small class="must-change-label">Password change required</small><?php endif;?></td>
+                <td>
+                  <div class="user-actions">
+                    <form method="post">
+                      <input type="hidden" name="user_action" value="reset_user">
+                      <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">
+                      <button class="user-action-btn reset" type="submit">Reset Password</button>
+                    </form>
+                    <?php if((int)$u['id']!==(int)$_SESSION['user_id']):?>
+                    <form method="post" onsubmit="return confirm('Delete this user? This cannot be undone.');">
+                      <input type="hidden" name="user_action" value="delete_user">
+                      <input type="hidden" name="user_id" value="<?= (int)$u['id'] ?>">
+                      <button class="user-action-btn delete" type="submit">Delete</button>
+                    </form>
+                    <?php endif;?>
+                  </div>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>
@@ -189,11 +308,7 @@ try {
       </div>
 
       <div class="user-management-footer">
-        <span>Administrator access is protected by your account password.</span>
-        <a href="change_password.php" class="add-user-btn">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Add New User
-        </a>
+        <span>New accounts and reset accounts must change their temporary password before entering the system.</span>
       </div>
     </section>
 

@@ -231,3 +231,30 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
 .no-users{text-align:center!important;color:#8a96a5!important;padding:20px!important}
 @media(max-width:1050px){.settings-four-grid{grid-template-columns:1fr 1fr}.settings-users-section{grid-column:1/-1}}
 @media(max-width:700px){.settings-four-grid{grid-template-columns:1fr}.settings-users-section{grid-column:auto}.settings-heading{display:block}.settings-breadcrumb{margin-top:10px}.settings-fields{grid-template-columns:1fr}.settings-field.full{grid-column:auto}.user-management-footer{align-items:flex-start;flex-direction:column}}
+
+
+/* USER MANAGEMENT */
+.settings-alert{margin:0 0 12px;padding:10px 12px;font-size:11px;border-radius:7px}
+.alert.warning{background:#fff8dc;border:1px solid #f0df92;color:#7a5b00}
+.create-user-box{background:#f7fbf8;border:1px solid #e3eee8;border-radius:9px;padding:13px;margin-bottom:13px}
+.create-user-title{font-size:12px;font-weight:800;color:#17334a;margin-bottom:10px}
+.create-user-form{display:grid;grid-template-columns:1.2fr 1fr .8fr 1fr 1fr auto;gap:9px;align-items:end}
+.create-user-form .settings-field{min-width:0}
+.create-user-submit{display:flex;align-items:flex-end}
+.add-user-btn.filled{height:35px;background:#008b59;color:#fff;border-color:#008b59;cursor:pointer;white-space:nowrap}
+.add-user-btn.filled:hover{background:#00754b}
+.temporary-password-box{display:grid;grid-template-columns:auto auto 1fr;gap:9px;align-items:center;background:#fff9df;border:1px solid #f0dc83;border-radius:8px;padding:10px 12px;margin-bottom:12px}
+.temporary-password-box strong{font-size:10px;color:#6e5600}
+.temporary-password-box span{font:800 15px Arial,Helvetica,sans-serif;letter-spacing:1px;color:#006f48;background:#fff;padding:5px 9px;border-radius:5px;border:1px dashed #d7be4d}
+.temporary-password-box small{font-size:10px;color:#756d54}
+.role-badge{font-size:9px;font-weight:800;padding:4px 7px;border-radius:12px;background:#eef5ff;color:#2a5fae}
+.must-change-label{display:block!important;color:#b57b00!important;font-size:8px!important;margin-top:3px!important}
+.user-actions{display:flex;gap:6px;align-items:center}
+.user-actions form{margin:0}
+.user-action-btn{border:1px solid #d9e2ea;background:#fff;border-radius:5px;padding:5px 8px;font:700 9px Arial,Helvetica,sans-serif;cursor:pointer}
+.user-action-btn.reset{color:#006f4a;border-color:#a9d9c4}
+.user-action-btn.reset:hover{background:#eaf8f0}
+.user-action-btn.delete{color:#c52f2f;border-color:#f0b7b7}
+.user-action-btn.delete:hover{background:#fff0f0}
+@media(max-width:1100px){.create-user-form{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.create-user-form{grid-template-columns:1fr}.temporary-password-box{grid-template-columns:1fr}.user-actions{flex-direction:column;align-items:flex-start}}

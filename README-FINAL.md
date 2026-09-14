@@ -15,3 +15,6 @@ Deploy through Render Blueprint using render.yaml.
 - Good Day card includes a code-only right-side brand tagline: Fresh Eggs / Healthy Families / A Better Tomorrow.
 
 - Settings page now contains exactly four requested sections: Business Information, Receipt Setting, System Preferences, and User Management.
+
+- Admin User Management now supports creating Cashier/Admin users, deleting users, resetting passwords, and forcing a password change on first login/reset.
+- Fixed Settings database variable error by using the application's PDO compatibility connection `$conn`.
