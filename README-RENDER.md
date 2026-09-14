@@ -1,10 +1,16 @@
-# EDM Kienyeji Egg Shop — Clean Login
+# EDM Kienyeji Egg Shop — PURE CODE LOGIN
 
-IMPORTANT: The left side is a SINGLE approved visual. There is no HTML text, feature list,
-or second chicken image layered on top of it. This prevents all duplication.
+The previous screenshot artwork is NOT used.
 
-The right side is fully coded HTML/CSS: username, password, remember me, sign-in,
-payment cards (Cash, Mobile Money, Bank), and security notice.
+LEFT SIDE:
+- Background, logo, headings, feature cards and slogans are real HTML/CSS.
+- Only the hen/eggs subject is an image asset (`assets/chicken.png`).
+- No screenshot containing duplicate text is used.
 
-Deploy with Render -> New -> Blueprint using render.yaml.
+RIGHT SIDE:
+- Username, password, remember me, sign in and payment cards are real HTML/CSS.
+
+Payment methods: Cash, Mobile Money, Bank only.
 Login: admin / admin123
+
+Deploy using Render -> New -> Blueprint and the included render.yaml.
