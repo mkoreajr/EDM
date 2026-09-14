@@ -43,6 +43,9 @@ if($res){ while($row=$res->fetch_assoc()){ if($row!==null) $items[]=$row; } }
     <button class="clear-notifications-btn" type="submit">Clear Notifications</button>
   </form>
 <?php endif; ?>
+<?php if($totalNotifications>5): ?>
+  <a class="view-more-notifications" href="notifications_history.php">View More Notifications <span>→</span></a>
+<?php endif; ?>
 </div>
 
 <div class="notification-page-list">
@@ -58,11 +61,6 @@ if($res){ while($row=$res->fetch_assoc()){ if($row!==null) $items[]=$row; } }
 <?php endforeach; ?>
 <?php endif; ?>
 
-<?php if($totalNotifications>5): ?>
-<div class="notification-bottom-actions">
-  <a class="view-more-notifications" href="notifications_history.php">View More Notifications <span>→</span></a>
-</div>
-<?php endif; ?>
 
 </div>
 
