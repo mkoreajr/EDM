@@ -11,8 +11,15 @@ if(isset($_POST['save_sale'])){
             if($qty>$p['stock_quantity']) throw new Exception("Insufficient stock. Available: ".$p['stock_quantity']." ".$p['unit'].".");
             $total=$qty*(float)$p['selling_price'];
             $number='SALE-'.date('YmdHis').'-'.random_int(100,999);
-            $st=$conn->prepare("INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(?,?,CURDATE(),?,?,?)");
-            $st->bind_param("sisdi",$number,$customer_id,$payment,$total,$_SESSION['user_id']); $st->execute(); $sale_id=$conn->insert_id;
+            if($customer_id > 0){
+                $st=$conn->prepare("INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(?,?,CURDATE(),?,?,?)");
+                $st->bind_param("sisdi",$number,$customer_id,$payment,$total,$_SESSION['user_id']);
+            }else{
+                // Walk-in Customer has no customers.id, so store NULL instead of 0.
+                $st=$conn->prepare("INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(?,NULL,CURDATE(),?,?,?)");
+                $st->bind_param("sdi",$number,$payment,$total,$_SESSION['user_id']);
+            }
+            $st->execute(); $sale_id=$conn->insert_id;
             $item=$conn->prepare("INSERT INTO sale_items(sale_id,product_id,quantity,unit_price,total) VALUES(?,?,?,?,?)");$item->bind_param("iiddd",$sale_id,$product_id,$qty,$p['selling_price'],$total);$item->execute();
             $up=$conn->prepare("UPDATE products SET stock_quantity=stock_quantity-? WHERE id=?");$up->bind_param("di",$qty,$product_id);$up->execute();
             $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Sale',?,?)");$mv->bind_param("idi",$product_id,$qty,$sale_id);$mv->execute();
