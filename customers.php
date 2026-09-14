@@ -1,0 +1,10 @@
+<?php
+require "auth.php"; $pageTitle="Customers"; $active="customers";
+if(isset($_POST['save'])){$id=(int)($_POST['id']??0);$n=trim($_POST['name']);$ph=trim($_POST['phone']);$ad=trim($_POST['address']);if($id){$s=$conn->prepare("UPDATE customers SET name=?,phone=?,address=? WHERE id=?");$s->bind_param("sssi",$n,$ph,$ad,$id);}else{$s=$conn->prepare("INSERT INTO customers(name,phone,address) VALUES(?,?,?)");$s->bind_param("sss",$n,$ph,$ad);}$s->execute();header("Location: customers.php");exit;}
+if(isset($_GET['delete'])){$id=(int)$_GET['delete'];$conn->query("DELETE FROM customers WHERE id=$id");header("Location: customers.php");exit;}
+$edit=null;if(isset($_GET['edit']))$edit=$conn->query("SELECT * FROM customers WHERE id=".(int)$_GET['edit'])->fetch_assoc();
+require "partials/header.php"; ?>
+<div class="panel"><h3><?= $edit?'Edit Customer':'Add Customer' ?></h3><form method="post"><input type="hidden" name="id" value="<?=e($edit['id']??0)?>"><div class="form-grid">
+<div class="field"><label>Customer Name</label><input name="name" value="<?=e($edit['name']??'')?>" required></div><div class="field"><label>Phone</label><input name="phone" value="<?=e($edit['phone']??'')?>"></div><div class="field"><label>Address</label><input name="address" value="<?=e($edit['address']??'')?>"></div></div><div class="form-actions"><button class="btn primary" name="save">Save Customer</button></div></form></div>
+<div class="panel" style="margin-top:20px"><h3>Customer List</h3><table class="table"><tr><th>Name</th><th>Phone</th><th>Address</th><th>Actions</th></tr><?php $rs=$conn->query("SELECT * FROM customers ORDER BY name");while($r=$rs->fetch_assoc()):?><tr><td><?=e($r['name'])?></td><td><?=e($r['phone'])?></td><td><?=e($r['address'])?></td><td><a class="btn btn-sm secondary" href="?edit=<?=$r['id']?>">Edit</a> <a class="btn btn-sm danger-btn" data-confirm="Delete customer?" href="?delete=<?=$r['id']?>">Delete</a></td></tr><?php endwhile;?></table></div>
+<?php require "partials/footer.php"; ?>
