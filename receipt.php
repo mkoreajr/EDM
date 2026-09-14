@@ -87,7 +87,7 @@ body{
 .receipt-thanks{text-align:center;padding:17px 16px 7px;color:#4e665e;font-size:11px;font-weight:700;font-style:italic}
 .receipt-tagline{text-align:center;color:#5d6e69;font-size:10px;font-style:italic;padding-bottom:5px}
 .barcode-area{text-align:center;padding:9px 16px 20px}
-#receiptBarcode{display:block;width:min(330px,85%);height:76px;margin:0 auto}
+#receiptBarcode{display:block;width:min(500px,94%);height:88px;margin:0 auto}
 .barcode-caption{font-size:10px;color:#394f48;margin-top:2px;letter-spacing:.3px}
 .scan-note{font-size:9px;color:#71827d;margin-top:5px}
 @media(max-width:560px){
@@ -183,7 +183,7 @@ body{
     <div class="barcode-area">
       <svg id="receiptBarcode" role="img" aria-label="Scan for full purchase details"></svg>
       <div class="barcode-caption"><?=e($s['sale_number'])?></div>
-      <div class="scan-note">Scan this barcode to view full purchase details</div>
+      <div class="scan-note">Scan barcode to view complete purchase details</div>
     </div>
   </div>
 </div>
@@ -194,55 +194,70 @@ body{
   var receiptCode=<?=json_encode($s['sale_number'])?>;
   var lookupUrl=location.origin + location.pathname.replace(/receipt\\.php$/,'receipt_lookup.php') + '?code=' + encodeURIComponent(receiptCode);
 
-  /*
-   * Self-contained Code 39 barcode.
-   * No image file and no barcode library are required, so it also appears
-   * when the receipt is printed/saved as PDF.
-   */
-  var code39={
-    "0":"101001101101","1":"110100101011","2":"101100101011","3":"110110010101",
-    "4":"101001101011","5":"110100110101","6":"101100110101","7":"101001011011",
-    "8":"110100101101","9":"101100101101","A":"110101001011","B":"101101001011",
-    "C":"110110100101","D":"101011001011","E":"110101100101","F":"101101100101",
-    "G":"101010011011","H":"110101001101","I":"101101001101","J":"101011001101",
-    "K":"110101010011","L":"101101010011","M":"110110101001","N":"101011010011",
-    "O":"110101101001","P":"101101101001","Q":"101010110011","R":"110101011001",
-    "S":"101101011001","T":"101011011001","U":"110010101011","V":"100110101011",
-    "W":"110011010101","X":"100101101011","Y":"110010110101","Z":"100110110101",
-    "-":"100101011011",".":"110010101101"," ":"100110101101","$":"100100100101",
-    "/":"100100101001","+":"100101001001","%":"101001001001","*":"100101101101"
-  };
 
-  function drawCode39(svgId, value){
+  /*
+   * Standards-compliant Code 128-B.
+   * The barcode contains the complete URL to the public receipt lookup page.
+   * It is drawn as SVG so it remains crisp in browser, print and PDF.
+   */
+  var C128B_MAP = {" ":0,"!":1,"\"":2,"#":3,"$":4,"%":5,"&":6,"'":7,"(":8,")":9,"*":10,"+":11,",":12,"-":13,".":14,"/":15,"0":16,"1":17,"2":18,"3":19,"4":20,"5":21,"6":22,"7":23,"8":24,"9":25,":":26,";":27,"<":28,"=":29,">":30,"?":31,"@":32,"A":33,"B":34,"C":35,"D":36,"E":37,"F":38,"G":39,"H":40,"I":41,"J":42,"K":43,"L":44,"M":45,"N":46,"O":47,"P":48,"Q":49,"R":50,"S":51,"T":52,"U":53,"V":54,"W":55,"X":56,"Y":57,"Z":58,"[":59,"\\":60,"]":61,"^":62,"_":63,"`":64,"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,"x":88,"y":89,"z":90,"{":91,"|":92,"}":93,"~":94};
+  var C128_PATTERNS = {"0":"BaBbBb","1":"BbBaBb","2":"BbBbBa","3":"AbAbBc","4":"AbAcBb","5":"AcAbBb","6":"AbBbAc","7":"AbBcAb","8":"AcBbAb","9":"BbAbAc","10":"BbAcAb","11":"BcAbAb","12":"AaBbCb","13":"AbBaCb","14":"AbBbCa","15":"AaCbBb","16":"AbCaBb","17":"AbCbBa","18":"BbCbAa","19":"BbAaCb","20":"BbAbCa","21":"BaCbAb","22":"BbCaAb","23":"CaBaCa","24":"CaAbBb","25":"CbAaBb","26":"CbAbBa","27":"CaBbAb","28":"CbBaAb","29":"CbBbAa","30":"BaBaBc","31":"BaBcBa","32":"BcBaBa","33":"AaAcBc","34":"AcAaBc","35":"AcAcBa","36":"AaBcAc","37":"AcBaAc","38":"AcBcAa","39":"BaAcAc","40":"BcAaAc","41":"BcAcAa","42":"AaBaCc","43":"AaBcCa","44":"AcBaCa","45":"AaCaBc","46":"AaCcBa","47":"AcCaBa","48":"CaCaBa","49":"BaAcCa","50":"BcAaCa","51":"BaCaAc","52":"BaCcAa","53":"BaCaCa","54":"CaAaBc","55":"CaAcBa","56":"CcAaBa","57":"CaBaAc","58":"CaBcAa","59":"CcBaAa","60":"CaDaAa","61":"BbAdAa","62":"DcAaAa","63":"AaAbBd","64":"AaAdBb","65":"AbAaBd","66":"AbAdBa","67":"AdAaBb","68":"AdAbBa","69":"AaBbAd","70":"AaBdAb","71":"AbBaAd","72":"AbBdAa","73":"AdBaAb","74":"AdBbAa","75":"BdAbAa","76":"BbAaAd","77":"DaCaAa","78":"BdAaAb","79":"AcDaAa","80":"AaAbDb","81":"AbAaDb","82":"AbAbDa","83":"AaDbAb","84":"AbDaAb","85":"AbDbAa","86":"DaAbAb","87":"DbAaAb","88":"DbAbAa","89":"BaBaDa","90":"BaDaBa","91":"DaBaBa","92":"AaAaDc","93":"AaAcDa","94":"AcAaDa","95":"AaDaAc","96":"AaDcAa","97":"DaAaAc","98":"DaAcAa","99":"AaCaDa","100":"AaDaCa","101":"CaAaDa","102":"DaAaCa","103":"BaAdAb","104":"BaAbAd","105":"BaAbCb","106":"BcCaAaB"};
+
+  function c128Widths(pattern){
+    var out=[];
+    for(var i=0;i<pattern.length;i++){
+      var ch=pattern[i];
+      var n=(ch.toUpperCase().charCodeAt(0)-64); // A=1 ... D=4
+      out.push(n);
+    }
+    return out;
+  }
+
+  function drawCode128(svgId, value){
     var svg=document.getElementById(svgId);
     if(!svg) return;
-    var data="*"+String(value).toUpperCase()+"*";
-    var quiet=10, narrow=2, wide=5, gap=2;
-    var x=quiet, bars=[];
-    for(var c=0;c<data.length;c++){
-      var pattern=code39[data[c]] || code39["-"];
-      for(var i=0;i<pattern.length;i++){
-        var isBar=(i%2===0), w=(pattern[i]==="1"?wide:narrow);
-        if(isBar) bars.push({x:x,w:w});
-        x+=w;
-      }
-      x+=gap;
+
+    var codes=[104]; // START B
+    var text=String(value);
+    for(var i=0;i<text.length;i++){
+      var code=C128B_MAP[text[i]];
+      if(code===undefined) code=C128B_MAP[" "];
+      codes.push(code);
     }
-    var total=x+quiet, h=72;
-    svg.setAttribute("viewBox","0 0 "+total+" "+h);
+
+    var checksum=104;
+    for(var j=1;j<codes.length;j++) checksum += codes[j]*j;
+    checksum=checksum%103;
+    codes.push(checksum);
+    codes.push(106); // STOP
+
+    var quiet=12, module=2.0, x=quiet, bars=[];
+    for(var k=0;k<codes.length;k++){
+      var widths=c128Widths(C128_PATTERNS[String(codes[k])]);
+      for(var w=0;w<widths.length;w++){
+        var width=widths[w]*module;
+        if(w%2===0) bars.push({x:x,w:width});
+        x+=width;
+      }
+    }
+    var total=x+quiet, height=82, ns="http://www.w3.org/2000/svg";
+    svg.setAttribute("viewBox","0 0 "+total+" "+height);
     svg.setAttribute("preserveAspectRatio","none");
+    svg.setAttribute("shape-rendering","crispEdges");
     while(svg.firstChild) svg.removeChild(svg.firstChild);
-    var ns="http://www.w3.org/2000/svg";
+
     bars.forEach(function(b){
       var r=document.createElementNS(ns,"rect");
-      r.setAttribute("x",b.x);r.setAttribute("y","3");
-      r.setAttribute("width",b.w);r.setAttribute("height","58");
-      r.setAttribute("fill","#111");
+      r.setAttribute("x",b.x.toFixed(2));
+      r.setAttribute("y","5");
+      r.setAttribute("width",b.w.toFixed(2));
+      r.setAttribute("height","64");
+      r.setAttribute("fill","#111111");
       svg.appendChild(r);
     });
   }
 
-  drawCode39("receiptBarcode", receiptCode);
+  drawCode128("receiptBarcode", lookupUrl);
 
   var pdf=document.getElementById('downloadPdf');
   if(pdf){
