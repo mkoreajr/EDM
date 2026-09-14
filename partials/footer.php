@@ -138,4 +138,70 @@
 })();
 </script>
 
+
+<script>
+(function(){
+  var body=document.body;
+  var btn=document.querySelector('.menu-btn');
+  var sidebar=document.querySelector('.sidebar');
+  if(!btn || !sidebar) return;
+
+  var backdrop=document.createElement('div');
+  backdrop.className='sidebar-backdrop';
+  if(!body.querySelector('.sidebar-backdrop')) body.appendChild(backdrop);
+
+  function isMobile(){
+    return window.innerWidth <= 850;
+  }
+
+  function closeMobile(){
+    body.classList.remove('sidebar-mobile-open');
+    backdrop.style.display='none';
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  function toggleSidebar(e){
+    if(e){e.preventDefault();e.stopPropagation();}
+    if(isMobile()){
+      var open=body.classList.toggle('sidebar-mobile-open');
+      backdrop.style.display=open?'block':'none';
+      btn.setAttribute('aria-expanded',open?'true':'false');
+    }else{
+      var collapsed=body.classList.toggle('sidebar-collapsed');
+      btn.setAttribute('aria-expanded',collapsed?'false':'true');
+    }
+  }
+
+  btn.addEventListener('click',toggleSidebar);
+  backdrop.addEventListener('click',closeMobile);
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && isMobile()) closeMobile();
+  });
+
+  window.addEventListener('resize',function(){
+    if(!isMobile()){
+      body.classList.remove('sidebar-mobile-open');
+      backdrop.style.display='none';
+      btn.setAttribute('aria-expanded',body.classList.contains('sidebar-collapsed')?'false':'true');
+    }else{
+      body.classList.remove('sidebar-collapsed');
+      body.classList.remove('sidebar-mobile-open');
+      backdrop.style.display='none';
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* Initial state: desktop/laptop open; tablet/mobile closed. */
+  if(isMobile()){
+    body.classList.remove('sidebar-collapsed','sidebar-mobile-open');
+    backdrop.style.display='none';
+    btn.setAttribute('aria-expanded','false');
+  }else{
+    body.classList.remove('sidebar-collapsed');
+    btn.setAttribute('aria-expanded','true');
+  }
+})();
+</script>
+
 </body></html>

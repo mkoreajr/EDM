@@ -1122,3 +1122,137 @@ table{max-width:100%}
   .clear-confirm-modal{padding:24px 18px 20px}
   .clear-confirm-buttons button{flex:1;min-width:0}
 }
+
+/* =========================================================
+   SIDEBAR TOGGLE — ALL DEVICES
+   Desktop/laptop: visible by default, hamburger hides/shows.
+   Tablet/mobile: hidden by default, hamburger opens/closes.
+   ========================================================= */
+
+/* Desktop & laptop default */
+@media (min-width:851px){
+  .app-body>.sidebar{
+    width:276px!important;
+    flex:0 0 276px!important;
+    min-width:276px!important;
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    overflow-y:auto!important;
+    z-index:1000!important;
+  }
+  .app-body>.content{
+    margin-left:276px!important;
+    width:calc(100% - 276px)!important;
+    max-width:calc(100% - 276px)!important;
+  }
+
+  /* When hamburger is clicked on laptop/desktop */
+  .app-body.sidebar-collapsed>.sidebar{
+    width:0!important;
+    min-width:0!important;
+    flex-basis:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    overflow:hidden!important;
+  }
+  .app-body.sidebar-collapsed>.content{
+    margin-left:0!important;
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .app-body.sidebar-collapsed .app-topbar{
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+}
+
+/* Tablet & mobile: sidebar hidden until hamburger is pressed */
+@media (max-width:850px){
+  .app-body>.sidebar{
+    width:0!important;
+    min-width:0!important;
+    flex-basis:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    overflow:hidden!important;
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    bottom:0!important;
+    z-index:1000!important;
+    transition:width .2s ease, min-width .2s ease, flex-basis .2s ease, padding .2s ease!important;
+  }
+  .app-body>.content{
+    margin-left:0!important;
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .app-body.sidebar-mobile-open>.sidebar{
+    width:250px!important;
+    min-width:250px!important;
+    flex-basis:250px!important;
+    padding-left:14px!important;
+    padding-right:14px!important;
+    overflow-y:auto!important;
+    box-shadow:12px 0 30px rgba(0,0,0,.20);
+  }
+  .app-body.sidebar-mobile-open .sidebar-backdrop{
+    display:block;
+  }
+  .sidebar-backdrop{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.30);
+    z-index:999;
+  }
+}
+
+/* Hamburger is always an active control */
+.menu-btn{
+  width:42px!important;
+  height:42px!important;
+  flex:0 0 42px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:0!important;
+  border-radius:8px!important;
+  background:transparent!important;
+  color:#17332a!important;
+  cursor:pointer!important;
+  font-size:27px!important;
+  line-height:1!important;
+}
+.menu-btn:hover{background:#eef6f2!important}
+.menu-btn:focus-visible{outline:2px solid #008e5b;outline-offset:2px}
+
+/* Keep the topbar usable when sidebar is collapsed */
+.app-body.sidebar-collapsed .app-topbar{
+  padding-left:18px!important;
+}
+@media(max-width:600px){
+  .menu-btn{width:38px!important;height:38px!important;flex-basis:38px!important;font-size:25px!important}
+}
+
+@media(max-width:850px){
+  .app-body.sidebar-mobile-open .side-brand>div:not(.side-egg),
+  .app-body.sidebar-mobile-open .side-nav a{
+    font-size:inherit!important;
+  }
+  .app-body.sidebar-mobile-open .side-nav a{
+    justify-content:flex-start!important;
+    padding:14px!important;
+  }
+  .app-body.sidebar-mobile-open .side-brand{
+    justify-content:flex-start!important;
+  }
+  .app-body.sidebar-mobile-open .side-slogan,
+  .app-body.sidebar-mobile-open .side-bottom{
+    display:block!important;
+  }
+  .app-body.sidebar-mobile-open .side-egg{
+    font-size:43px!important;
+  }
+}
