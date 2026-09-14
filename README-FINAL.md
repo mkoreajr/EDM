@@ -11,3 +11,5 @@ Implemented exactly as requested:
 - Payment methods: Cash, Mobile Money, Bank only.
 
 Deploy through Render Blueprint using render.yaml.
+
+- Good Day card includes a code-only right-side brand tagline: Fresh Eggs / Healthy Families / A Better Tomorrow.

@@ -116,3 +116,63 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
 /* Make top-right admin controls clearly clickable. */
 .profile-button,.notify{cursor:pointer!important}
 .profile-button:focus-visible,.notify:focus-visible{outline:2px solid #0a8b59;outline-offset:2px}
+
+
+/* Good Day card — right-side brand message, code only */
+.welcome-banner{position:relative;overflow:hidden}
+.welcome-tagline{
+  position:absolute;
+  right:clamp(28px,5vw,86px);
+  top:50%;
+  transform:translateY(-50%);
+  width:min(360px,34%);
+  text-align:right;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  line-height:1.02;
+  z-index:2;
+  pointer-events:none;
+}
+.welcome-tagline span,
+.welcome-tagline strong,
+.welcome-tagline em{
+  display:block;
+  margin:0;
+}
+.welcome-tagline span{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(25px,2.6vw,40px);
+  font-style:italic;
+  font-weight:700;
+  letter-spacing:-.8px;
+  color:#075b3c;
+}
+.welcome-tagline strong{
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:clamp(23px,2.25vw,35px);
+  font-weight:800;
+  letter-spacing:-1px;
+  color:#0a6b48;
+}
+.welcome-tagline em{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(20px,2vw,31px);
+  font-style:italic;
+  font-weight:700;
+  color:#d5a900;
+  margin-top:4px;
+}
+.welcome-tagline i{
+  width:150px;
+  height:4px;
+  margin-top:10px;
+  border-radius:99px;
+  background:linear-gradient(90deg,#d5a900,#f0c72e,#0a6b48);
+  transform:skewX(-25deg);
+  display:block;
+}
+@media (max-width:820px){
+  .welcome-tagline{position:static;transform:none;width:auto;align-items:flex-start;text-align:left;margin:22px 0 4px}
+  .welcome-tagline i{align-self:flex-start}
+}

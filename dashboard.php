@@ -14,6 +14,12 @@ $todaySales=(int)$conn->query("SELECT COUNT(*) x FROM sales WHERE sale_date=CURR
     <p>Welcome to EDM Kienyeji Egg Shop.</p>
     <a class="hero-btn" href="sales.php"><span>＋</span> New Sale (POS) <b>›</b></a>
   </div>
+  <div class="welcome-tagline" aria-label="Fresh Eggs, Healthy Families, A Better Tomorrow">
+    <span>Fresh Eggs</span>
+    <strong>Healthy Families</strong>
+    <em>A Better Tomorrow</em>
+    <i></i>
+  </div>
 </section>
 
 <section class="stat-grid">
