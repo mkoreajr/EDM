@@ -1,9 +1,9 @@
-# EDM Kienyeji Egg Shop — Render Blueprint
+# EDM Kienyeji Egg Shop — Final Render Blueprint
 
-Modern login design with a hen-and-eggs visual is included as `assets/login-hero.png`.
+This version includes the corrected full-screen modern login layout.
+The login is forced to use the full viewport with a 50/50 desktop split and responsive mobile layout.
 
 Deploy with Render → New → Blueprint using `render.yaml`.
-The container initializes the PostgreSQL tables automatically.
 
 Login: admin / admin123
 Payment methods: Cash, Mobile Money, Bank only.

@@ -12,3 +12,31 @@
 .login-form-side{display:flex;align-items:center;justify-content:center;padding:45px 6%;background:#fff}.form-wrap{width:min(520px,100%)}.welcome{font-size:13px;font-weight:800;letter-spacing:1.5px;color:#7a89a3;margin-bottom:8px}.form-wrap h2{font-size:48px;line-height:1;margin:0;color:#07142f;letter-spacing:-1.5px}.form-wrap h2 span{color:#008b59}.subtitle{color:#6d7c98;font-size:16px;margin:14px 0 30px}.form-wrap form>label{display:block;font-weight:700;color:#13213e;font-size:14px;margin:0 0 8px}.input-wrap{position:relative;margin-bottom:20px}.input-wrap>span{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.65}.input-wrap input{width:100%;height:54px;border:1px solid #d7dfeb;border-radius:9px;padding:0 48px;color:#17233e;font-size:16px;outline:none}.input-wrap input:focus{border-color:#00945e;box-shadow:0 0 0 3px #00945e14}.input-wrap .eye{position:absolute;right:8px;top:7px;width:40px;height:40px;padding:0;margin:0;background:transparent;color:#7d8ba3;font-size:16px}.form-row{display:flex;justify-content:space-between;align-items:center;margin:-4px 0 22px;font-size:14px}.form-row a{color:#008b59;text-decoration:none;font-weight:700}.check{display:flex!important;align-items:center!important;gap:7px!important;margin:0!important;font-weight:500!important}.check input{accent-color:#008b59;width:17px;height:17px}.signin-btn{width:100%;height:54px;border:0;border-radius:9px;background:#008f5b;color:#fff;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px #008f5b24}.signin-btn:hover{background:#007b4e}.or{display:flex;align-items:center;gap:14px;color:#7c8aa1;margin:27px 0 18px;font-size:13px}.or:before,.or:after{content:"";height:1px;background:#e1e6ed;flex:1}.payment-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.payment-cards>div{border:1px solid #e4e9f0;border-radius:10px;padding:15px 8px;text-align:center;display:flex;flex-direction:column;gap:5px}.payment-cards strong{font-size:20px;color:#008f5b}.payment-cards b{font-size:13px;color:#14213d}.payment-cards small{font-size:11px;color:#8290a7}.secure{text-align:center;background:#eaf8f2;color:#16805a;border-radius:9px;padding:12px;margin-top:18px;font-size:12px;font-weight:700}.demo-login{text-align:center;color:#7b879a;font-size:11px;margin-top:13px}
 @media(max-width:900px){.login-shell{grid-template-columns:1fr}.login-visual{min-height:430px}.visual-copy{margin-top:45px}.visual-copy h1{font-size:40px}.login-form-side{padding:35px 8%}}
 @media(max-width:560px){.login-visual{display:none}.login-form-side{min-height:100vh}.payment-cards{grid-template-columns:1fr}.form-wrap h2{font-size:40px}}
+
+/* FINAL LOGIN LAYOUT FIX */
+html,body.login-page{width:100%!important;min-width:100%!important;height:100%!important;margin:0!important;padding:0!important;overflow-x:hidden!important}
+body.login-page{display:block!important;background:#fff!important}
+.login-shell{position:relative!important;width:100vw!important;max-width:none!important;min-width:100vw!important;height:100vh!important;min-height:100vh!important;margin:0!important;padding:0!important;display:grid!important;grid-template-columns:50% 50%!important;gap:0!important;place-items:stretch!important}
+.login-visual{width:100%!important;height:100vh!important;min-height:100vh!important;margin:0!important;border-radius:0!important}
+.login-form-side{width:100%!important;height:100vh!important;min-height:100vh!important;margin:0!important;padding:40px clamp(28px,6vw,90px)!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.form-wrap{width:min(540px,100%)!important;max-width:540px!important}
+.visual-overlay{width:100%!important;height:100%!important;min-height:100vh!important;box-sizing:border-box!important}
+.visual-copy{max-width:590px!important}
+.visual-copy h1{font-size:clamp(38px,4vw,56px)!important}
+.feature-list{max-width:500px!important}
+
+@media (max-width:1100px){
+  .login-shell{grid-template-columns:48% 52%!important}
+  .visual-overlay{padding:30px 6%!important}
+  .visual-copy{margin-top:48px!important}
+  .visual-copy h1{font-size:clamp(34px,4vw,48px)!important}
+  .visual-copy p{font-size:16px!important}
+  .feature-list{gap:8px!important}
+  .feature-list>div>span{width:38px;height:38px;font-size:17px}
+  .login-form-side{padding:30px 5%!important}
+}
+@media (max-width:800px){
+  .login-shell{display:block!important;min-width:0!important;width:100%!important}
+  .login-visual{display:none!important}
+  .login-form-side{width:100%!important;height:100vh!important;min-height:100vh!important;padding:28px 7%!important}
+}
