@@ -13,3 +13,5 @@ Implemented exactly as requested:
 Deploy through Render Blueprint using render.yaml.
 
 - Good Day card includes a code-only right-side brand tagline: Fresh Eggs / Healthy Families / A Better Tomorrow.
+
+- Settings page now contains exactly four requested sections: Business Information, Receipt Setting, System Preferences, and User Management.
