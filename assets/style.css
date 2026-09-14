@@ -304,3 +304,17 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Ari
 .rename-inline{display:flex;align-items:center;gap:4px}.rename-input{width:125px;height:28px;border:1px solid #dbe4ec;border-radius:5px;padding:0 7px;color:#33415a;background:#fff;font:400 9px Arial,Helvetica,sans-serif}
 .user-action-btn.rename{color:#285a9f;border-color:#bdd0e8}.user-action-btn.rename:hover{background:#eef5ff}
 @media(max-width:900px){.stock-alert{align-items:flex-start;flex-wrap:wrap}.stock-alert span{width:100%}.rename-inline{flex-wrap:wrap}}
+
+/* Final compact footer */
+html,body{min-height:100%}
+body.app-body{min-height:100vh;display:flex;flex-direction:column}
+.app-body .main-content{flex:1;min-width:0}
+.app-footer{width:100%;margin-top:auto;padding:10px 24px 14px;box-sizing:border-box}
+.footer-line{display:none}
+.footer-content{max-width:1280px;margin:0 auto;padding-top:9px;border-top:1px solid #e5ebe9;display:flex;justify-content:center;align-items:center;gap:38px;text-align:center;font-size:12px;line-height:1.35;color:#526788}
+.footer-tagline{color:#52628f;font-style:italic;white-space:nowrap}
+@media(max-width:700px){
+ .app-footer{padding:9px 14px 12px}
+ .footer-content{flex-direction:column;gap:3px;font-size:10px}
+ .footer-tagline{white-space:normal}
+}

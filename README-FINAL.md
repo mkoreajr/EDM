@@ -23,3 +23,5 @@ Deploy through Render Blueprint using render.yaml.
 
 - Cashier role is restricted to Home, Sales (POS), Customers, receipt/notification/password functions; admin-only pages are protected server-side.
 - Added administrator/user renaming while preserving roles, global no-stock messaging, and red below-50-tray stock warnings.
+
+- Fixed auth warning defensively and changed the footer to a compact centered footer that stays at the bottom of short pages.
