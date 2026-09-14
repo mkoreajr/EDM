@@ -1,63 +1,38 @@
 <?php
 session_start();
-if (isset($_SESSION['user_id'])) { header("Location: dashboard.php"); exit; }
-$error = $_SESSION['login_error'] ?? ''; unset($_SESSION['login_error']);
+if(isset($_SESSION['user_id'])){header("Location: dashboard.php");exit;}
+$error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EDM Kienyeji Egg Shop - Sign In</title>
-<link rel="stylesheet" href="assets/style.css">
-</head>
-<body class="login-page">
-<div class="login-shell">
-  <section class="login-visual">
-    <div class="visual-overlay">
-      <div class="shop-brand"><span class="egg-mark">🥚</span><div><strong>EDM KIENYEJI</strong><b>EGG SHOP</b><small>Fresh Eggs • Healthy Families • A Better Tomorrow</small></div></div>
-      <div class="visual-copy">
-        <div class="eyebrow">SMART EGG BUSINESS MANAGEMENT</div>
-        <h1>Sell smarter.<br>Manage stock.<br><span>Grow your business.</span></h1>
-        <p>Manage sales, stock, customers and daily egg-shop operations with ease.</p>
-        <div class="feature-list">
-          <div><span>🛒</span><div><b>Manage Sales</b><small>Fast, easy and reliable</small></div></div>
-          <div><span>📦</span><div><b>Track Stock</b><small>Real-time inventory</small></div></div>
-          <div><span>👥</span><div><b>Customers & Suppliers</b><small>Keep your business organized</small></div></div>
-          <div><span>📊</span><div><b>Reports & Insights</b><small>Make better decisions</small></div></div>
-          <div><span>💳</span><div><b>Multiple Payments</b><small>Cash • Mobile Money • Bank</small></div></div>
-        </div>
-      </div>
-      <div class="visual-tag">Fresh Eggs <i>•</i> Healthy Families <i>•</i> A Better Tomorrow</div>
-    </div>
-  </section>
-  <section class="login-form-side">
-    <div class="form-wrap">
-      <div class="welcome">WELCOME BACK</div>
-      <h2>Sign <span>in</span></h2>
-      <p class="subtitle">Access your EDM Kienyeji Egg Shop dashboard.</p>
-      <?php if($error): ?><div class="alert danger"><?=htmlspecialchars($error)?></div><?php endif; ?>
-      <form method="post" action="login.php">
-        <label>Username</label>
-        <div class="input-wrap"><span>👤</span><input name="username" value="<?=htmlspecialchars($_POST['username']??'')?>" required autofocus></div>
-        <label>Password</label>
-        <div class="input-wrap"><span>🔒</span><input id="password" type="password" name="password" required><button type="button" class="eye" onclick="togglePassword()">◉</button></div>
-        <div class="form-row"><label class="check"><input type="checkbox"> <span>Remember me</span></label><a href="#" onclick="return false">Forgot password?</a></div>
-        <button class="signin-btn" type="submit">↪ &nbsp; Sign In</button>
-      </form>
-      <div class="or"><span>or continue with</span></div>
-      <div class="payment-cards">
-        <div><strong>▣</strong><b>Cash</b><small>Simple & Fast</small></div>
-        <div><strong>▯</strong><b>Mobile Money</b><small>Secure & Convenient</small></div>
-        <div><strong>▥</strong><b>Bank</b><small>Safe & Reliable</small></div>
-      </div>
-      <div class="secure">🛡 Secure • Reliable • Built for Egg Businesses</div>
-      <div class="demo-login">Demo administrator: <b>admin</b> / <b>admin123</b></div>
-    </div>
-  </section>
-</div>
-<script>
-function togglePassword(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';}
-</script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EDM Kienyeji Egg Shop — Sign In</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif}
+.login{position:relative;width:100vw;height:100vh;background:url('assets/login-approved.png') center/100% 100% no-repeat}
+form{position:absolute;left:62.75%;top:33.65%;width:32.3%;height:32%;margin:0}
+.username,.password{position:absolute;left:0;width:100%;height:54px;padding:0 50px;border:1px solid #d3ddeb;border-radius:8px;background:#fff;font:16px Arial;color:#13213e;outline:none}
+.username{top:0}.password{top:104px}.username:focus,.password:focus{border-color:#008f5b;box-shadow:0 0 0 2px #008f5b18}
+.toggle{position:absolute;right:6px;top:108px;width:40px;height:42px;border:0;background:transparent;color:#71809a;cursor:pointer}
+.remember{position:absolute;left:0;top:181px;display:flex;align-items:center;gap:7px;font-size:14px;color:#263650;white-space:nowrap}
+.remember input{width:20px;height:20px;margin:0;accent-color:#008f5b}
+.forgot{position:absolute;right:0;top:184px;color:#078b58;font-size:14px;font-weight:700;text-decoration:none}
+.submit{position:absolute;left:0;top:236px;width:100%;height:58px;border:0;border-radius:9px;background:#00945d;color:#fff;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px #00945d20}
+.error{position:absolute;left:62.75%;top:27%;width:32.3%;padding:9px 14px;border-radius:7px;background:#fff0f0;color:#a22;border:1px solid #eccaca;font-size:13px;z-index:5}
+@media(max-width:800px){
+body{overflow:auto;background:#006040}.login{height:auto;min-height:100vh;background:#006040}
+.login:before{content:"";display:block;height:260px;background:url('assets/login-approved.png') left top/auto 100% no-repeat}
+form{position:relative;left:auto;top:auto;width:88%;height:365px;margin:25px auto;background:#fff;border-radius:16px;padding:28px}
+form:after{content:"EDM Kienyeji Egg Shop";display:block;position:absolute;top:20px;left:28px;font-size:25px;font-weight:800;color:#008b59}
+.username,.password{position:absolute;left:28px;width:calc(100% - 56px);height:52px}.username{top:75px}.password{top:148px}.toggle{top:153px;right:28px}.remember{left:28px;top:220px}.forgot{right:28px;top:223px}.submit{left:28px;width:calc(100% - 56px);top:275px;height:52px}.error{position:relative;left:auto;top:auto;width:88%;margin:15px auto}
+}
+</style></head><body><div class="login">
+<?php if($error):?><div class="error"><?=htmlspecialchars($error)?></div><?php endif;?>
+<form method="post" action="login.php">
+<input class="username" name="username" aria-label="Username" value="<?=htmlspecialchars($_POST['username']??'')?>" required autofocus>
+<input class="password" id="password" type="password" name="password" aria-label="Password" required>
+<button type="button" class="toggle" onclick="togglePassword()" aria-label="Show password">◉</button>
+<label class="remember"><input type="checkbox" name="remember"><span>Remember me</span></label>
+<a class="forgot" href="#" onclick="return false">Forgot password?</a>
+<button class="submit" type="submit">↪ &nbsp; Sign In</button>
+</form></div>
+<script>function togglePassword(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';}</script>
+</body></html>
