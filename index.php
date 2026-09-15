@@ -11,7 +11,7 @@ $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 <title>EDM Kienyeji Egg Shop — Sign In</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#0b1732}
+html,body{margin:0;width:100%;height:100%;font-family:Inter, Segoe UI, Arial, Helvetica, sans-serif;background:#fff;color:#0b1732}
 .page{width:100vw;height:100vh;min-height:680px;display:grid;grid-template-columns:58% 42%;overflow:hidden}
 .left{position:relative;height:100%;overflow:hidden;background:linear-gradient(145deg,#00532f 0%,#007248 50%,#005b38 100%);color:#fff}
 .left:before,.left:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
