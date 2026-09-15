@@ -73,11 +73,17 @@
   </div>
 </header>
 <?php
-$lowStockProducts=[];
-$lsr=$conn->query("SELECT name, stock_quantity, unit FROM products WHERE stock_quantity > 0 AND unit = 'Tray' AND stock_quantity < 50 ORDER BY stock_quantity ASC");
-if($lsr){ while($lr=$lsr->fetch_assoc()){ $lowStockProducts[]=$lr; } }
+<?php
+/* Low-stock warning is based on TOTAL available tray stock.
+   Adding stock above 50 trays removes the warning automatically.
+   Selling stock below 50 trays shows it again. */
+$totalTrayStock = 0;
+$lsr = $conn->query("SELECT COALESCE(SUM(stock_quantity),0) AS total_trays FROM products WHERE LOWER(unit) = 'tray'");
+if ($lsr && ($lsrow = $lsr->fetch_assoc())) {
+    $totalTrayStock = (float)$lsrow['total_trays'];
+}
 ?>
-<?php if($lowStockProducts): ?>
+<?php if ($totalTrayStock > 0 && $totalTrayStock < 50): ?>
 <div class="low-stock-alert" role="alert">
   <span class="low-stock-alert-icon">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -87,10 +93,8 @@ if($lsr){ while($lr=$lsr->fetch_assoc()){ $lowStockProducts[]=$lr; } }
   </span>
   <span>
     <strong>Stock Low:</strong>
-    <?=count($lowStockProducts)===1 ? 'A product' : count($lowStockProducts).' products'?> <?=count($lowStockProducts)===1 ? 'has' : 'have'?> less than 50 trays in stock.
-    <?php foreach($lowStockProducts as $li): ?>
-      <b><?=e($li['name'])?>: <?=number_format((float)$li['stock_quantity'],2)?> trays</b><?php if($li!==end($lowStockProducts)): ?>, <?php endif;?>
-    <?php endforeach; ?>
+    Total stock is below 50 trays. Current stock:
+    <b><?=number_format($totalTrayStock,2)?> trays</b>
   </span>
   <a href="inventory.php">View Stock</a>
 </div>
