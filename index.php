@@ -40,6 +40,55 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif
 .secure{margin-top:18px;background:#ebf8f2;color:#16825a;text-align:center;border-radius:9px;padding:12px;font-size:12px;font-weight:700}.secure svg{width:15px;height:15px;vertical-align:middle;fill:none;stroke:#16825a;stroke-width:2;margin-right:4px}.demo{text-align:center;font-size:11px;color:#8490a3;margin-top:12px}.error{background:#fff0f0;border:1px solid #edcaca;color:#a22929;border-radius:8px;padding:10px 13px;margin-bottom:16px;font-size:13px}
 @media(max-width:1100px){.page{grid-template-columns:53% 47%}.quality{display:none}.left-main{margin-top:45px}.left-main h1{font-size:43px}.features{grid-template-columns:1fr}.pills{font-size:10px;gap:9px;padding:10px 13px}.slogan{font-size:23px}}
 @media(max-width:760px){.page{display:block;height:auto;min-height:100vh;overflow:auto}.left{height:410px}.left-content{padding:24px 7%}.left-main{margin-top:35px}.left-main h1{font-size:37px}.left-main>p,.features,.slogan,.pills{display:none}.right{height:auto;min-height:calc(100vh - 410px);padding:35px 8%}.badge{margin-bottom:35px}h2{font-size:43px}.pay{gap:8px}}
+
+/* FINAL LOGIN SIZE FIX: equal-width panels */
+.page{
+  grid-template-columns:50% 50%!important;
+}
+.left,
+.right{
+  width:100%!important;
+  min-width:0!important;
+}
+.right{
+  padding-left:7%!important;
+  padding-right:7%!important;
+}
+
+/* Username and Password labels: not bold */
+.field label{
+  font-weight:500!important;
+}
+
+/* Password eye: centered vertically with the password input */
+.pass .eye{
+  top:30px!important;
+  height:42px!important;
+  width:40px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+  transform:none!important;
+}
+.pass .eye svg{
+  width:20px!important;
+  height:20px!important;
+  display:block!important;
+}
+
+@media(max-width:760px){
+  .page{
+    display:block!important;
+    height:auto!important;
+    min-height:100vh!important;
+    overflow:auto!important;
+  }
+  .left,.right{
+    width:100%!important;
+  }
+}
+
 </style>
 </head>
 <body>
