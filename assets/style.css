@@ -1308,3 +1308,9 @@ table{max-width:100%}
   }
   .low-stock-alert a{margin-left:39px}
 }
+
+/* Clear separation between Low Stock Alert and Good Day card */
+.low-stock-alert { margin-bottom: 16px !important; }
+@media (max-width: 600px) {
+  .low-stock-alert { margin-bottom: 14px !important; }
+}
