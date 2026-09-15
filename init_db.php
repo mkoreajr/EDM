@@ -8,6 +8,9 @@ try {
         $statement = trim($statement);
         if ($statement !== '') $pdo->exec($statement);
     }
+    // Admin password recovery table. This does not modify or delete business data.
+    $pdo->exec("CREATE TABLE IF NOT EXISTS system_recovery (id SMALLINT PRIMARY KEY, admin_recovery_used BOOLEAN NOT NULL DEFAULT FALSE)");
+    $pdo->exec("INSERT INTO system_recovery(id, admin_recovery_used) VALUES (1, FALSE) ON CONFLICT (id) DO NOTHING");
     echo "Database schema ready.\n";
 } catch (Throwable $e) {
     fwrite(STDERR, "Database initialization failed: ".$e->getMessage()."\n");

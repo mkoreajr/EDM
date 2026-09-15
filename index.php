@@ -122,6 +122,7 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 <div class="field pass"><label>Password</label><div class="input"><div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><input id="password" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required></div><button class="eye" type="button" onclick="togglePassword()" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div>
 <div class="row"><label class="remember"><input type="checkbox" name="remember"> Remember me</label><a class="forgot" href="#" onclick="return false">Forgot password?</a></div>
 <button class="btn" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M7 12l5-5 5 5"/></svg> Sign In</button>
+<div style="text-align:right;margin-top:10px"><a href="admin-recovery.php" style="color:#007b52;text-decoration:none;font-size:13px">Forgot admin password?</a></div>
 </form>
 <div class="divider">or continue with</div>
 <div class="pay">
