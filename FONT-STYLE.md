@@ -1,7 +1,8 @@
 # System Font Style
 
-The entire EDM Kienyeji Egg Shop system uses a consistent modern typography stack:
+The entire EDM Kienyeji Egg Shop system uses **Arial** as its primary font.
 
-**Inter → Segoe UI → Arial → Helvetica → sans-serif**
+Fallbacks:
+**Arial → Helvetica → sans-serif**
 
-Inter is the preferred font because it is clean, professional, highly readable, and works well for dashboards, POS screens, forms, tables, notifications, and receipts. System fallbacks ensure the interface remains usable when Inter is not installed.
+Arial is used consistently across the login page, dashboard, POS, products, stock, customers, settings, notifications, tables, buttons, forms and other system pages.

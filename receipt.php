@@ -31,7 +31,7 @@ $discount=max(0,$subtotal-(float)$s['total_amount']);
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:Inter, Segoe UI, Arial, Helvetica, sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
   background:linear-gradient(135deg,#eef8f3,#f9fbea);
   color:#17332a;
   min-height:100vh;
