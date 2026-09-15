@@ -30,7 +30,13 @@ if(isset($_POST['save_sale'])){
 $products=$conn->query("SELECT * FROM products WHERE stock_quantity>0 ORDER BY name");
 $productCount=(int)$conn->query("SELECT COUNT(*) AS c FROM products WHERE stock_quantity>0")->fetch_assoc()['c'];
 $customers=$conn->query("SELECT * FROM customers ORDER BY name");
-$recent=$conn->query("SELECT s.*,COALESCE(c.name,'Walk-in Customer') customer FROM sales s LEFT JOIN customers c ON c.id=s.customer_id ORDER BY s.id DESC LIMIT 30");
+$perPage = 15;
+$page = max(1, (int)($_GET['page'] ?? 1));
+$totalSales = (int)$conn->query("SELECT COUNT(*) AS c FROM sales")->fetch_assoc()['c'];
+$totalPages = max(1, (int)ceil($totalSales / $perPage));
+if($page > $totalPages) $page = $totalPages;
+$offset = ($page - 1) * $perPage;
+$recent=$conn->query("SELECT s.*,COALESCE(c.name,'Walk-in Customer') customer FROM sales s LEFT JOIN customers c ON c.id=s.customer_id ORDER BY s.id DESC LIMIT $perPage OFFSET $offset");
 require "partials/header.php";
 ?>
 <?php if($message): ?><div class="alert danger"><?=e($message)?></div><?php endif;?>
@@ -44,6 +50,22 @@ require "partials/header.php";
 <div class="field"><label>Payment Method</label><select name="payment_method" required><option>Cash</option><option>Mobile Money</option><option>Bank</option></select></div></div>
 <div class="form-actions"><button class="btn primary" name="save_sale" <?= $productCount===0 ? "disabled" : "" ?>>Save Sale & Print Receipt</button></div></form></div>
 <div class="panel" style="margin-top:20px"><h3>Recent Sales</h3><div class="table-wrap"><table class="table"><tr><th>Sale No.</th><th>Date</th><th>Customer</th><th>Payment</th><th>Total</th><th></th></tr>
-<?php while($r=$recent->fetch_assoc()): ?><tr><td><?=e($r['sale_number'])?></td><td><?=e($r['sale_date'])?></td><td><?=e($r['customer'])?></td><td><?=e($r['payment_method'])?></td><td>TZS <?=money($r['total_amount'])?></td><td><a class="btn btn-sm secondary" href="receipt.php?id=<?=$r['id']?>">Receipt</a></td></tr><?php endwhile;?></table></div></div>
+<?php while($r=$recent->fetch_assoc()): ?><tr><td><?=e($r['sale_number'])?></td><td><?=e($r['sale_date'])?></td><td><?=e($r['customer'])?></td><td><?=e($r['payment_method'])?></td><td>TZS <?=money($r['total_amount'])?></td><td><a class="btn btn-sm secondary" href="receipt.php?id=<?=$r['id']?>">Receipt</a></td></tr><?php endwhile;?></table></div>
+<?php if($totalSales > $perPage): ?>
+<div class="sales-pagination" aria-label="Sales pages">
+  <?php if($page > 1): ?><a class="page-arrow" href="sales.php?page=<?=$page-1?>" aria-label="Previous page">‹</a><?php endif; ?>
+  <?php
+    $start = max(1, $page - 2);
+    $end = min($totalPages, $page + 2);
+    if($start > 1): ?><a href="sales.php?page=1">1</a><?php if($start > 2): ?><span class="page-dots">…</span><?php endif; ?><?php endif;
+    for($i=$start; $i<=$end; $i++): ?>
+      <a class="<?= $i===$page ? 'active' : '' ?>" href="sales.php?page=<?=$i?>"><?=$i?></a>
+    <?php endfor;
+    if($end < $totalPages): ?><?php if($end < $totalPages-1): ?><span class="page-dots">…</span><?php endif; ?><a href="sales.php?page=<?=$totalPages?>"><?=$totalPages?></a><?php endif; ?>
+  <?php if($page < $totalPages): ?><a class="page-arrow" href="sales.php?page=<?=$page+1?>" aria-label="Next page">›</a><?php endif; ?>
+</div>
+<div class="sales-page-info">Showing <?=($offset+1)?>–<?=min($offset+$perPage,$totalSales)?> of <?=$totalSales?> sales</div>
+<?php endif; ?>
+</div></div>
 <script>const p=document.getElementById('product'),q=document.getElementById('qty'),pr=document.getElementById('price'),t=document.getElementById('total');function calc(){let o=p.options[p.selectedIndex],price=+o.dataset.price||0;pr.value=price.toLocaleString();t.value=((+q.value||0)*price).toLocaleString()}p.addEventListener('change',calc);q.addEventListener('input',calc);calc();</script>
 <?php require "partials/footer.php"; ?>

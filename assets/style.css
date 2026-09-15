@@ -1510,3 +1510,66 @@ body.login-page .pass .eye svg{
     white-space:normal!important;
   }
 }
+
+/* Sales list pagination */
+.sales-pagination{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin:18px 0 5px;
+  flex-wrap:wrap;
+}
+.sales-pagination a,
+.sales-pagination .page-dots{
+  min-width:36px;
+  height:36px;
+  padding:0 10px;
+  border:1px solid #dfe8e4;
+  border-radius:8px;
+  background:#fff;
+  color:#31566a;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:600;
+}
+.sales-pagination a:hover{
+  border-color:#008f5b;
+  color:#008f5b;
+  background:#f1faf6;
+}
+.sales-pagination a.active{
+  background:#008f5b;
+  border-color:#008f5b;
+  color:#fff;
+}
+.sales-pagination .page-arrow{
+  font-size:21px;
+  line-height:1;
+  font-weight:400;
+}
+.sales-pagination .page-dots{
+  border:0;
+  background:transparent;
+  min-width:18px;
+  padding:0 2px;
+  color:#7b8d99;
+}
+.sales-page-info{
+  text-align:center;
+  color:#718394;
+  font-size:11px;
+  margin:7px 0 2px;
+}
+@media(max-width:650px){
+  .sales-pagination{gap:5px;margin-top:14px}
+  .sales-pagination a,.sales-pagination .page-dots{
+    min-width:32px;
+    height:32px;
+    padding:0 7px;
+    font-size:12px;
+  }
+}
