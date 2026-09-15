@@ -11,7 +11,7 @@ $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 <title>EDM Kienyeji Egg Shop — Sign In</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;font-family:Inter,Arial,Helvetica,sans-serif;background:#fff;color:#0b1732}
+html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#0b1732}
 .page{width:100vw;height:100vh;min-height:680px;display:grid;grid-template-columns:58% 42%;overflow:hidden}
 .left{position:relative;height:100%;overflow:hidden;background:linear-gradient(145deg,#00532f 0%,#007248 50%,#005b38 100%);color:#fff}
 .left:before,.left:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
@@ -31,7 +31,7 @@ html,body{margin:0;width:100%;height:100%;font-family:Inter,Arial,Helvetica,sans
 .right{height:100%;display:flex;align-items:center;justify-content:center;padding:34px 7%;background:#fff}.card{width:min(590px,100%)}
 .badge{display:flex;justify-content:flex-end;align-items:center;gap:10px;color:#087b50;font-size:14px;font-weight:700;margin-bottom:52px}.badge span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#f0faf5}.badge svg{width:22px;height:22px;fill:none;stroke:#087b50;stroke-width:2}
 .welcome{font-size:13px;letter-spacing:1.5px;font-weight:800;color:#7a89a3;margin-bottom:8px}h2{font-size:51px;line-height:1;margin:0;letter-spacing:-2px;color:#08152f}h2 span{color:#008d5b}.sub{font-size:16px;color:#72809a;margin:14px 0 34px}
-.field{margin-bottom:21px}.field label{display:block;font-size:14px;font-weight:800;margin-bottom:8px}.input{height:56px;border:1px solid #d4deea;border-radius:9px;display:flex;align-items:center;background:#fff}.input:focus-within{border-color:#008f5b;box-shadow:0 0 0 3px #008f5b12}.icon{width:50px;text-align:center}.icon svg{width:19px;height:19px;fill:none;stroke:#6f809a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.input input{flex:1;height:100%;border:0;outline:0;font-size:16px;background:transparent;color:#16233d;padding:0 12px 0 0}
+.field{margin-bottom:21px}.field label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}.input{height:56px;border:1px solid #d4deea;border-radius:9px;display:flex;align-items:center;background:#fff}.input:focus-within{border-color:#008f5b;box-shadow:0 0 0 3px #008f5b12}.icon{width:50px;text-align:center}.icon svg{width:19px;height:19px;fill:none;stroke:#6f809a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.input input{flex:1;height:100%;border:0;outline:0;font-size:16px;background:transparent;color:#16233d;padding:0 12px 0 0}
 .pass{position:relative}.pass .input{padding-right:43px}.eye{position:absolute;right:6px;top:29px;width:40px;height:42px;border:0;background:transparent;color:#73829a;cursor:pointer}.eye svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
 .row{display:flex;justify-content:space-between;align-items:center;margin:0 0 23px;font-size:14px}.remember{display:flex;align-items:center;gap:8px;color:#33425d}.remember input{width:19px;height:19px;margin:0;accent-color:#008f5b}.forgot{color:#008b58;text-decoration:none;font-weight:800}
 .btn{width:100%;height:57px;border:0;border-radius:9px;background:#008f5b;color:#fff;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 7px 18px #008f5b22}.btn svg{width:20px;height:20px;vertical-align:middle;fill:none;stroke:#fff;stroke-width:2}
@@ -60,7 +60,7 @@ html,body{margin:0;width:100%;height:100%;font-family:Inter,Arial,Helvetica,sans
 <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div><div><b>Multiple Payments</b><small>Cash • Mobile Money • Bank</small></div></div>
 </div></div>
 <div class="slogan">Kuku Bora, Mayai Bora<span>Maisha Bora</span></div>
-<div class="pills">🌿 Fresh Eggs &nbsp; • &nbsp; ♥ Healthy Families &nbsp; • &nbsp; ▮ A Better Tomorrow</div>
+<div class="pills">Fresh Eggs &nbsp; • &nbsp; Healthy Families &nbsp; • &nbsp; A Better Tomorrow</div>
 </div>
 </section>
 
