@@ -6,18 +6,8 @@ if(!$databaseUrl){
   $databaseUrl="pgsql://$user:$pass@$host:$port/$name";
 }
 $p=parse_url($databaseUrl);
-if($p===false || empty($p['host']) || empty($p['path'])){ die("Database connection failed."); }
-$dbHost=$p['host'];
-$dbPort=$p['port']??5432;
-$dbName=ltrim($p['path'],'/');
-$dbUser=isset($p['user'])?urldecode($p['user']):null;
-$dbPass=isset($p['pass'])?urldecode($p['pass']):null;
-$dsn="pgsql:host={$dbHost};port={$dbPort};dbname={$dbName}";
-$query=[];
-if(!empty($p['query'])){ parse_str($p['query'],$query); }
-$options=[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC];
-if(!empty($query['sslmode'])){ $dsn .= ";sslmode=" . preg_replace('/[^a-zA-Z0-9_-]/','',$query['sslmode']); }
-try{$pdo=new PDO($dsn,$dbUser,$dbPass,$options);}
+$dsn="pgsql:host={$p['host']};port=".($p['port']??5432).";dbname=".ltrim($p['path']??'','/');
+try{$pdo=new PDO($dsn,$p['user']??null,$p['pass']??null,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);}
 catch(PDOException $e){die("Database connection failed.");}
 class CompatResult{
   public function __construct(private $stmt){}
