@@ -73,7 +73,6 @@
   </div>
 </header>
 <?php
-<?php
 /* Low-stock warning is based on TOTAL available tray stock.
    Adding stock above 50 trays removes the warning automatically.
    Selling stock below 50 trays shows it again. */
