@@ -8,7 +8,7 @@ if(isset($_POST['save'])){
 }
 if(isset($_GET['delete'])){$id=(int)$_GET['delete'];$conn->query("DELETE FROM products WHERE id=$id");header("Location: products.php");exit;}
 $edit=null;if(isset($_GET['edit'])){$id=(int)$_GET['edit'];$edit=$conn->query("SELECT * FROM products WHERE id=$id")->fetch_assoc();}
-$perPage=15;
+$perPage=10;
 $page=max(1,(int)($_GET['page']??1));
 $totalProducts=(int)$conn->query("SELECT COUNT(*) AS c FROM products")->fetch_assoc()['c'];
 $totalPages=max(1,(int)ceil($totalProducts/$perPage));

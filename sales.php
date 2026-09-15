@@ -30,7 +30,7 @@ if(isset($_POST['save_sale'])){
 $products=$conn->query("SELECT * FROM products WHERE stock_quantity>0 ORDER BY name");
 $productCount=(int)$conn->query("SELECT COUNT(*) AS c FROM products WHERE stock_quantity>0")->fetch_assoc()['c'];
 $customers=$conn->query("SELECT * FROM customers ORDER BY name");
-$perPage = 15;
+$perPage = 10;
 $page = max(1, (int)($_GET['page'] ?? 1));
 $totalSales = (int)$conn->query("SELECT COUNT(*) AS c FROM sales")->fetch_assoc()['c'];
 $totalPages = max(1, (int)ceil($totalSales / $perPage));
