@@ -2,6 +2,12 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title><?=e($pageTitle)?> - EDM Kienyeji Egg Shop</title><link rel="stylesheet" href="assets/style.css">
+
+<style id="strong-password-rules">
+.password-rules{margin:6px 0 10px;color:#60736d;font-size:12px;line-height:1.5;}
+.password-rules b{color:#145c43;}
+input:invalid:not(:placeholder-shown){border-color:#d9a400;}
+</style>
 </head><body class="app-body <?=!empty($required) ? "password-required-mode" : ""?>">
 <aside class="sidebar">
   <div class="side-brand">

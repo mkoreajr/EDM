@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   $u=$stmt->get_result()->fetch_assoc();
 
   if(!$u || !hash_equals((string)$u['password'],hash('sha256',$current))) $error='Current password is incorrect.';
-  elseif(strlen($new)<6) $error='New password must be at least 6 characters.';
+  elseif(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/', $new)) $error='New password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.';
   elseif($new!==$confirm) $error='New password and confirmation do not match.';
   elseif(hash('sha256',$new)===$u['password']) $error='New password must be different from the current password.';
   else {
@@ -35,28 +35,28 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
     </div>
     <div class="welcome-kicker">SECURITY</div>
     <h1>Change Your Password</h1>
-    <p class="password-required-subtitle">For security, you must change your temporary password before entering the system.</p>
+    <p class="password-required-subtitle">For security, you must change your temporary password before entering the system.</p><p class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</p>
 
     <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 
     <form method="post" class="password-required-form">
       <div class="field"><label>Current Password</label><input type="password" name="current_password" required autocomplete="current-password"></div>
-      <div class="field"><label>New Password</label><input type="password" name="new_password" minlength="6" required autocomplete="new-password"></div>
-      <div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="6" required autocomplete="new-password"></div>
+      <div class="field"><label>New Password</label><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
+      <div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
       <button class="btn primary password-required-submit" type="submit">Set New Password</button>
     </form>
   </div>
 </div>
 <?php else: ?>
-<div class="page-intro centered-page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div>
+<div class="page-intro centered-page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div>
 <div class="panel password-panel">
 <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 <?php if($success):?><div class="alert success"><?=e($success)?></div><div class="form-actions"><a class="btn primary" href="dashboard.php">Continue to Dashboard</a></div><?php endif;?>
 <?php if(!$success):?>
 <form method="post" class="password-form">
 <div class="field"><label>Current Password</label><input type="password" name="current_password" required autocomplete="current-password"></div>
-<div class="field"><label>New Password</label><input type="password" name="new_password" minlength="6" required autocomplete="new-password"></div>
-<div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="6" required autocomplete="new-password"></div>
+<div class="field"><label>New Password</label><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
+<div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
 <div class="form-actions"><button class="btn primary" type="submit">Change Password</button><a class="btn secondary" href="dashboard.php">Cancel</a></div>
 </form>
 <?php endif;?>

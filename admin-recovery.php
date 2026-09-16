@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Admin recovery has already been used. Generate a new recovery code in Render before using this page again.';
     } elseif (!hash_equals($code, $entered)) {
         $error = 'Invalid recovery code.';
-    } elseif (strlen($newTemp) < 8) {
-        $error = 'Temporary password must be at least 8 characters.';
+    } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/', $newTemp)) {
+        $error = 'Temporary password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.';
     } else {
         try {
             $hash = hash('sha256', $newTemp);
@@ -76,7 +76,8 @@ a{display:block;text-align:center;margin-top:18px;color:#007b52;text-decoration:
 <label>Recovery Code</label>
 <input name="recovery_code" type="password" required autocomplete="off">
 <label>New Temporary Password</label>
-<input name="temporary_password" type="password" minlength="8" required autocomplete="new-password">
+<div class="password-rules">Use 8+ characters with uppercase, lowercase, a number, and a special character.</div>
+<input name="temporary_password" type="password" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character." required autocomplete="new-password">
 <button type="submit">Reset Admin Password</button>
 </form>
 <?php endif; ?>

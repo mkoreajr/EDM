@@ -21,8 +21,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             $adminError='Name, username and password are required.';
         }elseif(!in_array($role,['Cashier','Admin'],true)){
             $adminError='Invalid user role.';
-        }elseif(strlen($password)<6){
-            $adminError='Password must be at least 6 characters.';
+        }elseif(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/', $password)){
+            $adminError='Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.';
         }elseif($password!==$confirm){
             $adminError='Password confirmation does not match.';
         }else{
@@ -79,7 +79,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $id=(int)($_POST['user_id']??0);
         if($id>0){
             try{
-                $temporaryPassword='EDM'.random_int(100000,999999);
+                $chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
+                $temporaryPassword='';
+                for($i=0;$i<12;$i++) $temporaryPassword.=$chars[random_int(0,strlen($chars)-1)];
                 $hash=hash('sha256',$temporaryPassword);
                 $up=$conn->prepare("UPDATE users SET password=?,must_change_password=TRUE WHERE id=?");
                 $up->bind_param("si",$hash,$id); $up->execute();
@@ -271,7 +273,7 @@ try {
           <div class="settings-field"><label>Full Name</label><input name="user_name" type="text" required></div>
           <div class="settings-field"><label>Username</label><input name="user_username" type="text" required></div>
           <div class="settings-field"><label>Role</label><select name="user_role"><option value="Cashier">Cashier</option><option value="Admin">Admin</option></select></div>
-          <div class="settings-field"><label>Temporary Password</label><input name="user_password" type="password" minlength="6" required></div>
+          <div class="settings-field"><label>Temporary Password</label><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div><input name="user_password" type="password" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character." minlength="6" required></div>
           <div class="settings-field"><label>Confirm Password</label><input name="user_password_confirm" type="password" minlength="6" required></div>
           <div class="create-user-submit"><button class="add-user-btn filled" type="submit">
             <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
