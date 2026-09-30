@@ -31,7 +31,7 @@ require "partials/header.php";
 <div class="form-grid">
 <?php $editCat=$edit['category']??'Eggs'; ?>
 <div class="field"><label>Product Type</label><select name="category" id="category" required><option value="Eggs" <?= $editCat==='Eggs'?'selected':'' ?>>Eggs</option><option value="Rice" <?= $editCat==='Rice'?'selected':'' ?>>Rice</option><option value="Flour" <?= $editCat==='Flour'?'selected':'' ?>>Flour</option></select></div>
-<div class="field"><label>Product Name</label><input name="name" value="<?=e($edit['name']??'Eggs')?>" required></div>
+<div class="field"><label>Product Name</label><select name="name" id="product_name" required><option value="Eggs" <?= (($edit['name']??'Eggs')==='Eggs')?'selected':'' ?>>Eggs</option><option value="Rice" <?= (($edit['name']??'')==='Rice')?'selected':'' ?>>Rice</option><option value="Flour" <?= (($edit['name']??'')==='Flour')?'selected':'' ?>>Flour</option></select></div>
 <div class="field package-field"><label>Package Size (Kg)</label><input type="number" step="1" min="1" max="20" name="package_size_kg" id="package_size_kg" value="<?=e($edit['package_size_kg']??'')?>"><small class="field-help">For Rice/Flour: choose 1 Kg up to 20 Kg.</small></div>
 <div class="field"><label>Unit</label><input id="unit_display" value="<?=($edit['unit']??'Tray')?>" readonly><small class="field-help" id="unit_help">Egg stock is counted by tray. 1 tray = 30 eggs.</small></div>
 <div class="field"><label>Selling Price (TZS)</label><input type="number" step="0.01" min="0" name="selling_price" value="<?=e($edit['selling_price']??0)?>" required><small class="field-help" id="price_help">For Rice/Flour this is the price per bag/package.</small></div>
@@ -54,8 +54,20 @@ require "partials/header.php";
 <?php endif; ?></div></div>
 <style>.field-help{display:block;margin-top:5px;font-size:12px;color:#60736d}.field input[readonly]{background:#f7faf9;color:#1d2b27}.package-field.hidden{display:none}</style>
 <script>
-const cat=document.getElementById('category'), pkg=document.getElementById('package_size_kg'), unit=document.getElementById('unit_display'), stockLabel=document.getElementById('stock_label'), stockHelp=document.getElementById('stock_help'), unitHelp=document.getElementById('unit_help');
-function syncProductFields(){const egg=cat.value==='Eggs'; pkg.disabled=egg; pkg.required=!egg; pkg.closest('.package-field').classList.toggle('hidden',egg); unit.value=egg?'Tray':'Bag'; stockLabel.textContent=egg?'Stock Quantity (Trays)':'Stock Quantity (Bags)'; stockHelp.textContent=egg?'Enter whole trays. Example: 1 = 1 tray = 30 eggs.':'Enter whole bags/packages. Each bag uses the selected package size (1–20 Kg).'; unitHelp.textContent=egg?'Egg stock is counted by tray. 1 tray = 30 eggs.':'Rice/Flour stock is counted by bags/packages.';}
+const cat=document.getElementById('category'), productName=document.getElementById('product_name'), pkg=document.getElementById('package_size_kg'), unit=document.getElementById('unit_display'), stockLabel=document.getElementById('stock_label'), stockHelp=document.getElementById('stock_help'), unitHelp=document.getElementById('unit_help');
+function syncProductFields(){
+  const type=cat.value;
+  const egg=type==='Eggs';
+  const current=productName.value;
+  const names={Eggs:[['Eggs','Eggs']],Rice:[['Rice','Rice']],Flour:[['Flour','Flour']]};
+  productName.innerHTML=(names[type]||[]).map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+  productName.value=(names[type]||[]).some(([value])=>value===current)?current:type;
+  pkg.disabled=egg; pkg.required=!egg; pkg.closest('.package-field').classList.toggle('hidden',egg);
+  unit.value=egg?'Tray':'Bag';
+  stockLabel.textContent=egg?'Stock Quantity (Trays)':'Stock Quantity (Bags)';
+  stockHelp.textContent=egg?'Enter whole trays. Example: 1 = 1 tray = 30 eggs.':'Enter whole bags/packages. Each bag uses the selected package size (1–20 Kg).';
+  unitHelp.textContent=egg?'Egg stock is counted by tray. 1 tray = 30 eggs.':'Rice/Flour stock is counted by bags/packages.';
+}
 cat.addEventListener('change',syncProductFields); syncProductFields();
 </script>
 <?php require "partials/footer.php"; ?>
