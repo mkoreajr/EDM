@@ -32,10 +32,7 @@ if($format==='excel'){
 
 if($format==='pdf'){
  $logo=__DIR__.'/assets/branding/msinda-food-shop.jpg';
- if(!is_file($logo) || !is_readable($logo)){
-   http_response_code(500);
-   exit('Report logo is unavailable.');
- }
+ if(!is_file($logo) || !is_readable($logo)){ http_response_code(500); echo 'Report logo asset is missing.'; exit; }
  // Minimal dependency-free PDF generator. Uses a JPEG logo and standard Helvetica fonts.
  class SimplePDF{
   public array $pages=[]; private array $objs=[]; private string $pageContent=''; private int $pageW=595,$pageH=842;
@@ -47,10 +44,10 @@ if($format==='pdf'){
   function image($path,$x,$y,$w,$h){$this->pageContent.="q $w 0 0 $h $x ".($this->pageH-$y-$h)." cm /Im1 Do Q\n";}
   function output($imagePath){$this->addPage();$n=1;$catalog=1;$pages=2;$font1=3;$font2=4;$img=5;$next=6;$pageObjs=[];$contentObjs=[];
    $this->objs[$catalog]='';$this->objs[$pages]='';$this->objs[$font1]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>';$this->objs[$font2]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>';
-   $jpg=file_get_contents($imagePath);$im=getimagesize($imagePath);$this->objs[$img]='<< /Type /XObject /Subtype /Image /Width '.$im[0].' /Height '.$im[1].' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '.strlen($jpg).' >>\nstream\n'.$jpg.'\nendstream';
-   foreach($this->pages as $c){$co=$next++;$po=$next++;$this->objs[$co]='<< /Length '.strlen($c).' >>\nstream\n'.$c.'endstream';$this->objs[$po]='<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents '.$co.' 0 R >>';$pageObjs[]=$po;}
+   $jpg=file_get_contents($imagePath);$im=getimagesize($imagePath);$this->objs[$img]="<< /Type /XObject /Subtype /Image /Width {$im[0]} /Height {$im[1]} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ".strlen($jpg)." >>\nstream\n".$jpg."\nendstream";
+   foreach($this->pages as $c){$co=$next++;$po=$next++;$this->objs[$co]="<< /Length ".strlen($c)." >>\nstream\n".$c."endstream";$this->objs[$po]='<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents '.$co.' 0 R >>';$pageObjs[]=$po;}
    $kids=implode(' ',array_map(fn($v)=>$v.' 0 R',$pageObjs));$this->objs[$pages]='<< /Type /Pages /Kids ['.$kids.'] /Count '.count($pageObjs).' >>';$this->objs[$catalog]='<< /Type /Catalog /Pages 2 0 R >>';
-   ksort($this->objs);$pdf="%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";$offs=[0];foreach($this->objs as $id=>$body){$offs[$id]=strlen($pdf);$pdf.=$id." 0 obj\n".$body."\nendobj\n";}$xref=strlen($pdf);$max=max(array_keys($this->objs));$pdf.="xref\n0 ".($max+1)."\n0000000000 65535 f \n";for($i=1;$i<=$max;$i++)$pdf.=sprintf('%010d 00000 n \n',$offs[$i]??0);$pdf.="trailer << /Size ".($max+1)." /Root 1 0 R >>\nstartxref\n$xref\n%%EOF";return $pdf;
+   ksort($this->objs);$pdf="%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";$offs=[0];foreach($this->objs as $id=>$body){$offs[$id]=strlen($pdf);$pdf.=$id." 0 obj\n".$body."\nendobj\n";}$xref=strlen($pdf);$max=max(array_keys($this->objs));$pdf.="xref\n0 ".($max+1)."\n0000000000 65535 f \n";for($i=1;$i<=$max;$i++)$pdf.=sprintf("%010d 00000 n \n",$offs[$i]??0);$pdf.="trailer << /Size ".($max+1)." /Root 1 0 R >>\nstartxref\n$xref\n%%EOF";return $pdf;
   }
  }
  $pdf=new SimplePDF();$y=28;$pdf->image($logo,40,$y,170,57);$pdf->text(230,42,'MSINDA FOOD SHOP',20,true);$pdf->text(230,63,'SALES REPORT',12,true);$y=105;$pdf->text(40,$y,'Report Period: '.$from.' to '.$to,10,true);$pdf->text(40,$y+17,'Downloaded By: '.$downloadedBy,10);$pdf->text(40,$y+34,'Generated On: '.date('Y-m-d H:i'),10);$pdf->text(40,$y+51,'Total Sales: '.number_format((float)$summary['sale_count']).'    Total Amount: TZS '.money($summary['total']),10,true);$y+=78;
