@@ -98,6 +98,19 @@ body{overflow:hidden}
   .login-card{width:min(412px,calc(100vw - 36px))!important;}
   .right-footer{width:min(412px,calc(100vw - 36px))!important;}
 }
+
+/* Slogan attached to the slideshow card — matches the reference */
+@media(min-width:761px){
+  .left-slogan{
+    z-index:6!important;
+    top:calc(50% - 330px)!important;
+    left:calc(50% - min(40%,342px) - 125px)!important;
+    width:min(320px,36%)!important;
+    transform:translateY(-18px)!important;
+  }
+  .login-slideshow{z-index:1!important;}
+  .login-slide{z-index:1!important;}
+}
 </style>
 </head>
 <body>
