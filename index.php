@@ -116,6 +116,7 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 <body>
 <div class="page">
 <section class="left">
+<div class="left-slogan" aria-label="EDM slogan"><span class="slogan-leaf">⌁</span><div><strong>Chakula Bora</strong><b>kwa Familia Yako</b></div></div>
 <div class="login-slideshow" aria-label="EDM products">
   <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
   <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
@@ -202,5 +203,71 @@ function togglePassword(){const p=document.getElementById('password');p.type=p.t
 @media(max-width:760px){
   .right{border-left:0!important;border-top:1px solid rgba(255,255,255,.16)!important}
   .right .card{width:100%!important}
+}
+</style>
+
+<style id="login-edm-brand-v50">
+/* V50: EDM retail brand slogan + unified green background */
+.left{
+  background:
+    radial-gradient(circle at 12% 12%,rgba(38,190,111,.24) 0 120px,transparent 300px),
+    radial-gradient(circle at 82% 86%,rgba(45,170,105,.12) 0 160px,transparent 330px),
+    linear-gradient(145deg,#075a3b 0%,#064f36 52%,#073f2d 100%)!important;
+}
+.left-slogan{
+  position:absolute;
+  z-index:6;
+  top:30px;
+  left:5.5%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 18px 12px 12px;
+  border-radius:8px 8px 28px 8px;
+  background:linear-gradient(145deg,#0a6a3e 0%,#075431 70%);
+  border:2px solid #d9c92c;
+  box-shadow:0 10px 25px rgba(0,0,0,.22);
+  transform:rotate(-3deg);
+  color:#fff;
+}
+.left-slogan:after{
+  content:"";
+  position:absolute;
+  left:32px;
+  right:20px;
+  bottom:-5px;
+  height:3px;
+  border-radius:50%;
+  background:#f3d52b;
+  transform:rotate(-2deg);
+}
+.left-slogan .slogan-leaf{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#8ee19c;
+  font-size:30px;
+  font-weight:900;
+  transform:rotate(-28deg);
+}
+.left-slogan strong,.left-slogan b{
+  display:block;
+  font-family:cursive;
+  font-style:italic;
+  line-height:.95;
+  white-space:nowrap;
+}
+.left-slogan strong{font-size:25px;color:#fff}
+.left-slogan b{font-size:23px;color:#ffe22d;margin-top:5px}
+.login-slideshow{background:transparent!important}
+@media(max-width:1100px){
+  .left-slogan{top:22px;left:5%;padding:8px 14px 10px 9px}
+  .left-slogan strong{font-size:20px}
+  .left-slogan b{font-size:18px}
+}
+@media(max-width:760px){
+  .left-slogan{top:18px;left:6%;transform:rotate(-2deg) scale(.86);transform-origin:left top}
 }
 </style>
