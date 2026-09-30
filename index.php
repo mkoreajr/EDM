@@ -32,13 +32,13 @@ body{overflow:auto}
 .left-slogan{position:absolute!important;z-index:6!important;top:22px!important;left:24px!important;width:min(310px,42%)!important;height:auto!important;pointer-events:none}
 .left-slogan img{width:100%;height:auto;display:block;object-fit:contain}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(145deg,#08734a,#045236)!important}
-.login-slide{position:absolute;left:50%;top:51%;width:84%;max-width:700px;aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity .7s ease;z-index:1;overflow:hidden;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.login-slide{position:absolute;left:50%;top:51%;width:80%;max-width:680px;aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity .7s ease;z-index:1;overflow:hidden;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.22)}
 .login-slide.active{opacity:1}
 .login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;background:transparent}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,58,38,.08),rgba(0,48,31,.18))}
 .slide-dots{position:absolute;z-index:7;left:50%;bottom:27px;transform:translateX(-50%);display:flex;gap:7px;padding:6px 9px;border-radius:18px;background:rgba(0,0,0,.28)}
 .slide-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.65);transition:.25s}.slide-dots .dot.active{width:20px;border-radius:8px;background:#ffd447}
-.left-secure{position:absolute!important;z-index:7!important;left:30px!important;bottom:25px!important;transform:none!important;color:#fff!important;font-size:13px!important;font-weight:700!important;text-shadow:0 1px 2px rgba(0,0,0,.2);white-space:nowrap}
+.left-secure{position:absolute!important;z-index:7!important;left:30px!important;bottom:8px!important;transform:none!important;color:#fff!important;font-size:13px!important;font-weight:700!important;text-shadow:0 1px 2px rgba(0,0,0,.2);white-space:nowrap}
 .left-secure svg{width:15px;height:15px;vertical-align:middle;margin-right:5px;fill:none;stroke:#ffd447;stroke-width:2}
 /* Right login side */
 .login-card{position:relative;z-index:3;width:100%;padding:0;background:transparent;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
@@ -75,7 +75,6 @@ body{overflow:auto}
   <div class="center-divider" aria-hidden="true"></div>
   <div class="glow"></div>
   <section class="left" aria-label="EDM products">
-    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.webp" alt="Chakula Bora kwa Familia Yako"></div>
     <div class="login-slideshow">
       <?php if($customSlides): ?>
         <?php foreach($customSlides as $i=>$slide): ?>
