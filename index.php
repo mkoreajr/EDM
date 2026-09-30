@@ -119,7 +119,7 @@ body{overflow:hidden}
 <div class="login-page">
   <div class="glow"></div>
   <section class="left" aria-label="EDM products">
-    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan-straight.png" alt="Chakula Bora kwa Familia Yako"></div>
+    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.png" alt="Chakula Bora kwa Familia Yako"></div>
     <div class="login-slideshow">
       <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
       <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
