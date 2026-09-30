@@ -31,10 +31,10 @@ if($format==='excel'){
 }
 
 if($format==='pdf'){
- $logo='/var/www/html/assets/branding/msinda-food-shop.jpg';
- if(!file_exists($logo)){
-   $src='/var/www/html/assets/branding/msinda-food-shop.png';
-   if(file_exists($src) && function_exists('shell_exec')) @shell_exec('convert '.escapeshellarg($src).' -background white -alpha remove -alpha off -quality 88 '.escapeshellarg($logo));
+ $logo=__DIR__.'/assets/branding/msinda-food-shop.jpg';
+ if(!is_file($logo) || !is_readable($logo)){
+   http_response_code(500);
+   exit('Report logo is unavailable.');
  }
  // Minimal dependency-free PDF generator. Uses a JPEG logo and standard Helvetica fonts.
  class SimplePDF{
