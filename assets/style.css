@@ -1704,3 +1704,26 @@ html, body, button, input, select, textarea, table {
     box-shadow:0 1px 0 rgba(16,37,30,.06)!important;
   }
 }
+
+/* SIDEBAR EDM LOGO */
+.app-body .side-brand-logo{
+  justify-content:center!important;
+  padding:4px 6px 20px!important;
+  min-height:78px;
+}
+.app-body .sidebar-edm-logo{
+  display:block;
+  width:min(222px,100%);
+  height:auto;
+  max-height:78px;
+  object-fit:contain;
+  object-position:center;
+}
+@media(max-width:900px){
+  .app-body .side-brand-logo{padding:4px 4px 16px!important;}
+  .app-body .sidebar-edm-logo{width:54px;max-height:54px;object-fit:contain;}
+}
+@media(max-width:850px){
+  .app-body.sidebar-mobile-open .side-brand-logo{justify-content:center!important;}
+  .app-body.sidebar-mobile-open .sidebar-edm-logo{width:190px;max-height:70px;}
+}

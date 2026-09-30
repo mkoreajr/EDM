@@ -10,9 +10,8 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
 </style>
 </head><body class="app-body <?=!empty($required) ? "password-required-mode" : ""?>">
 <aside class="sidebar">
-  <div class="side-brand">
-    <div class="side-egg brand-mark-code"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M12 2C8.5 5.2 6 9.1 6 13.1A6 6 0 0 0 18 13c0-4-2.5-7.8-6-11Z" fill="currentColor"/></svg></div>
-    <div><strong>EDM <span>KIENYEJI</span></strong><b>— EGG SHOP —</b><small>Fresh Eggs • Healthy Families</small></div>
+  <div class="side-brand side-brand-logo">
+    <img src="assets/edm-sidebar.png" alt="EDM" class="sidebar-edm-logo">
   </div>
   <nav class="side-nav">
     <a class="<?=($active??'')==='dashboard'?'active':''?>" href="dashboard.php"><span class="nav-ico"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v8a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1v-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Home</a>
