@@ -1727,3 +1727,8 @@ html, body, button, input, select, textarea, table {
   .app-body.sidebar-mobile-open .side-brand-logo{justify-content:center!important;}
   .app-body.sidebar-mobile-open .sidebar-edm-logo{width:190px;max-height:70px;}
 }
+
+/* v71: remove the global top search bar */
+.app-topbar > .searchbox{display:none!important;}
+.app-topbar{justify-content:flex-start!important;}
+.app-topbar .top-actions{margin-left:auto!important;}

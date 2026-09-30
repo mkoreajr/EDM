@@ -31,7 +31,6 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
 <main class="content">
 <header class="topbar app-topbar">
   <button class="menu-btn" type="button" aria-label="Menu">☰</button>
-  <div class="searchbox"><span>⌕</span><input type="search" placeholder="Search products, customers, sales..."></div>
   <?php
     $uid=(int)($_SESSION['user_id']??0);
     $unread=0; $notifItems=[];
