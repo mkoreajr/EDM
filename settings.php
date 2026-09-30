@@ -7,8 +7,75 @@ require "partials/header.php";
 
 
 $adminMessage=''; $adminError=''; $temporaryPassword='';
+
+// Load persistent shop/system settings.
+$settings = [
+    'shop_name'=>'MSINDA — FOOD SHOP',
+    'shop_phone'=>'0712 345 678',
+    'shop_address'=>'Mwanza, Tanzania',
+    'shop_email'=>'',
+    'receipt_show_shop_name'=>'1',
+    'receipt_show_address'=>'1',
+    'receipt_show_phone'=>'1',
+    'receipt_show_number'=>'1',
+    'receipt_show_datetime'=>'1',
+    'receipt_show_cashier'=>'1',
+    'receipt_show_thanks'=>'1',
+    'receipt_footer'=>'Thank you for shopping with us!',
+    'currency'=>'TZS',
+    'date_format'=>'DD MMM YYYY',
+    'time_format'=>'24 Hours',
+    'low_stock_alert'=>'1',
+    'default_payment'=>'Cash'
+];
+try {
+    $sr=$conn->query("SELECT setting_key,setting_value FROM app_settings");
+    if($sr){ while($r=$sr->fetch_assoc()){ $settings[$r['setting_key']]=$r['setting_value']; } }
+} catch(Throwable $e) {}
+
+function save_app_setting($conn,$key,$value){
+    $q=$conn->prepare("INSERT INTO app_settings(setting_key,setting_value) VALUES(?,?) ON CONFLICT(setting_key) DO UPDATE SET setting_value=EXCLUDED.setting_value");
+    $q->bind_param("ss",$key,$value); $q->execute();
+}
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $action=$_POST['user_action']??'';
+
+    if($action==='save_business_settings'){
+        try{
+            save_app_setting($conn,'shop_name',trim($_POST['shop_name']??''));
+            save_app_setting($conn,'shop_phone',trim($_POST['shop_phone']??''));
+            save_app_setting($conn,'shop_address',trim($_POST['shop_address']??''));
+            save_app_setting($conn,'shop_email',trim($_POST['shop_email']??''));
+            $adminMessage='Business information saved successfully.';
+        }catch(Throwable $e){ $adminError='Business information could not be saved.'; }
+    }
+
+    if($action==='save_receipt_settings'){
+        try{
+            foreach(['shop_name','address','phone','number','datetime','cashier','thanks'] as $k){
+                save_app_setting($conn,'receipt_show_'.$k,isset($_POST['receipt_show_'.$k])?'1':'0');
+            }
+            save_app_setting($conn,'receipt_footer',trim($_POST['receipt_footer']??''));
+            $adminMessage='Receipt settings saved successfully.';
+        }catch(Throwable $e){ $adminError='Receipt settings could not be saved.'; }
+    }
+
+    if($action==='save_system_settings'){
+        try{
+            $currency=$_POST['currency']??'TZS';
+            $dateFormat=$_POST['date_format']??'DD MMM YYYY';
+            $timeFormat=$_POST['time_format']??'24 Hours';
+            $lowStock=($_POST['low_stock_alert']??'1')==='1'?'1':'0';
+            $payment=$_POST['default_payment']??'Cash';
+            if(!in_array($payment,['Cash','Mobile Money','Bank'],true)) $payment='Cash';
+            save_app_setting($conn,'currency',$currency);
+            save_app_setting($conn,'date_format',$dateFormat);
+            save_app_setting($conn,'time_format',$timeFormat);
+            save_app_setting($conn,'low_stock_alert',$lowStock);
+            save_app_setting($conn,'default_payment',$payment);
+            $adminMessage='System preferences saved successfully.';
+        }catch(Throwable $e){ $adminError='System preferences could not be saved.'; }
+    }
 
     if($action==='upload_slide'){
         $file=$_FILES['slide_image']??null;
@@ -186,28 +253,31 @@ try {
           <p>Update your shop details shown on receipts.</p>
         </div>
       </div>
+      <form method="post">
+        <input type="hidden" name="user_action" value="save_business_settings">
       <div class="settings-fields">
         <div class="settings-field full">
           <label>Shop Name <b>*</b></label>
-          <input type="text" value="EDM Kienyeji Food Shop">
+          <input name="shop_name" type="text" value="<?=e($settings['shop_name'])?>" required>
         </div>
         <div class="settings-field">
           <label>Phone Number</label>
-          <input type="text" value="0712 345 678">
+          <input name="shop_phone" type="text" value="<?=e($settings['shop_phone'])?>">
         </div>
         <div class="settings-field">
           <label>Address</label>
-          <input type="text" value="Kibaha, Pwani">
+          <input name="shop_address" type="text" value="<?=e($settings['shop_address'])?>">
         </div>
         <div class="settings-field full">
           <label>Email (Optional)</label>
-          <input type="email" value="info@edmkenyeji.co.tz">
+          <input name="shop_email" type="email" value="<?=e($settings['shop_email'])?>">
         </div>
       </div>
-      <button class="settings-save" type="button">
+      <button class="settings-save" type="submit">
         <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
         Save Changes
       </button>
+      </form>
     </section>
 
     <!-- Receipt Setting -->
@@ -225,25 +295,28 @@ try {
         </div>
       </div>
 
+      <form method="post">
+        <input type="hidden" name="user_action" value="save_receipt_settings">
       <div class="receipt-options">
-        <label><input type="checkbox" checked><span>Show shop name</span></label>
-        <label><input type="checkbox" checked><span>Show address</span></label>
-        <label><input type="checkbox" checked><span>Show phone number</span></label>
-        <label><input type="checkbox" checked><span>Show receipt number</span></label>
-        <label><input type="checkbox" checked><span>Show date &amp; time</span></label>
-        <label><input type="checkbox" checked><span>Show cashier name</span></label>
-        <label><input type="checkbox" checked><span>Show thank you message</span></label>
+        <label><input name="receipt_show_shop_name" type="checkbox" <?=($settings['receipt_show_shop_name']==='1'?'checked':'')?>><span>Show shop name</span></label>
+        <label><input name="receipt_show_address" type="checkbox" <?=($settings['receipt_show_address']==='1'?'checked':'')?>><span>Show address</span></label>
+        <label><input name="receipt_show_phone" type="checkbox" <?=($settings['receipt_show_phone']==='1'?'checked':'')?>><span>Show phone number</span></label>
+        <label><input name="receipt_show_number" type="checkbox" <?=($settings['receipt_show_number']==='1'?'checked':'')?>><span>Show receipt number</span></label>
+        <label><input name="receipt_show_datetime" type="checkbox" <?=($settings['receipt_show_datetime']==='1'?'checked':'')?>><span>Show date &amp; time</span></label>
+        <label><input name="receipt_show_cashier" type="checkbox" <?=($settings['receipt_show_cashier']==='1'?'checked':'')?>><span>Show cashier name</span></label>
+        <label><input name="receipt_show_thanks" type="checkbox" <?=($settings['receipt_show_thanks']==='1'?'checked':'')?>><span>Show thank you message</span></label>
       </div>
 
       <div class="settings-field full receipt-message">
         <label>Receipt Footer Message</label>
-        <textarea>Thank you for supporting local farmers!</textarea>
+        <textarea name="receipt_footer"><?=e($settings['receipt_footer'])?></textarea>
       </div>
 
-      <button class="settings-save" type="button">
+      <button class="settings-save" type="submit">
         <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
         Save Changes
       </button>
+      </form>
     </section>
 
     <!-- System Preferences -->
@@ -261,37 +334,40 @@ try {
         </div>
       </div>
 
+      <form method="post">
+        <input type="hidden" name="user_action" value="save_system_settings">
       <div class="settings-fields">
         <div class="settings-field full">
           <label>Currency</label>
-          <select><option selected>Tanzanian Shilling (TSh)</option></select>
+          <select name="currency"><option value="TZS" <?=($settings['currency']==='TZS'?'selected':'')?>>Tanzanian Shilling (TSh)</option></select>
         </div>
         <div class="settings-field">
           <label>Date Format</label>
-          <select><option selected>DD MMM YYYY (e.g. 11 Sep 2024)</option></select>
+          <select name="date_format"><option value="DD MMM YYYY" <?=($settings['date_format']==='DD MMM YYYY'?'selected':'')?>>DD MMM YYYY (e.g. 11 Sep 2024)</option></select>
         </div>
         <div class="settings-field">
           <label>Time Format</label>
-          <select><option selected>24 Hours (e.g. 14:30)</option></select>
+          <select name="time_format"><option value="24 Hours" <?=($settings['time_format']==='24 Hours'?'selected':'')?>>24 Hours (e.g. 14:30)</option></select>
         </div>
         <div class="settings-field">
           <label>Low Stock Alert</label>
-          <select><option selected>Enable</option><option>Disable</option></select>
+          <select name="low_stock_alert"><option value="1" <?=($settings['low_stock_alert']==="1"?'selected':'')?>>Enable</option><option value="0" <?=($settings['low_stock_alert']!=="1"?'selected':'')?>>Disable</option></select>
         </div>
         <div class="settings-field">
           <label>Default Payment Method (POS)</label>
-          <select>
-            <option selected>Cash</option>
-            <option>Mobile Money</option>
-            <option>Bank</option>
+          <select name="default_payment">
+            <option value="Cash" <?=($settings['default_payment']==='Cash'?'selected':'')?>>Cash</option>
+            <option value="Mobile Money" <?=($settings['default_payment']==='Mobile Money'?'selected':'')?>>Mobile Money</option>
+            <option value="Bank" <?=($settings['default_payment']==='Bank'?'selected':'')?>>Bank</option>
           </select>
         </div>
       </div>
 
-      <button class="settings-save" type="button">
+      <button class="settings-save" type="submit">
         <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
         Save Changes
       </button>
+      </form>
     </section>
 
     <!-- Login Slideshow -->
