@@ -1,6 +1,6 @@
 <footer class="app-footer">
   <div class="footer-content">
-    <div>© 2026 MSINDA Food Shop</div>
+    <div>© 2026 MSINDA Food Shop | All Rights Reserved.</div>
     <div class="footer-tagline">“Mchele • Unga • Mayai”</div>
   </div>
 </footer>
