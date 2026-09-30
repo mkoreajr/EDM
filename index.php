@@ -99,15 +99,18 @@ body{overflow:hidden}
   .right-footer{width:min(412px,calc(100vw - 36px))!important;}
 }
 
-/* Slogan attached to the slideshow card — matches the reference */
+/* Final requested layout: slogan sits above the slideshow, separate and not overlapping */
 @media(min-width:761px){
   .left-slogan{
+    position:absolute!important;
     z-index:6!important;
-    top:calc(50% - 330px)!important;
-    left:calc(50% - min(40%,342px) - 125px)!important;
-    width:min(320px,36%)!important;
+    top:18px!important;
+    left:24px!important;
+    width:min(360px,34%)!important;
+    height:auto!important;
     transform:none!important;
   }
+  .left-slogan img{width:100%!important;height:auto!important;display:block!important;object-fit:contain!important;}
   .login-slideshow{z-index:1!important;}
   .login-slide{z-index:1!important;}
 }
