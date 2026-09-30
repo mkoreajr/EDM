@@ -240,7 +240,7 @@ try {
   <div class="settings-four-grid">
 
     <!-- System Preferences -->
-    <section class="settings-section">
+    <section class="settings-section system-preferences-section">
       <div class="settings-section-head">
         <div class="settings-section-icon system-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">

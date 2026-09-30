@@ -1833,3 +1833,51 @@ html, body, button, input, select, textarea, table {
     z-index:2200 !important;
   }
 }
+
+
+/* v102: polished System Preferences layout */
+.system-preferences-section{
+  grid-column:1/-1;
+  padding:20px 20px 18px;
+  background:linear-gradient(135deg,#ffffff 0%,#fbfefd 100%);
+  border-color:#dfeae5;
+  box-shadow:0 7px 24px rgba(12,92,63,.07);
+}
+.system-preferences-section .settings-section-head{
+  margin-bottom:18px;
+  padding-bottom:14px;
+  border-bottom:1px solid #e7efeb;
+}
+.system-preferences-section .settings-section-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:#e7f8ef;color:#008b59;
+  box-shadow:inset 0 0 0 1px #d4eee2;
+}
+.system-preferences-section .settings-section-head h2{font-size:16px;letter-spacing:-.15px}
+.system-preferences-section .settings-section-head p{font-size:11.5px}
+.system-preferences-section .settings-fields{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:14px;
+}
+.system-preferences-section .settings-field.full{grid-column:auto}
+.system-preferences-section .settings-field label{
+  font-size:10.5px;font-weight:700;margin-bottom:6px;color:#26394a;
+}
+.system-preferences-section .settings-field select{
+  height:40px;border-radius:8px;background:#fff;
+  font-size:11px;border-color:#d7e3dd;
+  box-shadow:0 1px 2px rgba(18,53,41,.025);
+}
+.system-preferences-section .settings-field select:hover{border-color:#b9d5c8}
+.system-preferences-section .settings-save{
+  width:190px;height:38px;margin:16px 0 0 auto;border-radius:8px;
+  font-size:11.5px;box-shadow:0 5px 12px rgba(0,139,89,.15);
+}
+@media(max-width:1100px){
+  .system-preferences-section .settings-fields{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@media(max-width:700px){
+  .system-preferences-section{padding:16px}
+  .system-preferences-section .settings-fields{grid-template-columns:1fr}
+  .system-preferences-section .settings-save{width:100%;margin-top:14px}
+}
