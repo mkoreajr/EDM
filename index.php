@@ -124,7 +124,6 @@ body{overflow:hidden}
       <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
       <div class="login-slide-overlay"></div>
       <div class="slide-dots" aria-hidden="true"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
-      <a class="slide-more" href="#" onclick="return false;">SOMA ZAIDI&nbsp; →</a>
       <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
     </div>
   </section>
