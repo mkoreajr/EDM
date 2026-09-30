@@ -83,7 +83,7 @@ body{
   margin-top:5px;padding:9px;border-radius:7px;background:#e3f6ed;
   display:flex;justify-content:space-between;font-size:16px;font-weight:800;color:#10372b;
 }
-.payment-row{display:flex;justify-content:space-between;padding:8px 6px 0;font-size:12px}
+.payment-row{text-align:center;padding:10px 6px 0;font-size:12px;font-weight:700}.payment-row b{font-weight:700}
 .receipt-thanks{text-align:center;padding:17px 16px 7px;color:#4e665e;font-size:11px;font-weight:700;font-style:italic}
 .receipt-tagline{text-align:center;color:#5d6e69;font-size:10px;font-style:italic;padding-bottom:5px}
 @media(max-width:560px){
@@ -167,7 +167,7 @@ body{
       <div class="grand-total"><span>TOTAL (TSH)</span><span>TZS <?=money($s['total_amount'])?></span></div>
     </div>
 
-    <div class="payment-row"><span>Payment Method:</span><b><?=e(strtoupper($s['payment_method']))?></b></div>
+    <div class="payment-row">Payment Method: <b><?=e(strtolower($s['payment_method']))?></b></div>
     <div class="receipt-thanks">Thank you for shopping with us!</div>
     <div class="receipt-tagline">“Mchele • Unga • Mayai”</div>
   </div>
