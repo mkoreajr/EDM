@@ -55,9 +55,9 @@ body{
   background:#fff;border:1px solid #dce8e3;border-radius:13px;
   box-shadow:0 14px 40px rgba(0,72,48,.10);overflow:hidden;
 }
-.receipt-header{text-align:center;padding:25px 25px 14px}
+.receipt-header{text-align:center;padding:18px 25px 10px}
 .shop-logo{
-  width:180px;height:auto;max-height:72px;margin:0 auto 10px;
+  width:180px;height:auto;max-height:72px;margin:0 auto 2px;
   display:block;object-fit:contain;
 }
 .shop-logo img{width:100%;height:auto;display:block;object-fit:contain}
@@ -131,9 +131,6 @@ body{
   <div class="receipt-card" id="receiptDocument">
     <div class="receipt-header">
       <img class="shop-logo" src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop logo">
-      <h1>MSINDA — FOOD SHOP</h1>
-      <div class="shop-sub">Mchele • Unga • Mayai</div>
-      <div class="shop-address">Mwanza, Tanzania<br>Phone: 0712 345 678</div>
     </div>
 
     <div class="receipt-title">SALES RECEIPT</div>

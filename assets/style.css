@@ -1881,3 +1881,37 @@ html, body, button, input, select, textarea, table {
   .system-preferences-section .settings-fields{grid-template-columns:1fr}
   .system-preferences-section .settings-save{width:100%;margin-top:14px}
 }
+
+/* v104: slightly larger website typography for readability */
+body.app-body{font-size:14px!important}
+.app-body .side-nav a{font-size:17px!important}
+.app-body .nav-ico{font-size:24px!important}
+.app-body .topbar h2{font-size:22px!important}
+.app-body .profile strong{font-size:18px!important}
+.app-body .profile small{font-size:12px!important}
+.app-body .searchbox input{font-size:17px!important}
+.app-body .stat-card .label,.app-body .card .label{font-size:15px!important}
+.app-body .stat-card .value,.app-body .card .value{font-size:27px!important}
+.app-body .quick-card h3{font-size:15px!important}
+.app-body .quick-card p{font-size:13px!important}
+.app-body table th{font-size:14px!important}
+.app-body table td{font-size:14px!important}
+.app-body .btn{font-size:14px!important}
+.app-body .btn-sm{font-size:14px!important}
+.app-body .field label,.app-body .settings-field label{font-size:13px!important}
+.app-body .field input,.app-body .field select,.app-body .field textarea{font-size:14px!important}
+.app-body .settings-field input,.app-body .settings-field select,.app-body .settings-field textarea{font-size:12px!important}
+.app-body .settings-section-head h2{font-size:17px!important}
+.app-body .settings-section-head p{font-size:12.5px!important}
+.app-body .settings-user-table th{font-size:11px!important}
+.app-body .settings-user-table td{font-size:12px!important}
+.app-body .settings-user-table td strong{font-size:12px!important}
+.app-body .settings-user-table td small{font-size:10px!important}
+.app-body .alert{font-size:14px!important}
+.app-body .app-footer{font-size:13px!important}
+@media(max-width:620px){
+  .app-body .side-nav a{font-size:17px!important}
+  .app-body .app-topbar{font-size:14px!important}
+  .app-body table th,.app-body table td{font-size:13.5px!important}
+  .app-body .field input,.app-body .field select,.app-body .field textarea{font-size:14px!important}
+}
