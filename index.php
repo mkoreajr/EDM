@@ -86,6 +86,18 @@ body{overflow:hidden}
  .logo-wrap{height:92px;width:205px}
  .left-slogan{top:8px;left:4%;width:min(360px,58%)}
 }
+
+/* Final reference layout tuning */
+@media(min-width:761px){
+  .left-slogan{top:8px!important;left:2.2%!important;width:min(320px,36%)!important;}
+  .login-slide{width:min(80%,684px)!important;}
+  .slide-dots{bottom:108px!important;}
+  .slide-more{bottom:58px!important;}
+  .left-secure{bottom:18px!important;}
+  .right-panel{padding-left:6.5%!important;padding-right:6.5%!important;}
+  .login-card{width:min(412px,calc(100vw - 36px))!important;}
+  .right-footer{width:min(412px,calc(100vw - 36px))!important;}
+}
 </style>
 </head>
 <body>
