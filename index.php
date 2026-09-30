@@ -23,11 +23,8 @@ body{overflow:hidden}
 }
 /* Left-side EDM product showcase */
 .left{position:relative;height:100%;overflow:hidden;background:transparent!important;border-right:1px solid rgba(255,255,255,.14);}
-.left-slogan{position:absolute;z-index:5;top:22px;left:4.5%;display:flex;align-items:center;gap:8px;padding:8px 14px 10px 9px;border-radius:16px;background:linear-gradient(135deg,#08653f 0%,#07512f 100%);border:2px solid #d8d500;box-shadow:0 8px 20px rgba(0,0,0,.16);transform:rotate(-2deg);}
-.left-slogan:after{content:"";position:absolute;left:32px;bottom:-10px;width:68px;height:5px;background:#ffd43f;border-radius:50%;transform:rotate(-4deg);}
-.left-slogan .slogan-leaf{font-size:30px;color:#76d44f;line-height:1;transform:rotate(-20deg);}
-.left-slogan strong,.left-slogan b{display:block;font-family:Georgia,serif;font-style:italic;line-height:1}
-.left-slogan strong{font-size:25px;color:#fff}.left-slogan b{font-size:23px;color:#ffe22d;margin-top:5px}
+.left-slogan{position:absolute;z-index:5;top:10px;left:2.5%;width:min(430px,48%);height:auto;display:block;pointer-events:none;}
+.left-slogan img{display:block;width:100%;height:auto;object-fit:contain;}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent!important;}
 .login-slide{position:absolute;left:50%;top:50%;width:min(76%,620px);aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity 900ms ease-in-out;z-index:1;overflow:hidden;border-radius:20px;box-shadow:0 18px 45px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);background:transparent;}
 .login-slide.active{opacity:1}
@@ -35,7 +32,7 @@ body{overflow:hidden}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at center,rgba(0,0,0,0) 0%,rgba(0,45,28,.05) 100%)}
 .slide-dots{position:absolute;z-index:3;left:50%;bottom:112px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
 .slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s ease}.slide-dots .dot.active{width:22px;border-radius:10px;background:#ffd43f}
-.slide-more{position:absolute;z-index:4;left:50%;bottom:62px;transform:translateX(-50%);padding:11px 23px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:#ffd34e;color:#173b29;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.slide-more{position:absolute;z-index:4;left:50%;bottom:82px;transform:translateX(-50%);padding:11px 23px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:#ffd34e;color:#173b29;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
 /* subtle reference-style decorative circles */
 .login-page:before,.login-page:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
 .login-page:before{width:165px;height:165px;right:5%;top:7%}
@@ -76,18 +73,18 @@ body{overflow:hidden}
 .btn:hover{background:#3ac980}
 .secure{margin-top:15px;padding:9px 8px;text-align:center;border-radius:9px;background:rgba(48,190,117,.08);border:1px solid rgba(255,255,255,.11);color:#c5e9d7;font-size:9px;font-weight:700}
 .secure svg{width:13px;height:13px;vertical-align:middle;margin-right:4px;fill:none;stroke:#75d9a5;stroke-width:2}
-.left-secure{position:absolute;z-index:4;left:50%;bottom:20px;transform:translateX(-50%);white-space:nowrap;color:#c5e9d7;font-size:10px;font-weight:700;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.15)}.left-secure svg{width:14px;height:14px;vertical-align:middle;margin-right:5px;fill:none;stroke:#75d9a5;stroke-width:2}
+.left-secure{position:absolute;z-index:4;left:50%;bottom:18px;transform:translateX(-50%);white-space:nowrap;color:#c5e9d7;font-size:10px;font-weight:700;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.15)}.left-secure svg{width:14px;height:14px;vertical-align:middle;margin-right:5px;fill:none;stroke:#75d9a5;stroke-width:2}
 .right-footer{position:relative;z-index:2;width:min(420px,calc(100vw - 36px));text-align:center;margin-top:12px}.support{text-align:center;color:#9fc5b4;font-size:8.5px;line-height:1.5;margin:0}.support a{color:#bfe9d6;text-decoration:none}.footer{text-align:center;color:#87b4a2;font-size:8px;margin-top:7px}
 @media(max-width:760px){
  body{overflow:auto}
  .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
  .left{height:430px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
  .login-slide{width:78%;aspect-ratio:3/2}
- .slide-dots{bottom:82px}.slide-more{bottom:42px}.left-secure{bottom:12px;font-size:9px}
+ .slide-dots{bottom:104px}.slide-more{bottom:58px}.left-secure{bottom:10px;font-size:9px}
  .right-panel{min-height:calc(100vh - 430px);padding:28px 8%}
  .login-card{width:min(410px,calc(100vw - 28px));padding:24px 23px 20px}
  .logo-wrap{height:92px;width:205px}
- .left-slogan{top:14px;left:5%;transform:rotate(-2deg) scale(.82);transform-origin:left top}
+ .left-slogan{top:8px;left:4%;width:min(360px,58%)}
 }
 </style>
 </head>
@@ -95,7 +92,7 @@ body{overflow:hidden}
 <div class="login-page">
   <div class="glow"></div>
   <section class="left" aria-label="EDM products">
-    <div class="left-slogan" aria-label="EDM slogan"><span class="slogan-leaf">⌁</span><div><strong>Chakula Bora</strong><b>kwa Familia Yako</b></div></div>
+    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.png" alt="Chakula Bora kwa Familia Yako"></div>
     <div class="login-slideshow">
       <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
       <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
