@@ -11,7 +11,7 @@ $s=$conn->query("SELECT s.*,COALESCE(c.name,'Walk-in Customer') AS customer,COAL
 
 if(!$s) die("Sale not found.");
 
-$itemsRes=$conn->query("SELECT si.*,p.name,p.unit FROM sale_items si JOIN products p ON p.id=si.product_id WHERE si.sale_id=$id ORDER BY si.id");
+$itemsRes=$conn->query("SELECT si.*,p.name,p.unit,p.category,p.package_size_kg FROM sale_items si JOIN products p ON p.id=si.product_id WHERE si.sale_id=$id ORDER BY si.id");
 $items=[]; $subtotal=0;
 if($itemsRes){
   while($row=$itemsRes->fetch_assoc()){
@@ -150,10 +150,10 @@ body{
     <table class="receipt-table">
       <thead><tr><th>SN</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
       <tbody>
-      <?php $no=1; foreach($items as $i): ?>
+      <?php $no=1; foreach($items as $i): $itemPackage=($i['category']==='Eggs') ? 'Tray' : number_format((float)$i['package_size_kg'],0).' Kg Bag'; ?>
         <tr>
           <td><?=$no++?></td>
-          <td><?=e($i['name'])?> (<?=e($i['unit'])?>)</td>
+          <td><?=e($i['name'])?> (<?=e($itemPackage)?>)</td>
           <td><?=money($i['quantity'])?></td>
           <td><?=money($i['unit_price'])?></td>
           <td><?=money($i['total'])?></td>

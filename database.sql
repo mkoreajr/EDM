@@ -1,7 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE TABLE IF NOT EXISTS users(id BIGSERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,username VARCHAR(50) UNIQUE NOT NULL,password VARCHAR(255) NOT NULL,role VARCHAR(30) NOT NULL DEFAULT 'Admin',must_change_password BOOLEAN NOT NULL DEFAULT FALSE,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN NOT NULL DEFAULT FALSE;
-CREATE TABLE IF NOT EXISTS products(id BIGSERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,unit VARCHAR(20) NOT NULL CHECK(unit IN ('Tray','Half Tray','Piece')),selling_price NUMERIC(12,2) DEFAULT 0,stock_quantity NUMERIC(12,2) DEFAULT 0,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS products(id BIGSERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,unit VARCHAR(20) NOT NULL DEFAULT 'Tray',selling_price NUMERIC(12,2) DEFAULT 0,stock_quantity NUMERIC(12,2) DEFAULT 0,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+ALTER TABLE products ADD COLUMN IF NOT EXISTS category VARCHAR(30) NOT NULL DEFAULT 'Eggs';
+ALTER TABLE products ADD COLUMN IF NOT EXISTS package_size_kg NUMERIC(6,2) NULL;
+DO $$ BEGIN
+  ALTER TABLE products DROP CONSTRAINT IF EXISTS products_unit_check;
+  ALTER TABLE products ADD CONSTRAINT products_unit_check CHECK(unit IN ('Tray','Bag'));
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+UPDATE products SET category='Eggs', unit='Tray', package_size_kg=NULL WHERE category IS NULL OR category='';
 CREATE TABLE IF NOT EXISTS customers(id BIGSERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,phone VARCHAR(30),address VARCHAR(255),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS suppliers(id BIGSERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,phone VARCHAR(30),address VARCHAR(255),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS sales(id BIGSERIAL PRIMARY KEY,sale_number VARCHAR(30) UNIQUE NOT NULL,customer_id BIGINT REFERENCES customers(id) ON DELETE SET NULL,sale_date DATE NOT NULL,payment_method VARCHAR(30) NOT NULL CHECK(payment_method IN ('Cash','Mobile Money','Bank')),total_amount NUMERIC(12,2) DEFAULT 0,created_by BIGINT NOT NULL REFERENCES users(id),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
@@ -15,4 +22,3 @@ CREATE TABLE IF NOT EXISTS notifications(id BIGSERIAL PRIMARY KEY,user_id BIGINT
 
 INSERT INTO users(name,username,password,role) SELECT 'Administrator','admin',encode(digest('admin123','sha256'),'hex'),'Admin' WHERE NOT EXISTS(SELECT 1 FROM users WHERE username='admin');
 INSERT INTO notifications(user_id,title,message) SELECT id,'Welcome to EDM Kienyeji Food Shop','Your administrator account is ready. You can manage sales, products and stock from the dashboard.' FROM users u WHERE u.username='admin' AND NOT EXISTS(SELECT 1 FROM notifications n WHERE n.user_id=u.id);
-
