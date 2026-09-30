@@ -12,16 +12,27 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
     if($action==='upload_slide'){
         $file=$_FILES['slide_image']??null;
-        if(!$file || !isset($file['error']) || $file['error']!==UPLOAD_ERR_OK){
-            $adminError='Please choose a valid image to upload.';
+        if(!$file || !isset($file['error'])){
+            $adminError='Please choose an image file.';
+        }elseif($file['error']!==UPLOAD_ERR_OK){
+            $uploadErrors=[
+                UPLOAD_ERR_INI_SIZE=>'Image is too large for the server upload limit.',
+                UPLOAD_ERR_FORM_SIZE=>'Image is too large for the upload form limit.',
+                UPLOAD_ERR_PARTIAL=>'The image upload was interrupted. Please try again.',
+                UPLOAD_ERR_NO_FILE=>'Please choose an image file.',
+                UPLOAD_ERR_NO_TMP_DIR=>'Server temporary upload folder is unavailable.',
+                UPLOAD_ERR_CANT_WRITE=>'Server could not save the uploaded image.',
+                UPLOAD_ERR_EXTENSION=>'The server stopped the image upload.'
+            ];
+            $adminError=$uploadErrors[$file['error']]??'The image could not be uploaded.';
         }elseif(($file['size']??0) > 6*1024*1024){
             $adminError='Image is too large. Maximum size is 6 MB.';
         }else{
             try{
                 $info=@getimagesize($file['tmp_name']);
-                $allowed=['image/jpeg','image/png','image/webp'];
+                $allowed=['image/jpeg','image/png','image/webp','image/gif'];
                 $mime=(string)($info['mime']??'');
-                if(!$info || !in_array($mime,$allowed,true)) throw new RuntimeException('Only JPG, PNG and WEBP images are allowed.');
+                if(!$info || !in_array($mime,$allowed,true)) throw new RuntimeException('Please select a JPG, PNG or WEBP image.');
                 $raw=file_get_contents($file['tmp_name']);
                 if($raw===false || $raw==='') throw new RuntimeException('The image could not be read.');
                 $dataUrl='data:'.$mime.';base64,'.base64_encode($raw);
@@ -302,7 +313,7 @@ try {
         <input type="hidden" name="user_action" value="upload_slide">
         <div class="settings-field">
           <label>Slide Image</label>
-          <input type="file" name="slide_image" accept="image/jpeg,image/png,image/webp" required>
+          <input type="file" name="slide_image" accept="image/*" required>
           <small>JPG, PNG or WEBP • maximum 6 MB</small>
         </div>
         <div class="slide-upload-submit"><button class="add-user-btn filled" type="submit">+ Add Slide</button></div>
