@@ -112,6 +112,48 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 }
 
 </style>
+
+<style id="login-reference-v51">
+/* V51: Match supplied reference — unified green canvas + compact glass login card */
+html,body{background:#064f36!important;color:#fff!important}
+.page{grid-template-columns:50% 50%!important;background:
+  radial-gradient(circle at 13% 12%,rgba(41,190,112,.20) 0 120px,transparent 330px),
+  radial-gradient(circle at 86% 84%,rgba(45,170,105,.12) 0 160px,transparent 340px),
+  linear-gradient(135deg,#075b3c 0%,#064f36 50%,#073f2d 100%)!important}
+.left,.right{background:transparent!important}
+.left{border-right:1px solid rgba(255,255,255,.14)!important}
+.right{border-left:0!important;padding:32px 7%!important}
+.right .login-card{width:min(470px,100%)!important;padding:30px 30px 24px!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:22px!important;background:rgba(255,255,255,.075)!important;box-shadow:0 18px 45px rgba(0,0,0,.12)!important;backdrop-filter:blur(12px)!important;color:#fff!important}
+.edm-mark{font-weight:1000;font-style:italic;font-size:56px;line-height:.8;letter-spacing:-5px;color:#fff;text-align:center;text-shadow:3px 3px 0 #064f36,-1px -1px 0 #d8c42b,1px -1px 0 #d8c42b,-1px 1px 0 #d8c42b,1px 1px 0 #d8c42b;margin:0 auto 22px}
+.right .welcome{color:#d9eee3!important;letter-spacing:1.4px;font-size:12px;margin:0 0 8px!important}
+.right .sub{color:#c4ddd1!important;font-size:14px;margin:0 0 22px!important}
+.user-profile{height:72px;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.13);margin-bottom:20px}
+.avatar{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;background:#24b873;color:#fff;font-weight:900;font-size:13px;box-shadow:0 0 0 3px rgba(255,255,255,.05)}
+.user-profile-main{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.profile-kicker{font-size:10px;color:#b7d8c9}
+.username-inline{width:100%;padding:0;border:0;outline:0;background:transparent;color:#fff;font-weight:700;font-size:14px;font-family:Arial,Helvetica,sans-serif}
+.username-inline::placeholder{color:#e0eee8;opacity:.9}
+.profile-role{font-size:10px;color:#a7cbbb}
+.profile-edit{width:31px;height:31px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12);color:#d8ebe2;font-size:16px}
+.right .field{margin-bottom:15px!important}
+.right .field label{color:#e6f3ed!important;font-size:12px!important;font-weight:600!important;margin-bottom:7px!important}
+.right .input{height:49px!important;border-radius:11px!important;background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.34)!important}
+.right .input input{font-size:14px!important;color:#fff!important}
+.right .icon{width:45px!important}
+.right .eye{top:24px!important;height:37px!important}
+.right .row{margin:0 0 18px!important;font-size:12px!important}
+.right .forgot{color:#d4f2e2!important;font-weight:700!important}
+.right .btn{height:49px!important;border-radius:11px!important;background:#2fbd75!important;font-size:15px!important;box-shadow:0 8px 22px rgba(0,0,0,.15)!important}
+.right .secure{margin-top:16px!important;padding:10px!important;background:rgba(44,190,117,.08)!important;color:#c5ead7!important;border:1px solid rgba(255,255,255,.10)!important;font-size:10px!important}
+.support{text-align:center;color:#9fc3b2;font-size:9px;line-height:1.5;margin-top:12px}
+.right .error{background:rgba(255,235,235,.10)!important;border-color:rgba(255,170,170,.35)!important;color:#ffd3d3!important}
+@media(max-width:760px){
+ .page{display:block!important;background:#064f36!important}
+ .left{height:410px!important;border-right:0!important;border-bottom:1px solid rgba(255,255,255,.14)!important}
+ .right{min-height:calc(100vh - 410px)!important;padding:26px 8%!important}
+ .right .login-card{width:100%!important;padding:26px 22px 22px!important}
+}
+</style>
 </head>
 <body>
 <div class="page">
@@ -129,20 +171,33 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 </section>
 
 
-<section class="right"><div class="card">
-<div class="badge"><span><svg viewBox="0 0 24 24"><path d="M5 19c7-1 12-5 14-14-8 0-13 4-14 9 0 2 0 3 0 5Z"/></svg></span>Simple. Professional. Reliable.</div>
-<div class="welcome">WELCOME BACK</div><h2>Sign <span>in</span></h2><p class="sub">Access your EDM Kienyeji Egg Shop dashboard.</p>
-<?php if($error):?><div class="error"><?=htmlspecialchars($error)?></div><?php endif;?>
-<form method="post" action="login.php">
-<div class="field"><label>Username</label><div class="input"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg></div><input name="username" autocomplete="username" placeholder="Enter your username" value="<?=htmlspecialchars($_POST['username']??'')?>" required autofocus></div></div>
-<div class="field pass"><label>Password</label><div class="input"><div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><input id="password" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required></div><button class="eye" type="button" onclick="togglePassword()" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div>
-<div class="row"><label class="remember"><input type="checkbox" name="remember"> Remember me</label><a class="forgot" href="#" onclick="return false">Forgot password?</a></div>
-<button class="btn" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M7 12l5-5 5 5"/></svg> Sign In</button>
-<div style="text-align:right;margin-top:10px"><a href="admin-recovery.php" style="color:#007b52;text-decoration:none;font-size:13px">Forgot admin password?</a></div>
-</form>
-<div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
-<div class="demo">Demo administrator: <b>admin</b> / <b>admin123</b></div>
-</div></section>
+<section class="right">
+  <div class="card login-card">
+    <div class="edm-mark" aria-label="EDM">EDM</div>
+    <div class="welcome">WELCOME BACK</div>
+    <p class="sub">Access your EDM Kienyeji Egg Shop dashboard.</p>
+    <?php if($error):?><div class="error"><?=htmlspecialchars($error)?></div><?php endif;?>
+
+    <form method="post" action="login.php">
+      <div class="user-profile">
+        <div class="avatar">EDM</div>
+        <div class="user-profile-main">
+          <span class="profile-kicker">EDM Kienyeji Shop</span>
+          <input class="username-inline" name="username" autocomplete="username" placeholder="Enter username" value="<?=htmlspecialchars($_POST['username']??'')?>" required autofocus aria-label="Username">
+          <span class="profile-role">Authorized user</span>
+        </div>
+        <span class="profile-edit" aria-hidden="true">✎</span>
+      </div>
+
+      <div class="field pass"><label>Password</label><div class="input"><div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><input id="password" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" required></div><button class="eye" type="button" onclick="togglePassword()" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div>
+      <div class="row login-row"><span></span><a class="forgot" href="admin-recovery.php">Forgot password?</a></div>
+      <button class="btn" type="submit">LOGIN</button>
+    </form>
+
+    <div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
+    <div class="support">For any account or technical inquiry, please contact your EDM support team.</div>
+  </div>
+</section>
 </div>
 <script>
 function togglePassword(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';}
