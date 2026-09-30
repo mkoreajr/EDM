@@ -1777,3 +1777,38 @@ html, body, button, input, select, textarea, table {
     object-fit:contain!important;
   }
 }
+
+/* FINAL MOBILE SIDEBAR HEADER CLEARANCE
+   Keep the opened sidebar completely below the fixed mobile top bar. */
+@media (max-width:850px){
+  .app-body.sidebar-mobile-open > .sidebar{
+    top:72px !important;
+    bottom:0 !important;
+    height:calc(100dvh - 72px) !important;
+    max-height:calc(100dvh - 72px) !important;
+    z-index:1000 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+  }
+  .app-body.sidebar-mobile-open > .sidebar .side-brand-logo{
+    position:relative !important;
+    top:0 !important;
+    margin-top:0 !important;
+    padding-top:12px !important;
+    padding-bottom:18px !important;
+    min-height:98px !important;
+    overflow:visible !important;
+  }
+  .app-body.sidebar-mobile-open > .sidebar .sidebar-edm-logo{
+    display:block !important;
+    width:205px !important;
+    max-width:100% !important;
+    height:auto !important;
+    max-height:78px !important;
+    object-fit:contain !important;
+    object-position:center !important;
+  }
+  .app-body.sidebar-mobile-open > .content > .app-topbar{
+    z-index:2000 !important;
+  }
+}
