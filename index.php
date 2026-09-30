@@ -15,17 +15,33 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif
 body{overflow:hidden}
 .login-page{
   width:100vw;height:100vh;min-height:620px;position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
+  display:grid;grid-template-columns:50% 50%;
   background:
     radial-gradient(circle at 12% 18%,rgba(47,190,113,.18) 0 90px,transparent 300px),
     radial-gradient(circle at 92% 82%,rgba(64,177,116,.13) 0 150px,transparent 330px),
     linear-gradient(135deg,#075d3e 0%,#07543a 48%,#06442f 100%);
 }
+/* Left-side EDM product showcase */
+.left{position:relative;height:100%;overflow:hidden;background:transparent!important;border-right:1px solid rgba(255,255,255,.14);}
+.left-slogan{position:absolute;z-index:5;top:22px;left:4.5%;display:flex;align-items:center;gap:8px;padding:8px 14px 10px 9px;border-radius:16px;background:linear-gradient(135deg,#08653f 0%,#07512f 100%);border:2px solid #d8d500;box-shadow:0 8px 20px rgba(0,0,0,.16);transform:rotate(-2deg);}
+.left-slogan:after{content:"";position:absolute;left:32px;bottom:-10px;width:68px;height:5px;background:#ffd43f;border-radius:50%;transform:rotate(-4deg);}
+.left-slogan .slogan-leaf{font-size:30px;color:#76d44f;line-height:1;transform:rotate(-20deg);}
+.left-slogan strong,.left-slogan b{display:block;font-family:Georgia,serif;font-style:italic;line-height:1}
+.left-slogan strong{font-size:25px;color:#fff}.left-slogan b{font-size:23px;color:#ffe22d;margin-top:5px}
+.login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent!important;}
+.login-slide{position:absolute;left:50%;top:50%;width:min(76%,620px);aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity 900ms ease-in-out;z-index:1;overflow:hidden;border-radius:20px;box-shadow:0 18px 45px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);background:transparent;}
+.login-slide.active{opacity:1}
+.login-slide img{width:100%;height:100%;display:block;object-fit:contain;object-position:center center;background:transparent;}
+.login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at center,rgba(0,0,0,0) 0%,rgba(0,45,28,.05) 100%)}
+.slide-dots{position:absolute;z-index:3;left:50%;bottom:72px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
+.slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s ease}.slide-dots .dot.active{width:22px;border-radius:10px;background:#ffd43f}
+.slide-more{position:absolute;z-index:4;left:50%;bottom:25px;transform:translateX(-50%);padding:11px 23px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:#ffd34e;color:#173b29;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
 /* subtle reference-style decorative circles */
 .login-page:before,.login-page:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
 .login-page:before{width:165px;height:165px;right:5%;top:7%}
 .login-page:after{width:230px;height:230px;left:-100px;bottom:-115px;background:rgba(35,170,102,.08);border:0}
 .glow{position:absolute;width:360px;height:360px;border-radius:50%;left:-150px;top:-160px;background:rgba(42,196,117,.08);filter:blur(8px);pointer-events:none}
+.right-panel{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding:34px 7%;}
 .login-card{
   position:relative;z-index:2;width:min(420px,calc(100vw - 36px));
   padding:27px 30px 22px;border-radius:21px;
@@ -64,15 +80,32 @@ body{overflow:hidden}
 .footer{text-align:center;color:#87b4a2;font-size:8px;margin-top:7px}
 @media(max-width:760px){
  body{overflow:auto}
- .login-page{min-height:100vh;height:auto;padding:25px 0}
+ .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
+ .left{height:430px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
+ .login-slide{width:78%;aspect-ratio:3/2}
+ .slide-dots{bottom:58px}.slide-more{bottom:17px}
+ .right-panel{min-height:calc(100vh - 430px);padding:28px 8%}
  .login-card{width:min(410px,calc(100vw - 28px));padding:24px 23px 20px}
  .logo-wrap{height:92px;width:205px}
+ .left-slogan{top:14px;left:5%;transform:rotate(-2deg) scale(.82);transform-origin:left top}
 }
 </style>
 </head>
 <body>
 <div class="login-page">
   <div class="glow"></div>
+  <section class="left" aria-label="EDM products">
+    <div class="left-slogan" aria-label="EDM slogan"><span class="slogan-leaf">⌁</span><div><strong>Chakula Bora</strong><b>kwa Familia Yako</b></div></div>
+    <div class="login-slideshow">
+      <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
+      <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
+      <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
+      <div class="login-slide-overlay"></div>
+      <div class="slide-dots" aria-hidden="true"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+      <a class="slide-more" href="#" onclick="return false;">SOMA ZAIDI&nbsp; →</a>
+    </div>
+  </section>
+  <section class="right-panel">
   <main class="login-card">
     <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.png" alt="EDM Rice & Unga"></div>
     <div class="welcome">WELCOME BACK</div>
@@ -102,8 +135,14 @@ body{overflow:hidden}
     <div class="support">For any account or technical inquiry, please contact your EDM support team.</div>
     <div class="footer">EDM Kienyeji Shop • Secure Login</div>
   </main>
+  </section>
 </div>
 <script>
+const slides=[...document.querySelectorAll('.login-slide')];
+const dots=[...document.querySelectorAll('.slide-dots .dot')];
+let currentSlide=0;
+if(slides.length>1){setInterval(()=>{slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(currentSlide+1)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');},5000);}
+
 function togglePassword(){const p=document.getElementById('password');const b=document.querySelector('.eye');p.type=p.type==='password'?'text':'password';b.setAttribute('aria-label',p.type==='password'?'Show password':'Hide password');}
 </script>
 </body>
