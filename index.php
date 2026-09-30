@@ -252,7 +252,7 @@ body{overflow:hidden}
       <div class="login-slide-overlay"></div>
       <?php $slideCount=count($customSlides ?: [1,2,3]); ?>
       <div class="slide-dots" aria-hidden="true"><?php for($i=0;$i<$slideCount;$i++): ?><span class="dot <?= $i===0 ? 'active' : '' ?>"></span><?php endfor; ?></div>
-      <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
+      <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Food Businesses</div>
     </div>
   </section>
   <section class="right-panel">
@@ -260,7 +260,7 @@ body{overflow:hidden}
     <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.webp" alt="EDM Rice & Unga"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
-    <p class="sub">Access your EDM Kienyeji Shop dashboard.</p>
+    <p class="sub">Access your EDM Kienyeji Food Shop dashboard.</p>
     <?php if($error): ?><div class="error"><?=htmlspecialchars($error)?></div><?php endif; ?>
     <form method="post" action="login.php">
       <div class="field">

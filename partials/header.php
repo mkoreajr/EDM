@@ -1,7 +1,7 @@
 <?php $pageTitle=$pageTitle??'Egg Sales System'; ?>
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title><?=e($pageTitle)?> - EDM Kienyeji Egg Shop</title><link rel="stylesheet" href="assets/style.css">
+<title><?=e($pageTitle)?> - EDM Kienyeji Food Shop</title><link rel="stylesheet" href="assets/style.css">
 
 <style id="strong-password-rules">
 .password-rules{margin:6px 0 10px;color:#60736d;font-size:12px;line-height:1.5;}
@@ -25,8 +25,8 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
     <a class="<?=($active??'')==='settings'?'active':''?>" href="settings.php"><span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19 12a7 7 0 0 0-.2-1.7l1.5-1-1.7-3-1.7.7a7 7 0 0 0-2.3-1.3L14.3 4h-3l-.3 1.7A7 7 0 0 0 8.7 7L7 6.3l-1.7 3 1.5 1A7 7 0 0 0 6.5 12c0 .6.1 1.2.3 1.7l-1.5 1 1.7 3 1.7-.7a7 7 0 0 0 2.3 1.3l.3 1.7h3l.3-1.7a7 7 0 0 0 2.3-1.3l1.7.7 1.7-3-1.5-1c.1-.5.2-1.1.2-1.7Z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>Settings</a>
     <?php endif; ?>
   </nav>
-  <div class="side-slogan">Kuku Bora,<br>Mayai Bora,<br>Maisha Bora</div>
-  <div class="side-bottom">Fresh Eggs<br>Healthy Families<br>A Better Tomorrow</div>
+  <div class="side-slogan">Mchele Bora,<br>Unga Bora,<br>Mayai Bora</div>
+  <div class="side-bottom">Mchele<br>Unga<br>Mayai</div>
 </aside>
 <main class="content">
 <header class="topbar app-topbar">

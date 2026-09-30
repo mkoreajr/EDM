@@ -57,10 +57,10 @@ body{
 }
 .receipt-header{text-align:center;padding:25px 25px 14px}
 .shop-logo{
-  width:54px;height:54px;border-radius:50%;margin:0 auto 8px;
-  display:grid;place-items:center;background:#fff0a0;color:#00764d;
+  width:180px;height:auto;max-height:72px;margin:0 auto 10px;
+  display:block;object-fit:contain;
 }
-.shop-logo svg{width:32px;height:32px}
+.shop-logo img{width:100%;height:auto;display:block;object-fit:contain}
 .receipt-header h1{font-size:21px;margin:0;color:#006f49;letter-spacing:.4px}
 .receipt-header .shop-sub{font-size:11px;color:#597067;margin:4px 0 0;font-style:italic}
 .receipt-header .shop-address{font-size:11px;color:#53676d;margin:8px 0 0;line-height:1.45}
@@ -129,14 +129,9 @@ body{
 
   <div class="receipt-card" id="receiptDocument">
     <div class="receipt-header">
-      <div class="shop-logo" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none">
-          <path d="M16 4c-4.5 3.2-8 8.5-8 14.1C8 23.1 11.5 27 16 27s8-3.9 8-8.9C24 12.5 20.5 7.2 16 4Z" fill="currentColor"/>
-          <path d="M16 11c-2.2 2.3-3.8 4.7-3.8 7.4 0 2.3 1.7 4 3.8 4s3.8-1.7 3.8-4c0-2.7-1.6-5.1-3.8-7.4Z" fill="#ffd72e"/>
-        </svg>
-      </div>
-      <h1>EDM KIENYEJI — EGG SHOP</h1>
-      <div class="shop-sub">Fresh Eggs • Healthy Families • A Better Tomorrow</div>
+      <img class="shop-logo" src="assets/branding/edm-logo.webp" alt="EDM logo">
+      <h1>EDM KIENYEJI — FOOD SHOP</h1>
+      <div class="shop-sub">Mchele • Unga • Mayai</div>
       <div class="shop-address">Mwanza, Tanzania<br>Phone: 0712 345 678</div>
     </div>
 
@@ -152,7 +147,7 @@ body{
     </div>
 
     <table class="receipt-table">
-      <thead><tr><th>#</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+      <thead><tr><th>SN</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
       <tbody>
       <?php $no=1; foreach($items as $i): ?>
         <tr>
@@ -174,7 +169,7 @@ body{
 
     <div class="payment-row"><span>Payment Method:</span><b><?=e(strtoupper($s['payment_method']))?></b></div>
     <div class="receipt-thanks">Thank you for shopping with us!</div>
-    <div class="receipt-tagline">“Fresh Eggs • Healthy Families • A Better Tomorrow”</div>
+    <div class="receipt-tagline">“Mchele • Unga • Mayai”</div>
   </div>
 </div>
 </div>

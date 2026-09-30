@@ -1,4 +1,4 @@
-# EDM Kienyeji Egg Shop — Final Pure Code Dashboard
+# EDM Kienyeji Food Shop — Final Pure Code Dashboard
 
 Implemented exactly as requested:
 - Arial throughout the UI.
@@ -12,14 +12,14 @@ Implemented exactly as requested:
 
 Deploy through Render Blueprint using render.yaml.
 
-- Good Day card includes a code-only right-side brand tagline: Fresh Eggs / Healthy Families / A Better Tomorrow.
+- Good Day card includes a code-only right-side brand tagline: Mchele • Unga • Mayai / Healthy Families / A Better Tomorrow.
 
 - Settings page now contains exactly four requested sections: Business Information, Receipt Setting, System Preferences, and User Management.
 
 - Admin User Management now supports creating Cashier/Admin users, deleting users, resetting passwords, and forcing a password change on first login/reset.
 - Fixed Settings database variable error by using the application's PDO compatibility connection `$conn`.
 
-- Added the requested global footer to all pages via `partials/footer.php`: © 2024 EDM Kienyeji Egg Shop. All rights reserved. / “Fresh Eggs • Healthy Families • A Better Tomorrow”.
+- Added the requested global footer to all pages via `partials/footer.php`: © 2024 EDM Kienyeji Food Shop. All rights reserved. / “Mchele • Unga • Mayai”.
 
 - Cashier role is restricted to Home, Sales (POS), Customers, receipt/notification/password functions; admin-only pages are protected server-side.
 - Added administrator/user renaming while preserving roles, global no-stock messaging, and red below-50-tray stock warnings.

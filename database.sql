@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS login_slides(id BIGSERIAL PRIMARY KEY,filename VARCHA
 CREATE TABLE IF NOT EXISTS notifications(id BIGSERIAL PRIMARY KEY,user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,title VARCHAR(150) NOT NULL,message TEXT NOT NULL,read_at TIMESTAMP NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 INSERT INTO users(name,username,password,role) SELECT 'Administrator','admin',encode(digest('admin123','sha256'),'hex'),'Admin' WHERE NOT EXISTS(SELECT 1 FROM users WHERE username='admin');
-INSERT INTO notifications(user_id,title,message) SELECT id,'Welcome to EDM Kienyeji Egg Shop','Your administrator account is ready. You can manage sales, products and stock from the dashboard.' FROM users u WHERE u.username='admin' AND NOT EXISTS(SELECT 1 FROM notifications n WHERE n.user_id=u.id);
+INSERT INTO notifications(user_id,title,message) SELECT id,'Welcome to EDM Kienyeji Food Shop','Your administrator account is ready. You can manage sales, products and stock from the dashboard.' FROM users u WHERE u.username='admin' AND NOT EXISTS(SELECT 1 FROM notifications n WHERE n.user_id=u.id);
 

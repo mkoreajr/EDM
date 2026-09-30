@@ -11,11 +11,11 @@ $todaySales=(int)$conn->query("SELECT COUNT(*) x FROM sales WHERE sale_date=CURR
   <div class="welcome-copy">
     <div class="welcome-kicker">GOOD DAY,</div>
     <h1><?=e($_SESSION['name']??'Administrator')?>!</h1>
-    <p>Welcome to EDM Kienyeji Egg Shop.</p>
+    <p>Welcome to EDM Kienyeji Food Shop.</p>
     <a class="hero-btn" href="sales.php"><span>＋</span> New Sale (POS) <b>›</b></a>
   </div>
-  <div class="welcome-tagline" aria-label="Fresh Eggs, Healthy Families, A Better Tomorrow">
-    <span>Fresh Eggs</span>
+  <div class="welcome-tagline" aria-label="Mchele, Unga, Mayai">
+    <span>Mchele • Unga • Mayai</span>
     <strong>Healthy Families</strong>
     <em>A Better Tomorrow</em>
     <i></i>

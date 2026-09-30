@@ -1,6 +1,6 @@
 # System Font Style
 
-The entire EDM Kienyeji Egg Shop system uses **Arial** as its primary font.
+The entire EDM Kienyeji Food Shop system uses **Arial** as its primary font.
 
 Fallbacks:
 **Arial → Helvetica → sans-serif**

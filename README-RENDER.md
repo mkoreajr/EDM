@@ -1,4 +1,4 @@
-# EDM Kienyeji Egg Shop — Pure Code Final
+# EDM Kienyeji Food Shop — Pure Code Final
 
 Final login polish:
 - Username and password entered text is normal (400) weight, not bold.

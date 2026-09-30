@@ -1,4 +1,4 @@
-# EDM Kienyeji Egg Shop — Dashboard V3
+# EDM Kienyeji Food Shop — Dashboard V3
 
 Dashboard updated to match the approved login-page green palette.
 

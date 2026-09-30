@@ -87,7 +87,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                     if($newId){
                         $msg=$conn->prepare("INSERT INTO notifications(user_id,title,message) VALUES(?,?,?)");
                         $title='New account created';
-                        $message='Your EDM Kienyeji Egg Shop account was created. Sign in with the temporary password provided by the administrator and change it before continuing.';
+                        $message='Your EDM Kienyeji Food Shop account was created. Sign in with the temporary password provided by the administrator and change it before continuing.';
                         $msg->bind_param("iss",$newId,$title,$message); $msg->execute();
                     }
                     $adminMessage="User \"$name\" created successfully. The user must change the temporary password at first login.";
@@ -189,7 +189,7 @@ try {
       <div class="settings-fields">
         <div class="settings-field full">
           <label>Shop Name <b>*</b></label>
-          <input type="text" value="EDM Kienyeji Egg Shop">
+          <input type="text" value="EDM Kienyeji Food Shop">
         </div>
         <div class="settings-field">
           <label>Phone Number</label>
@@ -257,7 +257,7 @@ try {
         </div>
         <div>
           <h2>System Preferences</h2>
-          <p>General settings for your egg shop system.</p>
+          <p>General settings for your food shop system.</p>
         </div>
       </div>
 
