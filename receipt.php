@@ -129,7 +129,7 @@ body{
 
   <div class="receipt-card" id="receiptDocument">
     <div class="receipt-header">
-      <img class="shop-logo" src="assets/branding/edm-logo.webp" alt="EDM logo">
+      <img class="shop-logo" src="assets/branding/edm-logo.webp" alt="EDM Food Shop logo">
       <h1>EDM KIENYEJI — FOOD SHOP</h1>
       <div class="shop-sub">Mchele • Unga • Mayai</div>
       <div class="shop-address">Mwanza, Tanzania<br>Phone: 0712 345 678</div>

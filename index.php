@@ -257,7 +257,7 @@ body{overflow:hidden}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.webp" alt="EDM Rice & Unga"></div>
+    <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.webp" alt="EDM Food Shop"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your EDM Kienyeji Food Shop dashboard.</p>
