@@ -33,9 +33,9 @@ body{overflow:hidden}
 .login-slide.active{opacity:1}
 .login-slide img{width:100%;height:100%;display:block;object-fit:contain;object-position:center center;background:transparent;}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at center,rgba(0,0,0,0) 0%,rgba(0,45,28,.05) 100%)}
-.slide-dots{position:absolute;z-index:3;left:50%;bottom:72px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
+.slide-dots{position:absolute;z-index:3;left:50%;bottom:112px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
 .slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s ease}.slide-dots .dot.active{width:22px;border-radius:10px;background:#ffd43f}
-.slide-more{position:absolute;z-index:4;left:50%;bottom:25px;transform:translateX(-50%);padding:11px 23px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:#ffd34e;color:#173b29;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.slide-more{position:absolute;z-index:4;left:50%;bottom:62px;transform:translateX(-50%);padding:11px 23px;border-radius:24px;border:1px solid rgba(255,255,255,.16);background:#ffd34e;color:#173b29;font-size:12px;font-weight:900;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.18)}
 /* subtle reference-style decorative circles */
 .login-page:before,.login-page:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
 .login-page:before{width:165px;height:165px;right:5%;top:7%}
@@ -76,13 +76,14 @@ body{overflow:hidden}
 .btn:hover{background:#3ac980}
 .secure{margin-top:15px;padding:9px 8px;text-align:center;border-radius:9px;background:rgba(48,190,117,.08);border:1px solid rgba(255,255,255,.11);color:#c5e9d7;font-size:9px;font-weight:700}
 .secure svg{width:13px;height:13px;vertical-align:middle;margin-right:4px;fill:none;stroke:#75d9a5;stroke-width:2}
+.left-secure{position:absolute;z-index:4;left:50%;bottom:20px;transform:translateX(-50%);white-space:nowrap;color:#c5e9d7;font-size:10px;font-weight:700;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.15)}.left-secure svg{width:14px;height:14px;vertical-align:middle;margin-right:5px;fill:none;stroke:#75d9a5;stroke-width:2}
 .right-footer{position:relative;z-index:2;width:min(420px,calc(100vw - 36px));text-align:center;margin-top:12px}.support{text-align:center;color:#9fc5b4;font-size:8.5px;line-height:1.5;margin:0}.support a{color:#bfe9d6;text-decoration:none}.footer{text-align:center;color:#87b4a2;font-size:8px;margin-top:7px}
 @media(max-width:760px){
  body{overflow:auto}
  .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
  .left{height:430px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
  .login-slide{width:78%;aspect-ratio:3/2}
- .slide-dots{bottom:58px}.slide-more{bottom:17px}
+ .slide-dots{bottom:82px}.slide-more{bottom:42px}.left-secure{bottom:12px;font-size:9px}
  .right-panel{min-height:calc(100vh - 430px);padding:28px 8%}
  .login-card{width:min(410px,calc(100vw - 28px));padding:24px 23px 20px}
  .logo-wrap{height:92px;width:205px}
@@ -102,6 +103,7 @@ body{overflow:hidden}
       <div class="login-slide-overlay"></div>
       <div class="slide-dots" aria-hidden="true"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
       <a class="slide-more" href="#" onclick="return false;">SOMA ZAIDI&nbsp; →</a>
+      <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
     </div>
   </section>
   <section class="right-panel">
@@ -130,7 +132,6 @@ body{overflow:hidden}
       <div class="forgot-row"><a class="forgot" href="admin-recovery.php">Forgot password?</a></div>
       <button class="btn" type="submit">LOGIN</button>
     </form>
-    <div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
   </main>
   <div class="right-footer">
     <div class="support">For any Technical inquiry, Please contact your Support Team at : <a href="mailto:ictsupport@gmail.com">ictsupport@gmail.com</a></div>
