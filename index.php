@@ -36,8 +36,8 @@ body{overflow:auto}
 .login-slide.active{opacity:1}
 .login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;background:transparent}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,58,38,.08),rgba(0,48,31,.18))}
-.slide-dots{position:absolute;z-index:7;left:50%;bottom:27px;transform:translateX(-50%);display:flex;gap:7px;padding:6px 9px;border-radius:18px;background:rgba(0,0,0,.28)}
-.slide-dots .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.65);transition:.25s}.slide-dots .dot.active{width:20px;border-radius:8px;background:#ffd447}
+.slide-dots{position:absolute;z-index:7;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:0;background:transparent;border:0;box-shadow:none}
+.slide-dots .dot{display:block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.25s}.slide-dots .dot.active{width:22px;border-radius:8px;background:#ffd447}
 .left-secure{position:absolute!important;z-index:7!important;left:30px!important;bottom:8px!important;transform:none!important;color:#fff!important;font-size:13px!important;font-weight:700!important;text-shadow:0 1px 2px rgba(0,0,0,.2);white-space:nowrap}
 .left-secure svg{width:15px;height:15px;vertical-align:middle;margin-right:5px;fill:none;stroke:#ffd447;stroke-width:2}
 /* Right login side */
