@@ -89,29 +89,38 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
   }
 }
 
+
+/* Login left-side product slideshow */
+.left{position:relative!important;overflow:hidden!important;background:#073d2a!important}
+.login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#073d2a}
+.login-slide{position:absolute;inset:0;opacity:0;transition:opacity 900ms ease-in-out;z-index:1}
+.login-slide.active{opacity:1}
+.login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
+.login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,35,22,.05) 0%,rgba(0,35,22,.03) 55%,rgba(0,35,22,.22) 100%)}
+.slide-dots{position:absolute;z-index:3;left:50%;bottom:22px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
+.slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s ease}
+.slide-dots .dot.active{width:22px;border-radius:10px;background:#ffd43f}
+@media(max-width:760px){
+  .left{height:410px!important}
+  .login-slide img{object-position:center center}
+}
+
 </style>
 </head>
 <body>
 <div class="page">
 <section class="left">
-<div class="left-content">
-<div class="brand"><div class="egg-logo"></div><div class="brand-name"><strong>EDM KIENYEJI</strong><b>EGG SHOP</b><small>Fresh Eggs • Healthy Families • A Better Tomorrow</small></div></div>
-<div class="quality"><strong>Quality Eggs</strong><b>Brighter Lives</b><i></i></div>
-<div class="left-main">
-<div class="eyebrow">SMART EGG BUSINESS MANAGEMENT</div>
-<h1>Your Complete<br>Egg Sales<br><span>Management System</span></h1>
-<p>Sell smarter. Manage stock. Grow your business.</p>
-<div class="features">
-<div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 4h2l2 11h11l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg></div><div><b>Manage Sales</b><small>Fast, easy and reliable</small></div></div>
-<div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg></div><div><b>Track Stock</b><small>Real-time inventory</small></div></div>
-<div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5M15 15c3 0 5 2 5 5"/></svg></div><div><b>Customers &amp; Suppliers</b><small>Build stronger relationships</small></div></div>
-<div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div><b>Reports &amp; Insights</b><small>Make better decisions</small></div></div>
-<div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div><div><b>Multiple Payments</b><small>Cash • Mobile Money • Bank</small></div></div>
-</div></div>
-<div class="slogan">Kuku Bora, Mayai Bora<span>Maisha Bora</span></div>
-<div class="pills">Fresh Eggs &nbsp; • &nbsp; Healthy Families &nbsp; • &nbsp; A Better Tomorrow</div>
+<div class="login-slideshow" aria-label="EDM products">
+  <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
+  <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
+  <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
+  <div class="login-slide-overlay"></div>
+  <div class="slide-dots" aria-hidden="true">
+    <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+  </div>
 </div>
 </section>
+
 
 <section class="right"><div class="card">
 <div class="badge"><span><svg viewBox="0 0 24 24"><path d="M5 19c7-1 12-5 14-14-8 0-13 4-14 9 0 2 0 3 0 5Z"/></svg></span>Simple. Professional. Reliable.</div>
@@ -134,5 +143,20 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 <div class="demo">Demo administrator: <b>admin</b> / <b>admin123</b></div>
 </div></section>
 </div>
-<script>function togglePassword(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';}</script>
+<script>
+function togglePassword(){const p=document.getElementById('password');p.type=p.type==='password'?'text':'password';}
+(function(){
+  const slides=[...document.querySelectorAll('.login-slide')];
+  const dots=[...document.querySelectorAll('.slide-dots .dot')];
+  if(slides.length<2)return;
+  let current=0;
+  setInterval(function(){
+    slides[current].classList.remove('active');
+    dots[current]?.classList.remove('active');
+    current=(current+1)%slides.length;
+    slides[current].classList.add('active');
+    dots[current]?.classList.add('active');
+  },5000);
+})();
+</script>
 </body></html>
