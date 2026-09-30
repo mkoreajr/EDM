@@ -167,7 +167,7 @@ body{
       <div class="grand-total"><span>TOTAL (TSH)</span><span>TZS <?=money($s['total_amount'])?></span></div>
     </div>
 
-    <div class="payment-row">Payment Method: <b><?=e(strtolower($s['payment_method']))?></b></div>
+    <div class="payment-row">Payment Method: <b><?=e(ucwords(strtolower($s['payment_method'])))?></b></div>
     <div class="receipt-thanks">Thank you for shopping with us!</div>
     <div class="receipt-tagline">“Mchele • Unga • Mayai”</div>
   </div>
