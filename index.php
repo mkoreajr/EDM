@@ -78,13 +78,12 @@ body{overflow:hidden}
 @media(max-width:760px){
  body{overflow:auto}
  .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
- .left{height:430px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
- .login-slide{width:78%;aspect-ratio:3/2}
- .slide-dots{bottom:104px}.slide-more{bottom:62px}.left-secure{bottom:10px;font-size:9px}
- .right-panel{min-height:calc(100vh - 430px);padding:28px 8%}
+ /* On phones, hide the entire promotional left side; show only the login side. */
+ .left{display:none!important}
+ .right-panel{width:100%;min-height:100vh;padding:28px 8%;justify-content:center}
  .login-card{width:min(410px,calc(100vw - 28px));padding:24px 23px 20px}
  .logo-wrap{height:92px;width:205px}
- .left-slogan{top:8px;left:4%;width:min(360px,58%)}
+ .right-footer{width:min(410px,calc(100vw - 28px));margin-top:12px}
 }
 
 /* Final reference layout tuning */
