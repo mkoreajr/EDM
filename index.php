@@ -41,7 +41,7 @@ body{overflow:hidden}
 .login-page:before{width:165px;height:165px;right:5%;top:7%}
 .login-page:after{width:230px;height:230px;left:-100px;bottom:-115px;background:rgba(35,170,102,.08);border:0}
 .glow{position:absolute;width:360px;height:360px;border-radius:50%;left:-150px;top:-160px;background:rgba(42,196,117,.08);filter:blur(8px);pointer-events:none}
-.right-panel{position:relative;height:100%;display:flex;align-items:center;justify-content:center;padding:34px 7%;}
+.right-panel{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px 7%;}
 .login-card{
   position:relative;z-index:2;width:min(420px,calc(100vw - 36px));
   padding:27px 30px 22px;border-radius:21px;
@@ -76,8 +76,7 @@ body{overflow:hidden}
 .btn:hover{background:#3ac980}
 .secure{margin-top:15px;padding:9px 8px;text-align:center;border-radius:9px;background:rgba(48,190,117,.08);border:1px solid rgba(255,255,255,.11);color:#c5e9d7;font-size:9px;font-weight:700}
 .secure svg{width:13px;height:13px;vertical-align:middle;margin-right:4px;fill:none;stroke:#75d9a5;stroke-width:2}
-.support{text-align:center;color:#9fc5b4;font-size:8.5px;line-height:1.5;margin-top:11px}
-.footer{text-align:center;color:#87b4a2;font-size:8px;margin-top:7px}
+.right-footer{position:relative;z-index:2;width:min(420px,calc(100vw - 36px));text-align:center;margin-top:12px}.support{text-align:center;color:#9fc5b4;font-size:8.5px;line-height:1.5;margin:0}.support a{color:#bfe9d6;text-decoration:none}.footer{text-align:center;color:#87b4a2;font-size:8px;margin-top:7px}
 @media(max-width:760px){
  body{overflow:auto}
  .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
@@ -132,9 +131,11 @@ body{overflow:hidden}
       <button class="btn" type="submit">LOGIN</button>
     </form>
     <div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
-    <div class="support">For any account or technical inquiry, please contact your EDM support team.</div>
-    <div class="footer">EDM Kienyeji Shop • Secure Login</div>
   </main>
+  <div class="right-footer">
+    <div class="support">For any Technical inquiry, Please contact your Support Team at : <a href="mailto:ictsupport@gmail.com">ictsupport@gmail.com</a></div>
+    <div class="footer">© 2025 - 2026 | EDM Kienyeji Shop | v1.1.0</div>
+  </div>
   </section>
 </div>
 <script>
