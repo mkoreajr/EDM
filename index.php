@@ -16,7 +16,7 @@ $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EDM Kienyeji Shop — Login</title>
+<title>MSINDA Food Shop — Login</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;background:#07573b;color:#fff}
@@ -257,7 +257,7 @@ body{overflow:hidden}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.webp" alt="EDM Food Shop"></div>
+    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your EDM Kienyeji Food Shop dashboard.</p>
