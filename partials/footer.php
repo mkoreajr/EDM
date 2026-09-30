@@ -1,6 +1,6 @@
 <footer class="app-footer">
   <div class="footer-content">
-    <div>© 2024 EDM Kienyeji Food Shop. All rights reserved.</div>
+    <div>© 2026 MSINDA Food Shop</div>
     <div class="footer-tagline">“Mchele • Unga • Mayai”</div>
   </div>
 </footer>
