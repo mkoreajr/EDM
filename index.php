@@ -23,7 +23,7 @@ body{overflow:hidden}
 }
 /* Left-side EDM product showcase */
 .left{position:relative;height:100%;overflow:hidden;background:transparent!important;border-right:1px solid rgba(255,255,255,.14);}
-.left-slogan{position:absolute;z-index:5;top:10px;left:2.5%;width:min(430px,48%);height:auto;display:block;pointer-events:none;}
+.left-slogan{position:absolute;z-index:5;top:calc(50% - 330px);left:calc(50% - min(40%,342px));width:min(320px,36%);height:auto;display:block;pointer-events:none;}
 .left-slogan img{display:block;width:100%;height:auto;object-fit:contain;}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent!important;}
 .login-slide{position:absolute;left:50%;top:50%;width:min(76%,620px);aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity 900ms ease-in-out;z-index:1;overflow:hidden;border-radius:20px;box-shadow:0 18px 45px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);background:transparent;}
@@ -80,7 +80,7 @@ body{overflow:hidden}
  .login-page{display:block!important;min-height:100vh;height:auto;padding:0}
  .left{height:430px;border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
  .login-slide{width:78%;aspect-ratio:3/2}
- .slide-dots{bottom:104px}.slide-more{bottom:58px}.left-secure{bottom:10px;font-size:9px}
+ .slide-dots{bottom:104px}.slide-more{bottom:62px}.left-secure{bottom:10px;font-size:9px}
  .right-panel{min-height:calc(100vh - 430px);padding:28px 8%}
  .login-card{width:min(410px,calc(100vw - 28px));padding:24px 23px 20px}
  .logo-wrap{height:92px;width:205px}
@@ -89,10 +89,10 @@ body{overflow:hidden}
 
 /* Final reference layout tuning */
 @media(min-width:761px){
-  .left-slogan{top:8px!important;left:2.2%!important;width:min(320px,36%)!important;}
+  .left-slogan{top:calc(50% - 330px)!important;left:calc(50% - min(40%,342px))!important;width:min(320px,36%)!important;}
   .login-slide{width:min(80%,684px)!important;}
-  .slide-dots{bottom:108px!important;}
-  .slide-more{bottom:58px!important;}
+  .slide-dots{bottom:112px!important;}
+  .slide-more{bottom:66px!important;}
   .left-secure{bottom:18px!important;}
   .right-panel{padding-left:6.5%!important;padding-right:6.5%!important;}
   .login-card{width:min(412px,calc(100vw - 36px))!important;}
