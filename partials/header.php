@@ -95,7 +95,10 @@ if ($lsr) {
     }
 }
 ?>
-<?php if ($totalTrayStock > 0 && $totalTrayStock < 50): ?>
+<?php if (($active??'') === 'dashboard' && $totalTrayStock <= 0): ?>
+<div class="low-stock-alert stock-alert-empty" role="alert"><span class="low-stock-alert-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Egg Stock Out:</strong> No egg stock is currently available.</span><a href="inventory.php">View Stock</a></div>
+<?php endif; ?>
+<?php if (($active??'') === 'dashboard' && $totalTrayStock > 0 && $totalTrayStock < 50): ?>
 <div class="low-stock-alert" role="alert">
   <span class="low-stock-alert-icon">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -111,7 +114,10 @@ if ($lsr) {
   <a href="inventory.php">View Stock</a>
 </div>
 <?php endif; ?>
-<?php if ($totalRiceStock > 0 && $totalRiceStock < 30): ?>
+<?php if (($active??'') === 'dashboard' && $totalRiceStock <= 0): ?>
+<div class="low-stock-alert stock-alert-empty" role="alert"><span class="low-stock-alert-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Rice Stock Out:</strong> No rice stock is currently available.</span><a href="inventory.php">View Stock</a></div>
+<?php endif; ?>
+<?php if (($active??'') === 'dashboard' && $totalRiceStock > 0 && $totalRiceStock < 30): ?>
 <div class="low-stock-alert" role="alert">
   <span class="low-stock-alert-icon">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -127,7 +133,10 @@ if ($lsr) {
   <a href="inventory.php">View Stock</a>
 </div>
 <?php endif; ?>
-<?php if ($totalFlourStock > 0 && $totalFlourStock < 30): ?>
+<?php if (($active??'') === 'dashboard' && $totalFlourStock <= 0): ?>
+<div class="low-stock-alert stock-alert-empty" role="alert"><span class="low-stock-alert-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span><strong>Flour Stock Out:</strong> No flour stock is currently available.</span><a href="inventory.php">View Stock</a></div>
+<?php endif; ?>
+<?php if (($active??'') === 'dashboard' && $totalFlourStock > 0 && $totalFlourStock < 30): ?>
 <div class="low-stock-alert" role="alert">
   <span class="low-stock-alert-icon">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
