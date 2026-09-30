@@ -50,6 +50,13 @@ if($format==='pdf'){
    else $this->pageContent.="0.45 0.45 0.45 RG $x ".($this->pageH-$y-$h)." $w $h re S\n";
   }
   function addPage(){if($this->pageContent!=='')$this->pages[]=$this->pageContent;$this->pageContent='';}
+  function centerText($y,$txt,$size=8,$bold=false){
+   // Approximate Helvetica text width and center it on the landscape A4 page.
+   $factor=$bold?0.56:0.52;
+   $width=strlen((string)$txt)*$size*$factor;
+   $x=max(25,($this->pageW-$width)/2);
+   $this->text($x,$y,$txt,$size,$bold);
+  }
   function image($path,$x,$y,$w,$h){$this->pageContent.="q $w 0 0 $h $x ".($this->pageH-$y-$h)." cm /Im1 Do Q\n";}
   function output($imagePath){
    $this->addPage();
@@ -82,8 +89,8 @@ if($format==='pdf'){
  $pdf=new SimplePDF();
  $pageHeader=function()use($pdf,$logo,$from,$to,$downloadedBy,$summary){
   $pdf->image($logo,25,20,150,50);
-  $pdf->text(195,37,'MSINDA FOOD SHOP',20,true);
-  $pdf->text(195,58,'SALES REPORT',12,true);
+  $pdf->centerText(37,'MSINDA FOOD SHOP',20,true);
+  $pdf->centerText(58,'SALES REPORT',12,true);
   $pdf->text(25,88,'Report Period: '.$from.' to '.$to,9,true);
   $pdf->text(25,104,'Downloaded By: '.$downloadedBy,9);
   $pdf->text(25,120,'Generated On: '.date('Y-m-d H:i'),9);
