@@ -30,7 +30,7 @@ body{overflow:hidden}
     linear-gradient(135deg,#075d3e 0%,#07543a 48%,#06442f 100%);
 }
 /* Left-side EDM product showcase */
-.left{position:relative;height:100%;overflow:hidden;background:transparent!important;border-right:1px solid rgba(255,255,255,.14);}
+.left{position:relative;height:100%;overflow:hidden;background:transparent!important;border-right:0!important;}
 .left-slogan{position:absolute;z-index:5;top:calc(50% - 330px);left:calc(50% - min(40%,342px));width:min(320px,36%);height:auto;display:block;pointer-events:none;}
 .left-slogan img{display:block;width:100%;height:auto;object-fit:contain;}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent!important;}
@@ -189,7 +189,8 @@ body{overflow:hidden}
   transform:rotate(-8deg)!important;pointer-events:none!important;
   box-shadow:0 -6px 0 rgba(91,220,143,.12),0 -18px 0 rgba(91,220,143,.04)!important;
 }
-.left-slogan,.login-slideshow,.left-secure,.right-panel>*{position:relative;z-index:5!important;}
+.left-slogan,.login-slideshow,.right-panel>*{position:relative;z-index:5!important;}
+.left-secure{position:absolute!important;z-index:8!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;white-space:nowrap!important;}
 .left-secure{font-size:14px!important;font-weight:800!important;letter-spacing:.1px!important;}
 @media(max-width:760px){
   .login-page:before{width:620px!important;height:300px!important;right:-300px!important;top:-130px!important;}
@@ -215,6 +216,17 @@ body{overflow:hidden}
 }
 @media(max-width:760px){
   .center-divider{display:none!important;}
+}
+
+/* V79 — exact requested final positioning */
+@media(min-width:761px){
+  .left{border-right:0!important;}
+  .center-divider{top:10%!important;bottom:10%!important;left:50%!important;width:1px!important;background:rgba(255,255,255,.22)!important;}
+  .left-secure{position:absolute!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;z-index:20!important;display:flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;margin:0!important;}
+}
+@media(max-width:760px){
+  .center-divider{display:none!important;}
+  .left-secure{display:none!important;}
 }
 </style>
 </head>
