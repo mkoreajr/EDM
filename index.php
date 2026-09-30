@@ -326,3 +326,32 @@ function togglePassword(){const p=document.getElementById('password');p.type=p.t
   .left-slogan{top:18px;left:6%;transform:rotate(-2deg) scale(.86);transform-origin:left top}
 }
 </style>
+<style id="login-input-unified-v52">
+/* V52: Username and password controls use the same green/glass tone; remove browser autofill white/blue fill. */
+.right .user-profile,
+.right .input,
+.right .username-inline,
+.right .input input{
+  background:rgba(255,255,255,.045)!important;
+  color:#fff!important;
+}
+.right .username-inline,
+.right .input input{
+  -webkit-text-fill-color:#fff!important;
+  caret-color:#fff!important;
+}
+.right .username-inline:-webkit-autofill,
+.right .username-inline:-webkit-autofill:hover,
+.right .username-inline:-webkit-autofill:focus,
+.right .input input:-webkit-autofill,
+.right .input input:-webkit-autofill:hover,
+.right .input input:-webkit-autofill:focus{
+  -webkit-text-fill-color:#fff!important;
+  -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.045) inset!important;
+  box-shadow:0 0 0 1000px rgba(255,255,255,.045) inset!important;
+  background-color:transparent!important;
+  transition:background-color 9999s ease-in-out 0s!important;
+}
+.right .username-inline::placeholder,
+.right .input input::placeholder{color:rgba(232,246,239,.58)!important;opacity:1!important}
+</style>
