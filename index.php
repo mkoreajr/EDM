@@ -61,8 +61,16 @@ body{overflow:hidden}
 .input-icon svg{width:17px;height:17px;fill:none;stroke:#b9d4c8;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .input input{width:100%;height:100%;border:0;outline:0;background:transparent;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:13px;padding:0 10px 0 0}
 .input input::placeholder{color:rgba(231,245,238,.52)}
-/* Keep browser autofill green instead of white */
-.input input:-webkit-autofill,.input input:-webkit-autofill:hover,.input input:-webkit-autofill:focus{-webkit-text-fill-color:#fff;caret-color:#fff;box-shadow:0 0 0 1000px rgba(255,255,255,.035) inset;transition:background-color 9999s ease-in-out 0s}
+/* Keep username/password fields visually identical to the login card, including browser autofill */
+.input input:-webkit-autofill,.input input:-webkit-autofill:hover,.input input:-webkit-autofill:focus,.input input:-webkit-autofill:active{
+  -webkit-text-fill-color:#fff!important;
+  caret-color:#fff!important;
+  -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.035) inset!important;
+  box-shadow:0 0 0 1000px rgba(255,255,255,.035) inset!important;
+  -webkit-background-clip:padding-box!important;
+  background-clip:padding-box!important;
+  transition:background-color 99999s ease-in-out 0s!important;
+}
 .pass-wrap{position:relative}
 .pass-wrap .input{padding-right:40px}
 .eye{position:absolute;right:5px;top:24px;width:34px;height:34px;border:0;background:transparent;color:#b9d4c8;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
@@ -169,6 +177,23 @@ let currentSlide=0;
 if(slides.length>1){setInterval(()=>{slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(currentSlide+1)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');},5000);}
 
 function togglePassword(){const p=document.getElementById('password');const b=document.querySelector('.eye');p.type=p.type==='password'?'text':'password';b.setAttribute('aria-label',p.type==='password'?'Show password':'Hide password');}
+
+// Remember username only. Password is intentionally never stored.
+(function(){
+  const u=document.getElementById('username');
+  if(!u) return;
+  try{
+    const saved=localStorage.getItem('edm_login_username');
+    if(!u.value && saved) u.value=saved;
+    u.addEventListener('input',()=>{
+      try{localStorage.setItem('edm_login_username',u.value);}catch(e){}
+    });
+    const form=u.closest('form');
+    if(form) form.addEventListener('submit',()=>{
+      try{localStorage.setItem('edm_login_username',u.value);}catch(e){}
+    });
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
