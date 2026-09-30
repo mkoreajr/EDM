@@ -120,7 +120,7 @@ body{overflow:auto}
   </main>
   <div class="right-footer">
     <div class="support">For any Technical inquiry, Please contact your Support Team at : <a href="mailto:ictsupport@gmail.com">ictsupport@gmail.com</a></div>
-    <div class="footer">© 2025 - 2026 | EDM Kienyeji Shop | v1.1.0</div>
+    <div class="footer">© 2026 | MSINDA Food Shop | v1.1.0</div>
   </div>
   </section>
 </div>
