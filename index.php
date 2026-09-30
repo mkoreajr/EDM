@@ -1,6 +1,14 @@
 <?php
 session_start();
+require_once __DIR__ . '/config/database.php';
 if(isset($_SESSION['user_id'])){header('Location: dashboard.php');exit;}
+
+$customSlides=[];
+try{
+  $sr=$conn->query("SELECT id,filename,mime_type,image_data FROM login_slides ORDER BY sort_order ASC,id ASC");
+  while($row=$sr->fetch_assoc()){ $customSlides[]=$row; }
+}catch(Throwable $e){ $customSlides=[]; }
+
 $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 ?>
 <!doctype html>
@@ -129,11 +137,18 @@ body{overflow:hidden}
   <section class="left" aria-label="EDM products">
     <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.png" alt="Chakula Bora kwa Familia Yako"></div>
     <div class="login-slideshow">
-      <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
-      <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
-      <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
+      <?php if($customSlides): ?>
+        <?php foreach($customSlides as $i=>$slide): ?>
+          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img src="<?=htmlspecialchars((string)$slide['image_data'],ENT_QUOTES,'UTF-8')?>" alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>"></div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
+        <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
+        <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
+      <?php endif; ?>
       <div class="login-slide-overlay"></div>
-      <div class="slide-dots" aria-hidden="true"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
+      <?php $slideCount=count($customSlides ?: [1,2,3]); ?>
+      <div class="slide-dots" aria-hidden="true"><?php for($i=0;$i<$slideCount;$i++): ?><span class="dot <?= $i===0 ? 'active' : '' ?>"></span><?php endfor; ?></div>
       <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
     </div>
   </section>

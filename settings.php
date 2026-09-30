@@ -10,6 +10,42 @@ $adminMessage=''; $adminError=''; $temporaryPassword='';
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $action=$_POST['user_action']??'';
 
+    if($action==='upload_slide'){
+        $file=$_FILES['slide_image']??null;
+        if(!$file || !isset($file['error']) || $file['error']!==UPLOAD_ERR_OK){
+            $adminError='Please choose a valid image to upload.';
+        }elseif(($file['size']??0) > 6*1024*1024){
+            $adminError='Image is too large. Maximum size is 6 MB.';
+        }else{
+            try{
+                $info=@getimagesize($file['tmp_name']);
+                $allowed=['image/jpeg','image/png','image/webp'];
+                $mime=(string)($info['mime']??'');
+                if(!$info || !in_array($mime,$allowed,true)) throw new RuntimeException('Only JPG, PNG and WEBP images are allowed.');
+                $raw=file_get_contents($file['tmp_name']);
+                if($raw===false || $raw==='') throw new RuntimeException('The image could not be read.');
+                $dataUrl='data:'.$mime.';base64,'.base64_encode($raw);
+                $name=basename((string)$file['name']);
+                $name=preg_replace('/[^A-Za-z0-9._ -]/','_', $name) ?: 'slide-image';
+                $ordRes=$conn->query("SELECT COALESCE(MAX(sort_order),0)+1 AS next_order FROM login_slides");
+                $next=(int)(($ordRes?$ordRes->fetch_assoc():[])['next_order']??1);
+                $ins=$conn->prepare("INSERT INTO login_slides(filename,mime_type,image_data,sort_order) VALUES(?,?,?,?)");
+                $ins->bind_param("sssi",$name,$mime,$dataUrl,$next); $ins->execute();
+                $adminMessage='Login slide added successfully. It is now included in the login slideshow.';
+            }catch(Throwable $e){ $adminError=$e instanceof RuntimeException ? $e->getMessage() : 'The image could not be uploaded.'; }
+        }
+    }
+
+    if($action==='delete_slide'){
+        $id=(int)($_POST['slide_id']??0);
+        if($id>0){
+            try{
+                $del=$conn->prepare("DELETE FROM login_slides WHERE id=?"); $del->bind_param("i",$id); $del->execute();
+                $adminMessage='Login slide removed. If no custom slides remain, the default EDM slides will be used.';
+            }catch(Throwable $e){ $adminError='The login slide could not be removed.'; }
+        }
+    }
+
     if($action==='create_user'){
         $name=trim($_POST['user_name']??'');
         $username=trim($_POST['user_username']??'');
@@ -95,6 +131,14 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             }catch(Throwable $e){ $adminError='Password could not be reset.'; }
         }
     }
+}
+
+$loginSlides = [];
+try {
+    $slideResult = $conn->query("SELECT id,filename,mime_type,image_data,sort_order FROM login_slides ORDER BY sort_order ASC,id ASC");
+    while ($row = $slideResult->fetch_assoc()) { $loginSlides[] = $row; }
+} catch (Throwable $e) {
+    $loginSlides = [];
 }
 
 $users = [];
@@ -237,6 +281,50 @@ try {
         <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
         Save Changes
       </button>
+    </section>
+
+    <!-- Login Slideshow -->
+    <section class="settings-section settings-slideshow-section">
+      <div class="settings-section-head">
+        <div class="settings-section-icon slideshow-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="8" cy="10" r="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m5 17 4.5-4 3 2.5 2.2-2 4.3 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h2>Login Slideshow</h2>
+          <p>Admin can add or remove the pictures shown on the login page.</p>
+        </div>
+      </div>
+
+      <?php if($adminError):?><div class="alert danger settings-alert"><?=e($adminError)?></div><?php endif;?>
+      <?php if($adminMessage):?><div class="alert success settings-alert"><?=e($adminMessage)?></div><?php endif;?>
+
+      <form method="post" enctype="multipart/form-data" class="slide-upload-form">
+        <input type="hidden" name="user_action" value="upload_slide">
+        <div class="settings-field">
+          <label>Slide Image</label>
+          <input type="file" name="slide_image" accept="image/jpeg,image/png,image/webp" required>
+          <small>JPG, PNG or WEBP • maximum 6 MB</small>
+        </div>
+        <div class="slide-upload-submit"><button class="add-user-btn filled" type="submit">+ Add Slide</button></div>
+      </form>
+
+      <?php if($loginSlides): ?>
+        <div class="login-slide-grid">
+          <?php foreach($loginSlides as $i=>$slide): ?>
+            <div class="login-slide-admin-card">
+              <div class="login-slide-admin-preview"><img src="<?=e($slide['image_data'])?>" alt="<?=e($slide['filename'])?>"></div>
+              <div class="login-slide-admin-meta"><strong>Slide <?=($i+1)?></strong><span><?=e($slide['filename'])?></span></div>
+              <form method="post" onsubmit="return confirm('Remove this login slide?');">
+                <input type="hidden" name="user_action" value="delete_slide">
+                <input type="hidden" name="slide_id" value="<?= (int)$slide['id'] ?>">
+                <button class="user-action-btn delete" type="submit">Remove</button>
+              </form>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <div class="slide-default-note">No custom slides uploaded yet. The built-in EDM login pictures are currently being used.</div>
+      <?php endif; ?>
     </section>
 
     <!-- User Management -->
