@@ -129,6 +129,34 @@ body{overflow:hidden}
   .login-slideshow{z-index:1!important;}
   .login-slide{z-index:1!important;}
 }
+
+/* Rich green decorative background — CSS only, no background photos */
+.login-page{background:
+  radial-gradient(circle at 16% 16%,rgba(43,205,119,.22) 0 70px,transparent 260px),
+  radial-gradient(circle at 86% 18%,rgba(31,161,101,.20) 0 90px,transparent 250px),
+  radial-gradient(circle at 50% 100%,rgba(35,188,112,.12) 0 130px,transparent 360px),
+  linear-gradient(135deg,#075e40 0%,#07563b 45%,#06462f 100%)!important;}
+.login-page:before{width:210px!important;height:210px!important;right:3%!important;top:5%!important;background:rgba(56,190,120,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 0 0 34px rgba(56,190,120,.025)!important;}
+.login-page:after{width:360px!important;height:360px!important;left:-170px!important;bottom:-205px!important;background:rgba(34,171,101,.10)!important;border:1px solid rgba(100,226,157,.06)!important;box-shadow:inset 0 0 0 45px rgba(34,171,101,.045),inset 0 0 0 90px rgba(34,171,101,.025)!important;}
+.left{background:
+  radial-gradient(circle at 4% 52%,rgba(90,222,143,.10) 0 2px,transparent 3px),
+  radial-gradient(circle at 8% 55%,rgba(90,222,143,.10) 0 2px,transparent 3px),
+  radial-gradient(circle at 12% 48%,rgba(90,222,143,.08) 0 2px,transparent 3px),
+  transparent!important;}
+.left:before{content:"";position:absolute;z-index:0;left:-80px;bottom:-150px;width:620px;height:300px;border-radius:50% 50% 0 0/100% 100% 0 0;background:linear-gradient(160deg,rgba(31,170,100,.18),rgba(9,102,67,.02));transform:rotate(-8deg);pointer-events:none;}
+.left:after{content:"";position:absolute;z-index:0;left:-60px;bottom:-185px;width:650px;height:245px;border-radius:50%;border-top:5px solid rgba(61,201,125,.22);border-right:0;border-left:0;border-bottom:0;transform:rotate(-8deg);pointer-events:none;}
+.right-panel:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(circle at 86% 74%,rgba(80,202,133,.10) 0 4px,transparent 5px),
+  radial-gradient(circle at 91% 78%,rgba(80,202,133,.08) 0 3px,transparent 4px),
+  radial-gradient(circle at 78% 82%,rgba(80,202,133,.08) 0 3px,transparent 4px);
+  opacity:.9;}
+.right-panel:after{content:"";position:absolute;z-index:0;right:-170px;bottom:-175px;width:520px;height:250px;border-radius:50%;background:linear-gradient(160deg,rgba(37,177,105,.12),rgba(7,80,52,.01));transform:rotate(-7deg);pointer-events:none;}
+.left-slogan,.login-slideshow,.left-secure,.right-panel>*{z-index:2;}
+.left-secure{font-size:14px!important;}
+@media(max-width:760px){
+  .right-panel:after{right:-220px;bottom:-180px;width:430px;height:220px;}
+}
+
 </style>
 </head>
 <body>
