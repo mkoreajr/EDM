@@ -93,20 +93,20 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 /* Login left-side product slideshow */
 .left{position:relative!important;overflow:hidden!important;background:#073d2a!important}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:linear-gradient(145deg,#00532f 0%,#007248 50%,#005b38 100%);display:flex;align-items:center;justify-content:center}
-.login-slide{position:absolute;left:50%;top:50%;width:min(76%,620px);height:min(61%,510px);transform:translate(-50%,-50%);opacity:0;transition:opacity 900ms ease-in-out;z-index:1;overflow:hidden;border-radius:20px;box-shadow:0 18px 45px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);background:#fff}
+.login-slide{position:absolute;left:50%;top:50%;width:min(76%,620px);aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity 900ms ease-in-out;z-index:1;overflow:hidden;border-radius:20px;box-shadow:0 18px 45px rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.20);background:#fff}
 .login-slide.active{opacity:1}
-.login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
+.login-slide img{width:100%;height:100%;display:block;object-fit:contain;object-position:center center;background:#fff}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at center,rgba(0,0,0,0) 0%,rgba(0,45,28,.06) 100%)}
 .slide-dots{position:absolute;z-index:3;left:50%;bottom:72px;transform:translateX(-50%);display:flex;gap:8px;padding:7px 10px;border-radius:20px;background:rgba(0,0,0,.28);backdrop-filter:blur(5px)}
 .slide-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s ease}
 .slide-dots .dot.active{width:22px;border-radius:10px;background:#ffd43f}
 @media(max-width:1100px){
-  .login-slide{width:min(78%,520px);height:min(58%,430px)}
+  .login-slide{width:min(78%,520px);height:auto;aspect-ratio:3/2}
   .slide-dots{bottom:54px}
 }
 @media(max-width:760px){
   .left{height:410px!important}
-  .login-slide{width:78%;height:70%;border-radius:16px}
+  .login-slide{width:78%;height:auto;aspect-ratio:3/2;border-radius:16px}
   .login-slide img{object-position:center center}
   .slide-dots{bottom:18px}
 }
