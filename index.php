@@ -139,12 +139,6 @@ html,body{margin:0;width:100%;height:100%;font-family:Arial, Helvetica, sans-ser
 <button class="btn" type="submit"><svg viewBox="0 0 24 24"><path d="M12 5v14M7 12l5-5 5 5"/></svg> Sign In</button>
 <div style="text-align:right;margin-top:10px"><a href="admin-recovery.php" style="color:#007b52;text-decoration:none;font-size:13px">Forgot admin password?</a></div>
 </form>
-<div class="divider">or continue with</div>
-<div class="pay">
-<div class="paybox cash"><div class="ico"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M5 9h1M18 15h1"/></svg></div><b>Cash</b><small>Simple &amp; Fast</small></div>
-<div class="paybox mobile"><div class="ico"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10 18.5h4"/></svg></div><b>Mobile Money</b><small>Secure &amp; Convenient</small></div>
-<div class="paybox bank"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 9h18L12 4 3 9Z"/><path d="M5 10v7M9 10v7M15 10v7M19 10v7M3 20h18"/></svg></div><b>Bank</b><small>Safe &amp; Reliable</small></div>
-</div>
 <div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Egg Businesses</div>
 <div class="demo">Demo administrator: <b>admin</b> / <b>admin123</b></div>
 </div></section>
