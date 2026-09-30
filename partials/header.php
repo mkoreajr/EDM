@@ -81,9 +81,18 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
    Adding stock above 50 trays removes the warning automatically.
    Selling stock below 50 trays shows it again. */
 $totalTrayStock = 0;
+$totalRiceStock = 0;
+$totalFlourStock = 0;
 $lsr = $conn->query("SELECT COALESCE(SUM(stock_quantity),0) AS total_trays FROM products WHERE LOWER(unit) = 'tray'");
 if ($lsr && ($lsrow = $lsr->fetch_assoc())) {
     $totalTrayStock = (float)$lsrow['total_trays'];
+}
+$lsr = $conn->query("SELECT LOWER(category) AS category, COALESCE(SUM(stock_quantity),0) AS total_stock FROM products WHERE LOWER(category) IN ('rice','flour') GROUP BY LOWER(category)");
+if ($lsr) {
+    while ($lsrow = $lsr->fetch_assoc()) {
+        if ($lsrow['category'] === 'rice') $totalRiceStock = (float)$lsrow['total_stock'];
+        if ($lsrow['category'] === 'flour') $totalFlourStock = (float)$lsrow['total_stock'];
+    }
 }
 ?>
 <?php if ($totalTrayStock > 0 && $totalTrayStock < 50): ?>
@@ -98,6 +107,38 @@ if ($lsr && ($lsrow = $lsr->fetch_assoc())) {
     <strong>Stock Low:</strong>
     Total stock is below 50 trays. Current stock:
     <b><?=number_format($totalTrayStock,2)?> trays</b>
+  </span>
+  <a href="inventory.php">View Stock</a>
+</div>
+<?php endif; ?>
+<?php if ($totalRiceStock > 0 && $totalRiceStock < 30): ?>
+<div class="low-stock-alert" role="alert">
+  <span class="low-stock-alert-icon">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span>
+    <strong>Rice Stock Low:</strong>
+    Total rice stock is below 30 packages. Current stock:
+    <b><?=number_format($totalRiceStock,2)?> packages</b>
+  </span>
+  <a href="inventory.php">View Stock</a>
+</div>
+<?php endif; ?>
+<?php if ($totalFlourStock > 0 && $totalFlourStock < 30): ?>
+<div class="low-stock-alert" role="alert">
+  <span class="low-stock-alert-icon">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span>
+    <strong>Flour Stock Low:</strong>
+    Total flour stock is below 30 packages. Current stock:
+    <b><?=number_format($totalFlourStock,2)?> packages</b>
   </span>
   <a href="inventory.php">View Stock</a>
 </div>
