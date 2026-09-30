@@ -1812,3 +1812,24 @@ html, body, button, input, select, textarea, table {
     z-index:2000 !important;
   }
 }
+
+/* FINAL MOBILE SIDEBAR CLICK FIX
+   Keep the backdrop behind the opened sidebar so navigation links remain clickable. */
+@media (max-width:850px){
+  .app-body.sidebar-mobile-open > .sidebar{
+    z-index:2100 !important;
+    pointer-events:auto !important;
+  }
+  .app-body.sidebar-mobile-open > .sidebar a,
+  .app-body.sidebar-mobile-open > .sidebar button,
+  .app-body.sidebar-mobile-open > .sidebar .side-nav{
+    pointer-events:auto !important;
+  }
+  .app-body.sidebar-mobile-open .sidebar-backdrop{
+    z-index:2050 !important;
+    pointer-events:auto !important;
+  }
+  .app-body.sidebar-mobile-open > .content > .app-topbar{
+    z-index:2200 !important;
+  }
+}
