@@ -69,9 +69,9 @@ body{
   margin:0 16px;padding:9px 0;text-align:center;font-size:18px;font-weight:800;
   color:#172d27;
 }
-.sale-meta{padding:13px 22px 5px;display:grid;grid-template-columns:1fr 1fr;gap:5px 22px;font-size:11px}
-.meta-row{display:flex;justify-content:space-between;gap:10px}
-.meta-row b{color:#405b52}.meta-row span{text-align:right;color:#1f302c}
+.sale-meta{padding:13px 22px 5px;display:grid;grid-template-columns:1fr 1fr;gap:7px 28px;font-size:11px}
+.meta-row{display:grid;grid-template-columns:78px minmax(0,1fr);align-items:start;gap:7px;min-width:0}
+.meta-row b{color:#405b52;white-space:nowrap}.meta-row span{text-align:left;color:#1f302c;min-width:0;overflow-wrap:anywhere}
 .receipt-table{width:calc(100% - 32px);margin:9px 16px;border-collapse:collapse;font-size:11px}
 .receipt-table th{background:#f0f7f3;color:#2b4d41;font-weight:800}
 .receipt-table th,.receipt-table td{padding:8px 6px;border-bottom:1px solid #e3ebe7}
@@ -94,7 +94,8 @@ body{
   .receipt-header{padding:20px 15px 12px}
   .receipt-header h1{font-size:18px}
   .receipt-title{font-size:16px;margin:0 11px}
-  .sale-meta{padding:11px 14px 4px;grid-template-columns:1fr;gap:4px}
+  .sale-meta{padding:11px 14px 4px;grid-template-columns:1fr;gap:5px}
+  .meta-row{grid-template-columns:76px minmax(0,1fr);gap:6px}
   .receipt-table{width:calc(100% - 20px);margin:8px 10px;font-size:9px}
   .receipt-table th,.receipt-table td{padding:6px 4px}
   .totals{margin:5px 10px 0}
