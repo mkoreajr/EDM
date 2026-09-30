@@ -5,7 +5,7 @@ if(isset($_SESSION['user_id'])){header('Location: dashboard.php');exit;}
 
 $customSlides=[];
 try{
-  $sr=$conn->query("SELECT id,filename,mime_type,image_data FROM login_slides ORDER BY sort_order ASC,id ASC");
+  $sr=$conn->query("SELECT id,filename FROM login_slides ORDER BY sort_order ASC,id ASC");
   while($row=$sr->fetch_assoc()){ $customSlides[]=$row; }
 }catch(Throwable $e){ $customSlides=[]; }
 
@@ -228,6 +228,9 @@ body{overflow:hidden}
   .center-divider{display:none!important;}
   .left-secure{display:none!important;}
 }
+
+/* Performance: decode slide images asynchronously. */
+.login-slide img{image-rendering:auto;}
 </style>
 </head>
 <body>
@@ -235,16 +238,16 @@ body{overflow:hidden}
   <div class="center-divider" aria-hidden="true"></div>
   <div class="glow"></div>
   <section class="left" aria-label="EDM products">
-    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.png" alt="Chakula Bora kwa Familia Yako"></div>
+    <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.webp" alt="Chakula Bora kwa Familia Yako"></div>
     <div class="login-slideshow">
       <?php if($customSlides): ?>
         <?php foreach($customSlides as $i=>$slide): ?>
-          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img src="<?=htmlspecialchars((string)$slide['image_data'],ENT_QUOTES,'UTF-8')?>" alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>"></div>
+          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img <?= $i===0 ? 'src="login_slide_image.php?id='.(int)$slide['id'].'" fetchpriority="high"' : 'data-src="login_slide_image.php?id='.(int)$slide['id'].'"' ?> alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>" decoding="async"></div>
         <?php endforeach; ?>
       <?php else: ?>
-        <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.png" alt="EDM Rice and Unga products"></div>
-        <div class="login-slide"><img src="assets/login-slides/edm-rice-unga-2.png" alt="EDM Rice and Unga products"></div>
-        <div class="login-slide"><img src="assets/login-slides/edm-juice.png" alt="EDM Juice products"></div>
+        <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.webp" alt="EDM Rice and Unga products" fetchpriority="high" decoding="async"></div>
+        <div class="login-slide"><img data-src="assets/login-slides/edm-rice-unga-2.webp" alt="EDM Rice and Unga products" decoding="async"></div>
+        <div class="login-slide"><img data-src="assets/login-slides/edm-juice.webp" alt="EDM Juice products" decoding="async"></div>
       <?php endif; ?>
       <div class="login-slide-overlay"></div>
       <?php $slideCount=count($customSlides ?: [1,2,3]); ?>
@@ -254,7 +257,7 @@ body{overflow:hidden}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.png" alt="EDM Rice & Unga"></div>
+    <div class="logo-wrap"><img src="assets/branding/edm-rice-unga-logo.webp" alt="EDM Rice & Unga"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your EDM Kienyeji Shop dashboard.</p>
@@ -289,7 +292,24 @@ body{overflow:hidden}
 const slides=[...document.querySelectorAll('.login-slide')];
 const dots=[...document.querySelectorAll('.slide-dots .dot')];
 let currentSlide=0;
-if(slides.length>1){setInterval(()=>{slides[currentSlide].classList.remove('active');dots[currentSlide].classList.remove('active');currentSlide=(currentSlide+1)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');},5000);}
+const loadSlideImage=(index)=>{
+  const img=slides[index]?.querySelector('img[data-src]');
+  if(img && !img.src){ img.src=img.dataset.src; img.removeAttribute('data-src'); }
+};
+loadSlideImage(0);
+loadSlideImage(1);
+if(slides.length>1){
+  setInterval(()=>{
+    const next=(currentSlide+1)%slides.length;
+    loadSlideImage(next);
+    slides[currentSlide].classList.remove('active');
+    if(dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    currentSlide=next;
+    slides[currentSlide].classList.add('active');
+    if(dots[currentSlide]) dots[currentSlide].classList.add('active');
+    loadSlideImage((currentSlide+1)%slides.length);
+  },5000);
+}
 
 function togglePassword(){const p=document.getElementById('password');const b=document.querySelector('.eye');p.type=p.type==='password'?'text':'password';b.setAttribute('aria-label',p.type==='password'?'Show password':'Hide password');}
 
