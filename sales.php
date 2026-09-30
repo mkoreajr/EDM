@@ -1,7 +1,7 @@
 <?php
 require "auth.php"; $pageTitle="Sales"; $active="sales"; $message='';
 if(isset($_POST['save_sale'])){
-    $customer_id=(int)($_POST['customer_id']??0); $product_id=(int)$_POST['product_id']; $qty=(float)$_POST['quantity']; $payment=$_POST['payment_method'];
+    $customer_id=(int)($_POST['customer_id']??0); $product_id=(int)$_POST['product_id']; $qty=(int)$_POST['quantity']; $payment=$_POST['payment_method'];
     if(!in_array($payment,['Cash','Mobile Money','Bank'],true) || $qty<=0){$message="Please enter valid sale details.";}
     else{
         $conn->begin_transaction();
@@ -43,8 +43,8 @@ require "partials/header.php";
 <?php if($productCount===0): ?><div class="alert danger stock-no-sale">No stock available. Please contact the administrator to update stock before making a sale.</div><?php endif; ?>
 <div class="panel"><h3>New Sale</h3><form method="post">
 <div class="form-grid"><div class="field"><label>Customer</label><select name="customer_id"><option value="0">Walk-in Customer</option><?php while($c=$customers->fetch_assoc()): ?><option value="<?=$c['id']?>"><?=e($c['name'])?></option><?php endwhile;?></select></div>
-<div class="field"><label>Product</label><select name="product_id" id="product" required <?= $productCount===0 ? "disabled" : "" ?>><?php while($p=$products->fetch_assoc()): ?><option value="<?=$p['id']?>" data-price="<?=$p['selling_price']?>" data-stock="<?=$p['stock_quantity']?>"><?=e($p['name'])?> - <?=e($p['unit'])?> (Stock: <?=money($p['stock_quantity'])?>)</option><?php endwhile;?></select></div>
-<div class="field"><label>Quantity</label><input type="number" step="0.01" min="0.01" name="quantity" id="qty" required></div>
+<div class="field"><label>Product</label><select name="product_id" id="product" required <?= $productCount===0 ? "disabled" : "" ?>><?php while($p=$products->fetch_assoc()): ?><option value="<?=$p['id']?>" data-price="<?=$p['selling_price']?>" data-stock="<?=$p['stock_quantity']?>"><?=e($p['name'])?> - Tray (Stock: <?=number_format((int)$p['stock_quantity'])?> tray<?=((int)$p['stock_quantity']===1?'':'s')?> / <?=number_format((int)$p['stock_quantity']*30)?> eggs)</option><?php endwhile;?></select></div>
+<div class="field"><label>Quantity (Trays)</label><input type="number" step="1" min="1" name="quantity" id="qty" required><small class="field-help">1 tray = 30 eggs. Sales are recorded by whole trays.</small></div>
 <div class="field"><label>Unit Price (TZS)</label><input id="price" readonly></div>
 <div class="field"><label>Total Amount (TZS)</label><input id="total" readonly></div>
 <div class="field"><label>Payment Method</label><select name="payment_method" required><option>Cash</option><option>Mobile Money</option><option>Bank</option></select></div></div>
@@ -67,5 +67,5 @@ require "partials/header.php";
 <div class="sales-page-info">Showing <?=($offset+1)?>–<?=min($offset+$perPage,$totalSales)?> of <?=$totalSales?> sales</div>
 <?php endif; ?>
 </div></div>
-<script>const p=document.getElementById('product'),q=document.getElementById('qty'),pr=document.getElementById('price'),t=document.getElementById('total');function calc(){let o=p.options[p.selectedIndex],price=+o.dataset.price||0;pr.value=price.toLocaleString();t.value=((+q.value||0)*price).toLocaleString()}p.addEventListener('change',calc);q.addEventListener('input',calc);calc();</script>
+<script>const p=document.getElementById('product'),q=document.getElementById('qty'),pr=document.getElementById('price'),t=document.getElementById('total');function calc(){let o=p.options[p.selectedIndex],price=+o.dataset.price||0;pr.value=price.toLocaleString();t.value=((+q.value||0)*price).toLocaleString()}p.addEventListener('change',calc);q.addEventListener('input',calc);calc();</script><style>.field-help{display:block;margin-top:5px;font-size:12px;color:#60736d}</style>
 <?php require "partials/footer.php"; ?>
