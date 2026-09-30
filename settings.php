@@ -232,92 +232,12 @@ try {
     <div>
       <div class="welcome-kicker">SYSTEM SETTINGS</div>
       <h1>Settings</h1>
-      <p>Customize your shop information, receipts, system preferences and users.</p>
+      <p>Manage system preferences, login slideshow and users.</p>
     </div>
     <div class="settings-breadcrumb">Home <span>›</span> Settings</div>
   </div>
 
   <div class="settings-four-grid">
-
-    <!-- Business Information -->
-    <section class="settings-section">
-      <div class="settings-section-head">
-        <div class="settings-section-icon business-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 10h16M5 10v9h14v-9M3 10l2-5h14l2 5M8 14h3v5H8zM14 14h3v5h-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-            <path d="M4 19h16" fill="none" stroke="currentColor" stroke-width="1.7"/>
-          </svg>
-        </div>
-        <div>
-          <h2>Business Information</h2>
-          <p>Update your shop details shown on receipts.</p>
-        </div>
-      </div>
-      <form method="post">
-        <input type="hidden" name="user_action" value="save_business_settings">
-      <div class="settings-fields">
-        <div class="settings-field full">
-          <label>Shop Name <b>*</b></label>
-          <input name="shop_name" type="text" value="<?=e($settings['shop_name'])?>" required>
-        </div>
-        <div class="settings-field">
-          <label>Phone Number</label>
-          <input name="shop_phone" type="text" value="<?=e($settings['shop_phone'])?>">
-        </div>
-        <div class="settings-field">
-          <label>Address</label>
-          <input name="shop_address" type="text" value="<?=e($settings['shop_address'])?>">
-        </div>
-        <div class="settings-field full">
-          <label>Email (Optional)</label>
-          <input name="shop_email" type="email" value="<?=e($settings['shop_email'])?>">
-        </div>
-      </div>
-      <button class="settings-save" type="submit">
-        <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        Save Changes
-      </button>
-      </form>
-    </section>
-
-    <!-- Receipt Setting -->
-    <section class="settings-section">
-      <div class="settings-section-head">
-        <div class="settings-section-icon receipt-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-            <path d="M9 8h6M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div>
-          <h2>Receipt Setting</h2>
-          <p>Customize what appears on printed receipts.</p>
-        </div>
-      </div>
-
-      <form method="post">
-        <input type="hidden" name="user_action" value="save_receipt_settings">
-      <div class="receipt-options">
-        <label><input name="receipt_show_shop_name" type="checkbox" <?=($settings['receipt_show_shop_name']==='1'?'checked':'')?>><span>Show shop name</span></label>
-        <label><input name="receipt_show_address" type="checkbox" <?=($settings['receipt_show_address']==='1'?'checked':'')?>><span>Show address</span></label>
-        <label><input name="receipt_show_phone" type="checkbox" <?=($settings['receipt_show_phone']==='1'?'checked':'')?>><span>Show phone number</span></label>
-        <label><input name="receipt_show_number" type="checkbox" <?=($settings['receipt_show_number']==='1'?'checked':'')?>><span>Show receipt number</span></label>
-        <label><input name="receipt_show_datetime" type="checkbox" <?=($settings['receipt_show_datetime']==='1'?'checked':'')?>><span>Show date &amp; time</span></label>
-        <label><input name="receipt_show_cashier" type="checkbox" <?=($settings['receipt_show_cashier']==='1'?'checked':'')?>><span>Show cashier name</span></label>
-        <label><input name="receipt_show_thanks" type="checkbox" <?=($settings['receipt_show_thanks']==='1'?'checked':'')?>><span>Show thank you message</span></label>
-      </div>
-
-      <div class="settings-field full receipt-message">
-        <label>Receipt Footer Message</label>
-        <textarea name="receipt_footer"><?=e($settings['receipt_footer'])?></textarea>
-      </div>
-
-      <button class="settings-save" type="submit">
-        <svg viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5zM8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        Save Changes
-      </button>
-      </form>
-    </section>
 
     <!-- System Preferences -->
     <section class="settings-section">
