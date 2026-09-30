@@ -197,10 +197,30 @@ body{overflow:hidden}
   .left{display:none!important;}
   .right-panel{width:100%!important;}
 }
+
+/* V78 — center divider only; no decorative circles/dots on the login side */
+.center-divider{
+  position:absolute!important;
+  z-index:4!important;
+  top:12%!important;
+  bottom:10%!important;
+  left:50%!important;
+  width:1px!important;
+  background:rgba(255,255,255,.20)!important;
+  pointer-events:none!important;
+}
+.right-panel:before,.right-panel:after{
+  display:none!important;
+  content:none!important;
+}
+@media(max-width:760px){
+  .center-divider{display:none!important;}
+}
 </style>
 </head>
 <body>
 <div class="login-page">
+  <div class="center-divider" aria-hidden="true"></div>
   <div class="glow"></div>
   <section class="left" aria-label="EDM products">
     <div class="left-slogan" aria-label="Chakula Bora kwa Familia Yako"><img src="assets/branding/edm-slogan.png" alt="Chakula Bora kwa Familia Yako"></div>
