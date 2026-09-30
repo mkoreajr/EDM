@@ -60,13 +60,13 @@ body{overflow:auto}
 .forgot-row{display:flex;justify-content:flex-end;margin:-1px 0 17px}.forgot{color:#157d57;text-decoration:none;font-size:11px;font-weight:700}
 .btn{width:100%;height:45px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}.btn:hover{background:#12a568}
 .secure{display:none}
-.right-footer{position:absolute;z-index:3;left:50%;bottom:-69px;transform:translateX(-50%);width:100%;text-align:center;color:#71847c}.support{text-align:center;color:#75867f;font-size:11px;line-height:1.45;margin:0}.support a{color:#157d57;text-decoration:none}.footer{text-align:center;color:#87958f;font-size:10px;margin-top:6px}
+.right-footer{position:absolute;z-index:3;left:50%;bottom:-69px;transform:translateX(-50%);width:100%;text-align:center;color:#71847c}.support{text-align:center;color:#75867f;font-size:13px;line-height:1.5;margin:0}.support a{color:#157d57;text-decoration:none}.footer{text-align:center;color:#87958f;font-size:12px;margin-top:7px}
 @media(max-width:920px) and (min-width:761px){.left{width:52vw;height:520px}.login-page>.right-panel{width:42vw;height:520px;padding:32px 34px}.login-slide{width:88%}.left-slogan{width:45%;left:18px}}
 @media(max-width:760px){
  html,body{background:#eef3f1}.login-page{display:flex!important;min-height:100vh;height:auto;padding:24px 14px 70px;align-items:center;justify-content:center;background:linear-gradient(145deg,#edf4f1,#f7f9f8)}
  .left{display:none!important}
  .login-page>.right-panel{width:min(430px,100%);height:auto;min-height:0;border-radius:16px;padding:28px 24px 26px;box-shadow:0 18px 45px rgba(18,58,45,.14)}
- .logo-wrap{height:78px;width:200px;margin-bottom:14px}.login-title{font-size:25px}.sub{margin-bottom:20px}.right-footer{position:relative;left:auto;bottom:auto;transform:none;width:100%;margin-top:16px}.support{font-size:11px}.footer{font-size:10px}
+ .logo-wrap{height:78px;width:200px;margin-bottom:14px}.login-title{font-size:25px}.sub{margin-bottom:20px}.right-footer{position:relative;left:auto;bottom:auto;transform:none;width:100%;margin-top:16px}.support{font-size:13px}.footer{font-size:12px}
 }
 </style>
 </head>
