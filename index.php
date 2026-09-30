@@ -159,4 +159,48 @@ function togglePassword(){const p=document.getElementById('password');p.type=p.t
   },5000);
 })();
 </script>
-</body></html>
+</body></html><style id="login-right-green-v49">
+/* V49: Green glass login panel inspired by the supplied reference */
+.page{background:#064f36!important}
+.right{
+  position:relative!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 86% 16%,rgba(106,190,139,.20) 0 90px,transparent 91px),
+    radial-gradient(circle at 94% 88%,rgba(117,196,151,.16) 0 150px,transparent 151px),
+    linear-gradient(145deg,#075a3b 0%,#064a32 55%,#073f2d 100%)!important;
+  color:#fff!important;
+  border-left:1px solid rgba(255,255,255,.16)!important;
+}
+.right:before,.right:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
+.right:before{width:150px;height:150px;left:-72px;bottom:-60px}
+.right:after{width:90px;height:90px;right:10%;top:10%;}
+.right .card{position:relative;z-index:2;width:min(520px,100%)!important}
+.right .badge{justify-content:flex-start!important;margin:0 0 42px!important;color:#d9f4e5!important}
+.right .badge span{width:42px;height:42px;background:rgba(235,255,245,.10)!important;border:1px solid rgba(255,255,255,.08)!important}
+.right .badge svg{stroke:#72d7a3!important}
+.right .welcome{color:#b8d7c7!important}
+.right h2{color:#fff!important}
+.right h2 span{color:#46d28d!important}
+.right .sub{color:#c4d9cf!important}
+.right .field label{color:#e7f4ee!important}
+.right .input{background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.34)!important;border-radius:12px!important;box-shadow:none!important}
+.right .input:focus-within{border-color:#78dbaa!important;box-shadow:0 0 0 3px rgba(120,219,170,.12)!important}
+.right .input input{color:#fff!important}
+.right .input input::placeholder{color:rgba(232,246,239,.52)!important}
+.right .icon svg{stroke:#b8d3c7!important}
+.right .eye{color:#b8d3c7!important}
+.right .remember{color:#d2e5dc!important}
+.right .remember input{accent-color:#42c98a!important}
+.right .forgot{color:#8de1b5!important}
+.right .btn{background:#35b96f!important;color:#fff!important;border-radius:11px!important;box-shadow:0 9px 24px rgba(0,0,0,.16)!important}
+.right .btn:hover{background:#3bc77a!important}
+.right .secure{background:rgba(66,201,138,.10)!important;color:#b9ead0!important;border:1px solid rgba(255,255,255,.08)!important}
+.right .secure svg{stroke:#70d9a4!important}
+.right .demo{color:#8eb8a6!important}
+.right .error{background:rgba(255,235,235,.10)!important;border-color:rgba(255,170,170,.35)!important;color:#ffd3d3!important}
+@media(max-width:760px){
+  .right{border-left:0!important;border-top:1px solid rgba(255,255,255,.16)!important}
+  .right .card{width:100%!important}
+}
+</style>
