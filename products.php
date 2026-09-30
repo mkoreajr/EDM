@@ -55,19 +55,25 @@ require "partials/header.php";
 <style>.field-help{display:block;margin-top:5px;font-size:12px;color:#60736d}.field input[readonly]{background:#f7faf9;color:#1d2b27}.package-field.hidden{display:none}</style>
 <script>
 const cat=document.getElementById('category'), productName=document.getElementById('product_name'), pkg=document.getElementById('package_size_kg'), unit=document.getElementById('unit_display'), stockLabel=document.getElementById('stock_label'), stockHelp=document.getElementById('stock_help'), unitHelp=document.getElementById('unit_help');
-function syncProductFields(){
+const productOptions=[['Eggs','Eggs'],['Rice','Rice'],['Flour','Flour']];
+function syncProductFields(selectName=true){
   const type=cat.value;
   const egg=type==='Eggs';
-  const current=productName.value;
-  const names={Eggs:[['Eggs','Eggs']],Rice:[['Rice','Rice']],Flour:[['Flour','Flour']]};
-  productName.innerHTML=(names[type]||[]).map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
-  productName.value=(names[type]||[]).some(([value])=>value===current)?current:type;
+  if(selectName){
+    const current=productName.value;
+    productName.innerHTML=productOptions.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+    productName.value=productOptions.some(([value])=>value===current)?current:type;
+  }
   pkg.disabled=egg; pkg.required=!egg; pkg.closest('.package-field').classList.toggle('hidden',egg);
   unit.value=egg?'Tray':'Bag';
   stockLabel.textContent=egg?'Stock Quantity (Trays)':'Stock Quantity (Bags)';
   stockHelp.textContent=egg?'Enter whole trays. Example: 1 = 1 tray = 30 eggs.':'Enter whole bags/packages. Each bag uses the selected package size (1–20 Kg).';
   unitHelp.textContent=egg?'Egg stock is counted by tray. 1 tray = 30 eggs.':'Rice/Flour stock is counted by bags/packages.';
 }
-cat.addEventListener('change',syncProductFields); syncProductFields();
+productName.innerHTML=productOptions.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+productName.value=<?=json_encode($edit['name']??'Eggs')?>;
+cat.addEventListener('change',()=>syncProductFields(true));
+productName.addEventListener('change',()=>{ cat.value=productName.value; syncProductFields(false); });
+syncProductFields(false);
 </script>
 <?php require "partials/footer.php"; ?>
