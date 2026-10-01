@@ -4,10 +4,27 @@ require_once __DIR__ . '/config/database.php';
 if(isset($_SESSION['user_id'])){header('Location: dashboard.php');exit;}
 
 $customSlides=[];
+$firstSlideSrc='';
 try{
-  $sr=$conn->query("SELECT id,filename FROM login_slides ORDER BY sort_order ASC,id ASC");
-  while($row=$sr->fetch_assoc()){ $customSlides[]=$row; }
-}catch(Throwable $e){ $customSlides=[]; }
+  // Fetch slide metadata once, then embed the first slide directly in the login HTML.
+  // This removes the extra PHP/database request that was causing the green blank delay on refresh.
+  $sr=$conn->query("SELECT id,filename,mime_type,image_data FROM login_slides ORDER BY sort_order ASC,id ASC");
+  while($row=$sr->fetch_assoc()){
+    if($firstSlideSrc==='') {
+      $raw=(string)($row['image_data'] ?? '');
+      $mime=(string)($row['mime_type'] ?? 'image/jpeg');
+      if($raw!=='') {
+        if(str_starts_with($raw,'data:')) {
+          $firstSlideSrc=$raw;
+        } else {
+          $firstSlideSrc='data:'.$mime.';base64,'.preg_replace('/\s+/', '', $raw);
+        }
+      }
+    }
+    unset($row['image_data']);
+    $customSlides[]=$row;
+  }
+}catch(Throwable $e){ $customSlides=[]; $firstSlideSrc=''; }
 
 $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 ?>
@@ -80,7 +97,7 @@ body{overflow:auto}
     <div class="login-slideshow">
       <?php if($customSlides): ?>
         <?php foreach($customSlides as $i=>$slide): ?>
-          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img <?= $i===0 ? 'src="login_slide_image.php?id='.(int)$slide['id'].'" fetchpriority="high"' : 'data-src="login_slide_image.php?id='.(int)$slide['id'].'"' ?> alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>" decoding="async"></div>
+          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img <?= $i===0 && $firstSlideSrc!=='' ? 'src="'.htmlspecialchars($firstSlideSrc,ENT_QUOTES,'UTF-8').'" fetchpriority="high"' : 'data-src="login_slide_image.php?id='.(int)$slide['id'].'"' ?> alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>" decoding="async"></div>
         <?php endforeach; ?>
       <?php else: ?>
         <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.webp" alt="EDM Rice and Unga products" fetchpriority="high" decoding="async"></div>
@@ -95,7 +112,7 @@ body{overflow:auto}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop"></div>
+    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop" width="210" height="82" decoding="async" fetchpriority="high"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your MSINDA Food Shop dashboard.</p>
