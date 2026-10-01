@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/config/database.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if ($id < 1) { http_response_code(404); exit; }
@@ -20,8 +19,13 @@ try {
     }
     $binary = base64_decode($data, true);
     if ($binary === false) { http_response_code(500); exit; }
+    $etag='\"'.sha1($binary).'\"';
+    header('ETag: '.$etag);
+    header('Cache-Control: public, max-age=31536000, immutable');
+    if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag){
+        http_response_code(304); exit;
+    }
     header('Content-Type: ' . $mime);
-    header('Cache-Control: public, max-age=86400, stale-while-revalidate=604800');
     header('X-Content-Type-Options: nosniff');
     header('Content-Length: ' . strlen($binary));
     echo $binary;

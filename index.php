@@ -6,23 +6,14 @@ if(isset($_SESSION['user_id'])){header('Location: dashboard.php');exit;}
 $customSlides=[];
 $firstSlideSrc='';
 try{
-  // Fetch slide metadata once, then embed the first slide directly in the login HTML.
-  // This removes the extra PHP/database request that was causing the green blank delay on refresh.
-  $sr=$conn->query("SELECT id,filename,mime_type,image_data FROM login_slides ORDER BY sort_order ASC,id ASC");
+  // Fetch only lightweight slide metadata on login. Image bytes are served by the
+  // dedicated cached endpoint so refreshes do not embed a large base64 image in HTML.
+  $sr=$conn->query("SELECT id,filename,mime_type,sort_order FROM login_slides ORDER BY sort_order ASC,id ASC");
   while($row=$sr->fetch_assoc()){
-    if($firstSlideSrc==='') {
-      $raw=(string)($row['image_data'] ?? '');
-      $mime=(string)($row['mime_type'] ?? 'image/jpeg');
-      if($raw!=='') {
-        if(str_starts_with($raw,'data:')) {
-          $firstSlideSrc=$raw;
-        } else {
-          $firstSlideSrc='data:'.$mime.';base64,'.preg_replace('/\s+/', '', $raw);
-        }
-      }
-    }
-    unset($row['image_data']);
     $customSlides[]=$row;
+  }
+  if($customSlides){
+    $firstSlideSrc='login_slide_image.php?id='.(int)$customSlides[0]['id'];
   }
 }catch(Throwable $e){ $customSlides=[]; $firstSlideSrc=''; }
 
@@ -34,6 +25,7 @@ $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MSINDA Food Shop — Login</title>
+<?php if($firstSlideSrc!==''): ?><link rel="preload" as="image" href="<?=htmlspecialchars($firstSlideSrc,ENT_QUOTES,'UTF-8')?>" fetchpriority="high"><?php endif; ?>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#eef3f1;color:#17352b}
@@ -97,7 +89,7 @@ body{overflow:auto}
     <div class="login-slideshow">
       <?php if($customSlides): ?>
         <?php foreach($customSlides as $i=>$slide): ?>
-          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img <?= $i===0 && $firstSlideSrc!=='' ? 'src="'.htmlspecialchars($firstSlideSrc,ENT_QUOTES,'UTF-8').'" fetchpriority="high"' : 'data-src="login_slide_image.php?id='.(int)$slide['id'].'"' ?> alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>" decoding="async"></div>
+          <div class="login-slide <?= $i===0 ? 'active' : '' ?>"><img <?= $i===0 && $firstSlideSrc!=='' ? 'src="'.htmlspecialchars($firstSlideSrc,ENT_QUOTES,'UTF-8').'" fetchpriority="high"' : 'data-src="login_slide_image.php?id='.(int)$slide['id'].'"' ?> alt="<?=htmlspecialchars((string)$slide['filename'],ENT_QUOTES,'UTF-8')?>" decoding="async" loading="eager"></div>
         <?php endforeach; ?>
       <?php else: ?>
         <div class="login-slide active"><img src="assets/login-slides/edm-rice-unga-1.webp" alt="EDM Rice and Unga products" fetchpriority="high" decoding="async"></div>
@@ -185,8 +177,8 @@ const showSlide=(next)=>{
   }).catch(()=>{ switching=false; });
 };
 
-// The first slide must be fully ready before it is displayed.
-slides.forEach(s=>s.classList.remove('active'));
+// Keep the first slide active immediately. The browser can paint it as soon as
+// the cached image arrives; we no longer hide the whole slide while decode runs.
 prepareSlide(0).then(()=>{
   slides[0].classList.add('active');
   if(dots[0]) dots[0].classList.add('active');
