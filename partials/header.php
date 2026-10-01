@@ -157,3 +157,18 @@ if (($active??'') === 'dashboard') {
   <a href="inventory.php">View Stock</a>
 </div>
 <?php endif; ?>
+<script>
+/* 60-second inactivity logout. */
+(function(){
+  const IDLE_LIMIT = 60000;
+  let timer;
+  function resetIdleTimer(){
+    if(timer) clearTimeout(timer);
+    timer=setTimeout(function(){ window.location.replace('logout.php?timeout=1'); }, IDLE_LIMIT);
+  }
+  ['click','keydown','pointerdown','touchstart','scroll'].forEach(function(evt){
+    window.addEventListener(evt, resetIdleTimer, {passive:true});
+  });
+  resetIdleTimer();
+})();
+</script>

@@ -26,6 +26,24 @@ if(empty($_SESSION['user_id'])){
     exit;
 }
 
+// Hard 60-second inactivity timeout. This is enforced server-side as well as
+// by the browser idle timer in the shared header, so it cannot silently stay
+// logged in when the client-side timer fails.
+$idleTimeout = 60;
+$now = time();
+$lastActivity = (int)($_SESSION['last_activity'] ?? 0);
+if($lastActivity > 0 && ($now - $lastActivity) >= $idleTimeout){
+    $_SESSION = [];
+    if(ini_get('session.use_cookies')){
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time()-42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+    }
+    session_destroy();
+    header("Location: index.php?timeout=1");
+    exit;
+}
+$_SESSION['last_activity'] = $now;
+
 $currentPage=basename((string)($_SERVER['PHP_SELF'] ?? ''));
 if(password_change_required() && !in_array($currentPage,['change_password.php','logout.php'],true)){
     header("Location: change_password.php?required=1");
