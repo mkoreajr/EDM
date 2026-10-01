@@ -32,8 +32,10 @@ body{overflow:auto}
 .left-slogan{position:absolute!important;z-index:6!important;top:22px!important;left:24px!important;width:min(310px,42%)!important;height:auto!important;pointer-events:none}
 .left-slogan img{width:100%;height:auto;display:block;object-fit:contain}
 .login-slideshow{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(145deg,#08734a,#045236)!important}
-.login-slide{position:absolute;left:50%;top:51%;width:80%;max-width:680px;aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity .7s ease;z-index:1;overflow:hidden;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.22)}
-.login-slide.active{opacity:1}
+.login-slide{position:absolute;left:50%;top:51%;width:80%;max-width:680px;aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity .7s ease;z-index:1;overflow:hidden;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.22);will-change:opacity}
+.login-slide.active{opacity:1;z-index:2}
+.login-slide.is-ready{visibility:visible}
+.login-slideshow{isolation:isolate}
 .login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;background:transparent}
 .login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,58,38,.08),rgba(0,48,31,.18))}
 .slide-dots{position:absolute;z-index:7;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:0;background:transparent;border:0;box-shadow:none}
@@ -93,7 +95,7 @@ body{overflow:auto}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop"></div>
+    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your MSINDA Food Shop dashboard.</p>
@@ -120,7 +122,7 @@ body{overflow:auto}
   </main>
   <div class="right-footer">
     <div class="support">For any Technical inquiry, Please contact your Support Team at : <a href="mailto:ictsupport@gmail.com">ictsupport@gmail.com</a></div>
-    <div class="footer">© 2026 | MSINDA Food Shop | v1.1.0</div>
+    <div class="footer">© 2026 MSINDA Food Shop | All Rights Reserved.</div>
   </div>
   </section>
 </div>
@@ -128,23 +130,56 @@ body{overflow:auto}
 const slides=[...document.querySelectorAll('.login-slide')];
 const dots=[...document.querySelectorAll('.slide-dots .dot')];
 let currentSlide=0;
-const loadSlideImage=(index)=>{
-  const img=slides[index]?.querySelector('img[data-src]');
-  if(img && !img.src){ img.src=img.dataset.src; img.removeAttribute('data-src'); }
-};
-loadSlideImage(0);
-if(slides.length>1){ setTimeout(()=>loadSlideImage(1),1200); }
-if(slides.length>1){
-  setInterval(()=>{
-    const next=(currentSlide+1)%slides.length;
-    loadSlideImage(next);
-    slides[currentSlide].classList.remove('active');
-    if(dots[currentSlide]) dots[currentSlide].classList.remove('active');
+let switching=false;
+
+// Preload an image and wait until it is actually decoded before showing it.
+// This prevents the green slideshow background from flashing between slides.
+const prepareSlide=(index)=>new Promise((resolve,reject)=>{
+  const img=slides[index]?.querySelector('img');
+  if(!img) return reject();
+  if(!img.src && img.dataset.src){
+    img.src=img.dataset.src;
+    img.removeAttribute('data-src');
+  }
+  const done=async()=>{
+    try{ if(img.decode) await img.decode(); }catch(e){}
+    slides[index].classList.add('is-ready');
+    resolve();
+  };
+  if(img.complete && img.naturalWidth>0){ done(); return; }
+  img.addEventListener('load',done,{once:true});
+  img.addEventListener('error',()=>reject(),{once:true});
+});
+
+const showSlide=(next)=>{
+  if(next===currentSlide || switching) return;
+  switching=true;
+  prepareSlide(next).then(()=>{
+    const previous=currentSlide;
+    slides[next].classList.add('active');
+    if(dots[previous]) dots[previous].classList.remove('active');
+    if(dots[next]) dots[next].classList.add('active');
     currentSlide=next;
-    slides[currentSlide].classList.add('active');
-    if(dots[currentSlide]) dots[currentSlide].classList.add('active');
-    loadSlideImage((currentSlide+1)%slides.length);
-  },5000);
+    window.setTimeout(()=>{
+      slides[previous].classList.remove('active');
+      switching=false;
+      prepareSlide((currentSlide+1)%slides.length).catch(()=>{});
+    },700);
+  }).catch(()=>{ switching=false; });
+};
+
+// The first slide must be fully ready before it is displayed.
+slides.forEach(s=>s.classList.remove('active'));
+prepareSlide(0).then(()=>{
+  slides[0].classList.add('active');
+  if(dots[0]) dots[0].classList.add('active');
+  prepareSlide(1).catch(()=>{});
+}).catch(()=>{
+  slides[0]?.classList.add('active');
+});
+
+if(slides.length>1){
+  setInterval(()=>showSlide((currentSlide+1)%slides.length),5000);
 }
 
 function togglePassword(){const p=document.getElementById('password');const b=document.querySelector('.eye');p.type=p.type==='password'?'text':'password';b.setAttribute('aria-label',p.type==='password'?'Show password':'Hide password');}
