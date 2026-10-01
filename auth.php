@@ -26,10 +26,10 @@ if(empty($_SESSION['user_id'])){
     exit;
 }
 
-// Hard 60-second inactivity timeout. This is enforced server-side as well as
+// Hard 120-second inactivity timeout. This is enforced server-side as well as
 // by the browser idle timer in the shared header, so it cannot silently stay
 // logged in when the client-side timer fails.
-$idleTimeout = 60;
+$idleTimeout = 120;
 $now = time();
 $lastActivity = (int)($_SESSION['last_activity'] ?? 0);
 if($lastActivity > 0 && ($now - $lastActivity) >= $idleTimeout){

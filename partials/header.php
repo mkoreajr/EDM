@@ -158,9 +158,9 @@ if (($active??'') === 'dashboard') {
 </div>
 <?php endif; ?>
 <script>
-/* 60-second inactivity logout. */
+/* 120-second inactivity logout. */
 (function(){
-  const IDLE_LIMIT = 60000;
+  const IDLE_LIMIT = 120000;
   let timer;
   function resetIdleTimer(){
     if(timer) clearTimeout(timer);
