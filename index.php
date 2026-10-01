@@ -93,7 +93,7 @@ body{overflow:auto}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop"></div>
+    <div class="logo-wrap"><img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your MSINDA Food Shop dashboard.</p>
@@ -133,7 +133,7 @@ const loadSlideImage=(index)=>{
   if(img && !img.src){ img.src=img.dataset.src; img.removeAttribute('data-src'); }
 };
 loadSlideImage(0);
-loadSlideImage(1);
+if(slides.length>1){ setTimeout(()=>loadSlideImage(1),1200); }
 if(slides.length>1){
   setInterval(()=>{
     const next=(currentSlide+1)%slides.length;

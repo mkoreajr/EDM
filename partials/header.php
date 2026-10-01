@@ -11,7 +11,7 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
 </head><body class="app-body <?=!empty($required) ? "password-required-mode" : ""?>">
 <aside class="sidebar">
   <div class="side-brand side-brand-logo">
-    <img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop" class="sidebar-edm-logo">
+    <img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop" class="sidebar-edm-logo">
   </div>
   <nav class="side-nav">
     <a class="<?=($active??'')==='dashboard'?'active':''?>" href="dashboard.php"><span class="nav-ico"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v8a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1v-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Home</a>

@@ -21,7 +21,7 @@ try {
     $binary = base64_decode($data, true);
     if ($binary === false) { http_response_code(500); exit; }
     header('Content-Type: ' . $mime);
-    header('Cache-Control: public, max-age=86400, stale-while-revalidate=604800');
+    header('Cache-Control: public, max-age=604800, stale-while-revalidate=2592000, immutable');
     header('X-Content-Type-Options: nosniff');
     header('Content-Length: ' . strlen($binary));
     echo $binary;
