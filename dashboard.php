@@ -1,11 +1,18 @@
 <?php
 require "auth.php"; $pageTitle="Home"; $active="dashboard"; require "partials/header.php";
-$sales=(float)$conn->query("SELECT COALESCE(SUM(total_amount),0) x FROM sales")->fetch_assoc()['x'];
-$stock=(float)$conn->query("SELECT COALESCE(SUM(stock_quantity),0) x FROM products")->fetch_assoc()['x'];
-$products=(int)$conn->query("SELECT COUNT(*) x FROM products")->fetch_assoc()['x'];
-$customers=(int)$conn->query("SELECT COUNT(*) x FROM customers")->fetch_assoc()['x'];
-$today=(float)$conn->query("SELECT COALESCE(SUM(total_amount),0) x FROM sales WHERE sale_date=CURRENT_DATE")->fetch_assoc()['x'];
-$todaySales=(int)$conn->query("SELECT COUNT(*) x FROM sales WHERE sale_date=CURRENT_DATE")->fetch_assoc()['x'];
+$dashboardStats=$conn->query("SELECT
+  (SELECT COALESCE(SUM(total_amount),0) FROM sales) AS sales_total,
+  (SELECT COALESCE(SUM(stock_quantity),0) FROM products) AS stock_total,
+  (SELECT COUNT(*) FROM products) AS product_count,
+  (SELECT COUNT(*) FROM customers) AS customer_count,
+  (SELECT COALESCE(SUM(total_amount),0) FROM sales WHERE sale_date=CURRENT_DATE) AS today_total,
+  (SELECT COUNT(*) FROM sales WHERE sale_date=CURRENT_DATE) AS today_sales")->fetch_assoc();
+$sales=(float)($dashboardStats['sales_total']??0);
+$stock=(float)($dashboardStats['stock_total']??0);
+$products=(int)($dashboardStats['product_count']??0);
+$customers=(int)($dashboardStats['customer_count']??0);
+$today=(float)($dashboardStats['today_total']??0);
+$todaySales=(int)($dashboardStats['today_sales']??0);
 ?>
 <section class="welcome-banner">
   <div class="welcome-copy">

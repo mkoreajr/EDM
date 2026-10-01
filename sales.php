@@ -58,11 +58,11 @@ if(isset($_POST['save_sale'])){
     }
 }
 
-$products=$conn->query("SELECT * FROM products WHERE stock_quantity>0 ORDER BY category,name,package_size_kg");
+$products=$conn->query("SELECT id,name,category,unit,selling_price,stock_quantity,package_size_kg FROM products WHERE stock_quantity>0 ORDER BY category,name,package_size_kg");
 $productOptions=[];
 while($p=$products->fetch_assoc()) $productOptions[]=$p;
 $productCount=count($productOptions);
-$customers=$conn->query("SELECT * FROM customers ORDER BY name");
+$customers=$conn->query("SELECT id,name FROM customers ORDER BY name");
 $perPage = 10; $page = max(1, (int)($_GET['page'] ?? 1)); $totalSales = (int)$conn->query("SELECT COUNT(*) AS c FROM sales")->fetch_assoc()['c']; $totalPages = max(1, (int)ceil($totalSales / $perPage)); if($page > $totalPages) $page = $totalPages; $offset = ($page - 1) * $perPage;
 $recent=$conn->query("SELECT s.*,COALESCE(c.name,'Walk-in Customer') customer FROM sales s LEFT JOIN customers c ON c.id=s.customer_id ORDER BY s.id DESC LIMIT $perPage OFFSET $offset");
 require "partials/header.php";

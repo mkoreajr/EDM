@@ -2,10 +2,17 @@
 require "auth.php"; $pageTitle="Reports"; $active="reports";
 $from=$_GET['from']??date('Y-m-01'); $to=$_GET['to']??date('Y-m-d');
 if($from>$to){$tmp=$from;$from=$to;$to=$tmp;}
-$st=$conn->prepare("SELECT COALESCE(SUM(total_amount),0) x FROM sales WHERE sale_date BETWEEN ? AND ?");$st->bind_param("ss",$from,$to);$st->execute();$sales=(float)$st->get_result()->fetch_assoc()['x'];
-$st=$conn->prepare("SELECT COUNT(*) x FROM sales WHERE sale_date BETWEEN ? AND ?");$st->bind_param("ss",$from,$to);$st->execute();$saleCount=(int)$st->get_result()->fetch_assoc()['x'];
-$st=$conn->prepare("SELECT COALESCE(SUM(amount),0) x FROM expenses WHERE expense_date BETWEEN ? AND ?");$st->bind_param("ss",$from,$to);$st->execute();$expenses=(float)$st->get_result()->fetch_assoc()['x'];
-$st=$conn->prepare("SELECT COALESCE(SUM(total_amount),0) x FROM purchases WHERE purchase_date BETWEEN ? AND ?");$st->bind_param("ss",$from,$to);$st->execute();$purchases=(float)$st->get_result()->fetch_assoc()['x'];
+$st=$conn->prepare("SELECT
+ COALESCE((SELECT SUM(total_amount) FROM sales WHERE sale_date BETWEEN ? AND ?),0) AS sales_total,
+ COALESCE((SELECT COUNT(*) FROM sales WHERE sale_date BETWEEN ? AND ?),0) AS sale_count,
+ COALESCE((SELECT SUM(amount) FROM expenses WHERE expense_date BETWEEN ? AND ?),0) AS expenses_total,
+ COALESCE((SELECT SUM(total_amount) FROM purchases WHERE purchase_date BETWEEN ? AND ?),0) AS purchases_total");
+$st->bind_param("ssssssss",$from,$to,$from,$to,$from,$to,$from,$to);$st->execute();
+$reportSummary=$st->get_result()->fetch_assoc() ?: [];
+$sales=(float)($reportSummary['sales_total']??0);
+$saleCount=(int)($reportSummary['sale_count']??0);
+$expenses=(float)($reportSummary['expenses_total']??0);
+$purchases=(float)($reportSummary['purchases_total']??0);
 $perPage=15; $currentPage=max(1,(int)($_GET['page']??1));
 $st=$conn->prepare("SELECT COUNT(*) x FROM sale_items si JOIN sales s ON s.id=si.sale_id WHERE s.sale_date BETWEEN ? AND ?");$st->bind_param('ss',$from,$to);$st->execute();$itemCount=(int)$st->get_result()->fetch_assoc()['x']; $totalPages=max(1,(int)ceil($itemCount/$perPage)); if($currentPage>$totalPages)$currentPage=$totalPages; $offset=($currentPage-1)*$perPage;
 $st=$conn->prepare("SELECT s.sale_number,s.sale_date,COALESCE(c.name,'Walk-in Customer') customer,u.name cashier,p.name product,si.quantity,si.unit_price,si.total,s.payment_method FROM sale_items si JOIN sales s ON s.id=si.sale_id JOIN products p ON p.id=si.product_id LEFT JOIN customers c ON c.id=s.customer_id JOIN users u ON u.id=s.created_by WHERE s.sale_date BETWEEN ? AND ? ORDER BY s.sale_date ASC,s.id ASC,si.id ASC LIMIT ? OFFSET ?");$st->bind_param('ssii',$from,$to,$perPage,$offset);$st->execute();$items=[];$rr=$st->get_result();while($x=$rr->fetch_assoc())$items[]=$x;

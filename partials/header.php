@@ -35,10 +35,13 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
     $uid=(int)($_SESSION['user_id']??0);
     $unread=0; $notifItems=[];
     if($uid){
-      $ur=$conn->query("SELECT COUNT(*) AS unread_count FROM notifications WHERE user_id={$uid} AND read_at IS NULL");
-      if($ur){ $unread=(int)($ur->fetch_assoc()['unread_count']??0); }
-      $nr=$conn->query("SELECT id,title,message,read_at,created_at FROM notifications WHERE user_id={$uid} ORDER BY created_at DESC LIMIT 5");
-      if($nr){ while($row=$nr->fetch_assoc()){ $notifItems[]=$row; } }
+      // One database round-trip for both unread count and the five newest notifications.
+      $nr=$conn->query("SELECT id,title,message,read_at,created_at,
+          (SELECT COUNT(*) FROM notifications nu WHERE nu.user_id={$uid} AND nu.read_at IS NULL) AS unread_count
+        FROM notifications WHERE user_id={$uid} ORDER BY created_at DESC LIMIT 5");
+      if($nr){ while($row=$nr->fetch_assoc()){
+        if($row!==null){ $unread=max($unread,(int)($row['unread_count']??0)); $notifItems[]=$row; }
+      } }
     }
   ?>
   <div class="top-actions">
@@ -83,15 +86,17 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
 $totalTrayStock = 0;
 $totalRiceStock = 0;
 $totalFlourStock = 0;
-$lsr = $conn->query("SELECT COALESCE(SUM(stock_quantity),0) AS total_trays FROM products WHERE LOWER(unit) = 'tray'");
-if ($lsr && ($lsrow = $lsr->fetch_assoc())) {
-    $totalTrayStock = (float)$lsrow['total_trays'];
-}
-$lsr = $conn->query("SELECT LOWER(category) AS category, COALESCE(SUM(stock_quantity),0) AS total_stock FROM products WHERE LOWER(category) IN ('rice','flour') GROUP BY LOWER(category)");
-if ($lsr) {
-    while ($lsrow = $lsr->fetch_assoc()) {
-        if ($lsrow['category'] === 'rice') $totalRiceStock = (float)$lsrow['total_stock'];
-        if ($lsrow['category'] === 'flour') $totalFlourStock = (float)$lsrow['total_stock'];
+if (($active??'') === 'dashboard') {
+    // Single aggregate query for all three stock-alert values.
+    $lsr = $conn->query("SELECT
+        COALESCE(SUM(CASE WHEN LOWER(unit)='tray' THEN stock_quantity ELSE 0 END),0) AS total_trays,
+        COALESCE(SUM(CASE WHEN LOWER(category)='rice' THEN stock_quantity ELSE 0 END),0) AS total_rice,
+        COALESCE(SUM(CASE WHEN LOWER(category)='flour' THEN stock_quantity ELSE 0 END),0) AS total_flour
+      FROM products");
+    if ($lsr && ($lsrow=$lsr->fetch_assoc())) {
+        $totalTrayStock=(float)($lsrow['total_trays']??0);
+        $totalRiceStock=(float)($lsrow['total_rice']??0);
+        $totalFlourStock=(float)($lsrow['total_flour']??0);
     }
 }
 ?>
