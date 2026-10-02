@@ -30,8 +30,6 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 <style id="change-password-final-fix">
 .password-required-mode .password-required-page{min-height:calc(100vh - 54px)!important;min-height:calc(100dvh - 54px)!important;padding:30px 18px 24px!important;display:flex!important;align-items:center!important;justify-content:center!important}
 .password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(18,58,45,.18)!important}
-.password-required-mode .password-brand{margin:0 auto 10px!important;height:58px!important;width:160px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-.password-required-mode .password-brand img{width:160px!important;max-width:160px!important;height:58px!important;max-height:58px!important;object-fit:contain!important;display:block!important}
 .password-required-mode .password-required-icon{width:44px!important;height:44px!important;margin:0 auto 10px!important}
 .password-required-mode .password-required-card .welcome-kicker{font-size:11px!important;letter-spacing:3px!important}
 .password-required-mode .password-required-card h1{font-size:26px!important;line-height:1.1!important;margin:6px 0 7px!important}
@@ -45,15 +43,12 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 .password-required-mode .password-required-form .change-password-field .password-toggle svg{display:block!important;width:17px!important;height:17px!important}
 .password-required-mode .password-required-form .change-password-field .password-toggle:hover{background:#eaf7f0!important;color:#008653!important}
 .password-required-mode .password-required-submit{height:43px!important;margin-top:4px!important;border-radius:8px!important;font-size:13px!important;box-shadow:0 8px 18px rgba(21,155,98,.18)!important}
-@media(max-width:620px){.password-required-mode .password-required-page{padding:20px 14px!important}.password-required-mode .password-required-card{width:min(390px,100%)!important;padding:24px 22px 25px!important;border-radius:16px!important}.password-required-mode .password-brand{width:145px!important;height:52px!important}.password-required-mode .password-brand img{width:145px!important;height:52px!important;max-width:145px!important;max-height:52px!important}}
+@media(max-width:620px){.password-required-mode .password-required-page{padding:20px 14px!important}.password-required-mode .password-required-card{width:min(390px,100%)!important;padding:24px 22px 25px!important;border-radius:16px!important}}
 </style>
 
 <?php if($required): ?>
 <div class="password-required-page">
   <div class="password-required-card">
-    <div class="password-brand">
-      <img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop">
-    </div>
     <div class="password-required-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
     </div>
