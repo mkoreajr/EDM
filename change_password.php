@@ -28,9 +28,19 @@ function eyeIcon(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="current
 $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 ?>
 <style id="change-password-final-fix">
-.password-required-mode .password-required-page{min-height:calc(100vh - 54px)!important;min-height:calc(100dvh - 54px)!important;padding:30px 18px 24px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-.password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(18,58,45,.18)!important}
+/* Required Change Password uses the same full-screen visual language as Login. */
+html:has(body.password-required-mode),body.password-required-mode{width:100%!important;height:100%!important;min-height:100%!important;overflow:hidden!important}
+body.password-required-mode{background:#005f3f!important;color:#17342a!important}
+body.password-required-mode .sidebar,body.password-required-mode .app-topbar,body.password-required-mode .app-footer{display:none!important}
+body.password-required-mode .content{margin:0!important;padding:0!important;width:100%!important;min-height:100vh!important;height:100vh!important;background:linear-gradient(110deg,#005f3f 0%,#087b55 42%,#a9d38c 100%)!important;position:relative!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important}
+body.password-required-mode .content:before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle at 8% 85%,rgba(255,255,255,.08) 0 10%,transparent 10.2%),radial-gradient(circle at 100% 15%,rgba(255,212,71,.16) 0 12%,transparent 12.2%),radial-gradient(circle at 88% 90%,rgba(255,255,255,.12) 0 16%,transparent 16.2%);pointer-events:none}
+body.password-required-mode .content:after{content:"";position:absolute;left:-8%;bottom:-18%;width:48vw;height:38vh;border-radius:50% 50% 0 0;background:rgba(0,70,48,.20);transform:rotate(-7deg);pointer-events:none}
+.password-required-mode .password-required-page{position:relative!important;z-index:2!important;width:100%!important;height:100%!important;min-height:100%!important;padding:28px 18px 82px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(7,38,29,.25)!important}
+.password-required-mode .password-required-mode-footer{position:fixed!important;z-index:5!important;left:0!important;right:0!important;bottom:14px!important;text-align:center!important;color:rgba(255,255,255,.88)!important;font-size:12px!important}
+.password-required-mode .password-required-mode-footer .footer-tagline{margin-top:4px!important;font-size:11px!important;color:rgba(255,255,255,.72)!important}
 .password-required-mode .password-required-icon{width:44px!important;height:44px!important;margin:0 auto 10px!important}
+.password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(18,58,45,.18)!important}
 .password-required-mode .password-required-card .welcome-kicker{font-size:11px!important;letter-spacing:3px!important}
 .password-required-mode .password-required-card h1{font-size:26px!important;line-height:1.1!important;margin:6px 0 7px!important}
 .password-required-mode .password-required-subtitle{font-size:12px!important;line-height:1.45!important;margin:0 auto 16px!important;max-width:330px!important}
@@ -66,6 +76,7 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
     </form>
   </div>
 </div>
+<div class="password-required-mode-footer">© 2026 MSINDA Food Shop | All Rights Reserved.<div class="footer-tagline">“Mchele • Unga • Mayai”</div></div>
 <?php else: ?>
 <div class="page-intro centered-page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div>
 <div class="panel password-panel">
