@@ -2140,3 +2140,22 @@ body.change-password-page .change-password-field input{font-size:14px!important;
 body.change-password-page .password-required-submit{font-size:14px!important;font-weight:700!important}
 body.change-password-page .app-footer .footer-content{font-size:13px!important}
 body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
+
+/* Dashboard card hover lift/zoom */
+.app-body .stat-card,
+.app-body .quick-card,
+.app-body .info-box{
+  transition:transform .22s ease, box-shadow .22s ease;
+  transform-origin:center;
+  will-change:transform;
+}
+.app-body .stat-card:hover,
+.app-body .quick-card:hover,
+.app-body .info-box:hover{
+  transform:scale(1.035) translateY(-2px);
+  box-shadow:0 12px 28px rgba(0,61,42,.14);
+  position:relative;
+  z-index:2;
+}
+.app-body .stat-card,
+.app-body .quick-card{cursor:pointer}
