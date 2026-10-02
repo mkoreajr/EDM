@@ -22,9 +22,9 @@ require "partials/header.php"; ?>
 .report-sales-table{min-width:980px;}
 .report-sales-table th.report-date-col,.report-sales-table td.report-date-col{min-width:112px;width:112px;white-space:nowrap;}
 @media (max-width:600px){
-  .report-filter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:end;}
-  .report-filter .field{min-width:0;}
-  .report-filter .field input{width:100%;min-width:0;padding:11px 9px;}
+  .report-filter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:end;width:100%;max-width:100%;box-sizing:border-box;}
+  .report-filter .field{min-width:0;width:100%;box-sizing:border-box;}
+  .report-filter .field input{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;padding:11px 9px;}
   .report-filter .btn{grid-column:1 / -1;width:100%;text-align:center;margin-top:2px;}
   .report-sales-table th.report-date-col,.report-sales-table td.report-date-col{min-width:118px;width:118px;white-space:nowrap;}
   .report-sales-table th,.report-sales-table td{white-space:nowrap;}
