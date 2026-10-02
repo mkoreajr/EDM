@@ -2170,3 +2170,40 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   transform:none!important;
   filter:none!important;
 }
+
+
+/* Reports: mobile sales table stays readable and scrolls horizontally */
+.report-table-scroll{
+  width:100%;
+  max-width:100%;
+  overflow-x:auto!important;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+.report-sales-table{
+  width:max-content!important;
+  min-width:980px!important;
+  table-layout:auto!important;
+}
+.report-sales-table th,
+.report-sales-table td{
+  white-space:nowrap!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  vertical-align:middle;
+}
+@media(max-width:600px){
+  .report-table-scroll{
+    margin-right:0!important;
+    padding-bottom:6px;
+  }
+  .report-sales-table{
+    min-width:980px!important;
+  }
+  .report-sales-table th,
+  .report-sales-table td{
+    padding:10px 12px!important;
+    font-size:12px!important;
+  }
+}
