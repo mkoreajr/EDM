@@ -2141,30 +2141,32 @@ body.change-password-page .password-required-submit{font-size:14px!important;fon
 body.change-password-page .app-footer .footer-content{font-size:13px!important}
 body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
 
-/* Dashboard card hover lift/zoom */
+/* Dashboard hover: zoom forward while keeping text/icons crisp. */
 .app-body .stat-card,
 .app-body .quick-card,
 .app-body .info-box{
-  transition:transform .22s ease, box-shadow .22s ease;
-  transform-origin:center;
-  will-change:transform;
+  transition:transform .20s cubic-bezier(.2,.7,.2,1), box-shadow .20s ease;
+  transform-origin:50% 50%;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform-style:preserve-3d;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
 }
 .app-body .stat-card:hover,
 .app-body .quick-card:hover,
 .app-body .info-box:hover{
-  transform:scale(1.018) translateY(-2px);
-  box-shadow:0 10px 22px rgba(0,61,42,.12);
-  position:relative;
+  transform:translate3d(0,-3px,0) scale(1.012);
+  box-shadow:0 12px 26px rgba(0,61,42,.14);
   z-index:2;
 }
 .app-body .stat-card,
 .app-body .quick-card{cursor:pointer}
 
-/* Subtle dashboard hover: keep card text crisp and readable. */
+/* Do not transform or filter children: text stays at its native rendering size. */
 .app-body .stat-card:hover > *,
 .app-body .quick-card:hover > *,
 .app-body .info-box:hover > *{
   transform:none!important;
   filter:none!important;
-  text-rendering:optimizeLegibility;
 }
