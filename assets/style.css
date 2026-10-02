@@ -1915,3 +1915,10 @@ body.app-body{font-size:14px!important}
   .app-body table th,.app-body table td{font-size:13.5px!important}
   .app-body .field input,.app-body .field select,.app-body .field textarea{font-size:14px!important}
 }
+
+/* Password visibility controls */
+.password-field-wrap{position:relative;display:flex;align-items:center}
+.password-field-wrap input{width:100%;padding-right:46px}
+.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#6b7280;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;padding:0;border-radius:6px}
+.password-toggle:hover{background:#f1f5f9;color:#166534}
+.password-toggle svg{width:20px;height:20px}

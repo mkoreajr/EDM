@@ -40,9 +40,9 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
     <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 
     <form method="post" class="password-required-form">
-      <div class="field"><label>Current Password</label><input type="password" name="current_password" required autocomplete="current-password"></div>
-      <div class="field"><label>New Password</label><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
-      <div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
+      <div class="field"><label>Current Password</label><div class="password-field-wrap"><input type="password" name="current_password" required autocomplete="current-password"><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
+      <div class="field"><label>New Password</label><div class="password-field-wrap"><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
+      <div class="field"><label>Confirm New Password</label><div class="password-field-wrap"><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
       <button class="btn primary password-required-submit" type="submit">Set New Password</button>
     </form>
   </div>
@@ -54,12 +54,27 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 <?php if($success):?><div class="alert success"><?=e($success)?></div><div class="form-actions"><a class="btn primary" href="dashboard.php">Continue to Dashboard</a></div><?php endif;?>
 <?php if(!$success):?>
 <form method="post" class="password-form">
-<div class="field"><label>Current Password</label><input type="password" name="current_password" required autocomplete="current-password"></div>
-<div class="field"><label>New Password</label><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
-<div class="field"><label>Confirm New Password</label><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."></div>
+<div class="field"><label>Current Password</label><div class="password-field-wrap"><input type="password" name="current_password" required autocomplete="current-password"><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
+<div class="field"><label>New Password</label><div class="password-field-wrap"><input type="password" name="new_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
+<div class="field"><label>Confirm New Password</label><div class="password-field-wrap"><input type="password" name="confirm_password" minlength="8" required autocomplete="new-password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character."><button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false" onclick="togglePassword(this)"><?php echo eyeIcon(); ?></button></div></div>
 <div class="form-actions"><button class="btn primary" type="submit">Change Password</button><a class="btn secondary" href="dashboard.php">Cancel</a></div>
 </form>
 <?php endif;?>
 </div>
 <?php endif; ?>
+
+<script>
+function togglePassword(button){
+  const input=button.parentElement.querySelector('input');
+  const visible=input.type==='text';
+  input.type=visible?'password':'text';
+  button.setAttribute('aria-pressed',String(!visible));
+  button.setAttribute('aria-label',visible?'Show password':'Hide password');
+  button.innerHTML=visible?eyeIconSvg(false):eyeIconSvg(true);
+}
+function eyeIconSvg(visible){
+  return visible ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l18 18"/><path d="M10.6 6.2A10.4 10.4 0 0 1 12 6c6 0 9.5 6 9.5 6a16.8 16.8 0 0 1-3 3.6M6.4 6.8C4 8.2 2.5 12 2.5 12s3.5 6 9.5 6c1.1 0 2.1-.2 3-.5"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+}
+function eyeIcon(){return eyeIconSvg(false);}
+</script>
 <?php require 'partials/footer.php'; ?>
