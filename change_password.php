@@ -31,6 +31,9 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 <?php if($required): ?>
 <div class="password-required-page">
   <div class="password-required-card">
+    <div class="password-brand">
+      <img src="assets/branding/msinda-food-shop.jpg" alt="MSINDA Food Shop">
+    </div>
     <div class="password-required-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
     </div>
