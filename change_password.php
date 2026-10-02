@@ -95,8 +95,8 @@ body.change-password-page .alert{font-size:11px!important;padding:9px!important;
 </div>
 <div class="password-required-mode-footer">© 2026 MSINDA Food Shop | All Rights Reserved.<div class="footer-tagline">“Mchele • Unga • Mayai”</div></div>
 <?php else: ?>
-<div class="page-intro centered-page-intro"><div><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p></div></div><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div>
 <div class="panel password-panel">
+<div class="change-password-panel-heading"><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div></div>
 <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 <?php if($success):?><div class="alert success"><?=e($success)?></div><div class="form-actions"><a class="btn primary" href="dashboard.php">Continue to Dashboard</a></div><?php endif;?>
 <?php if(!$success):?>
@@ -125,6 +125,14 @@ function eyeIconSvg(visible){
 function eyeIcon(){return eyeIconSvg(false);}
 </script>
 <?php require 'partials/footer.php'; ?>
+
+<style id="change-password-panel-heading-fix">
+body.change-password-page .change-password-panel-heading{text-align:center;margin:0 0 18px!important}
+body.change-password-page .change-password-panel-heading .welcome-kicker{font-size:11px!important;letter-spacing:3px!important;font-weight:800!important;margin:0 0 5px!important}
+body.change-password-page .change-password-panel-heading h1{font-family:Arial,Helvetica,sans-serif!important;font-size:27px!important;line-height:1.12!important;margin:0 0 7px!important;color:#073f2e!important;text-align:center!important}
+body.change-password-page .change-password-panel-heading .muted{font-family:Arial,Helvetica,sans-serif!important;font-size:12px!important;line-height:1.45!important;margin:0 auto 13px!important;color:#6d7c98!important;text-align:center!important}
+body.change-password-page .change-password-panel-heading .password-rules{font-family:Arial,Helvetica,sans-serif!important;font-size:10.5px!important;line-height:1.45!important;margin:0 auto!important;padding:0!important;color:#60736d!important;text-align:center!important;background:transparent!important}
+</style>
 <style id="change-password-no-sidebar-final">
 /* Change Password must use the full viewport; no sidebar space on desktop. */
 html:has(body.change-password-page),
