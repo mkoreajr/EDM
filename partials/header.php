@@ -8,7 +8,7 @@
 .password-rules b{color:#145c43;}
 input:invalid:not(:placeholder-shown){border-color:#d9a400;}
 </style>
-</head><body class="app-body <?=!empty($required) ? "password-required-mode" : ""?>">
+</head><body class="app-body <?=!empty($required) ? "password-required-mode " : ""?><?=($pageTitle??"")==="Change Password" ? "change-password-page" : ""?>">
 <aside class="sidebar">
   <div class="side-brand side-brand-logo">
     <img src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop" class="sidebar-edm-logo">

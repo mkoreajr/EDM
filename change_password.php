@@ -28,32 +28,46 @@ function eyeIcon(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="current
 $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 ?>
 <style id="change-password-final-fix">
-/* Required Change Password uses the same full-screen visual language as Login. */
-html:has(body.password-required-mode),body.password-required-mode{width:100%!important;height:100%!important;min-height:100%!important;overflow:hidden!important}
-body.password-required-mode{background:#005f3f!important;color:#17342a!important}
-body.password-required-mode .sidebar,body.password-required-mode .app-topbar,body.password-required-mode .app-footer{display:none!important}
-body.password-required-mode .content{margin:0!important;padding:0!important;width:100%!important;min-height:100vh!important;height:100vh!important;background:linear-gradient(110deg,#005f3f 0%,#087b55 42%,#a9d38c 100%)!important;position:relative!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important}
-body.password-required-mode .content:before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle at 8% 85%,rgba(255,255,255,.08) 0 10%,transparent 10.2%),radial-gradient(circle at 100% 15%,rgba(255,212,71,.16) 0 12%,transparent 12.2%),radial-gradient(circle at 88% 90%,rgba(255,255,255,.12) 0 16%,transparent 16.2%);pointer-events:none}
-body.password-required-mode .content:after{content:"";position:absolute;left:-8%;bottom:-18%;width:48vw;height:38vh;border-radius:50% 50% 0 0;background:rgba(0,70,48,.20);transform:rotate(-7deg);pointer-events:none}
-.password-required-mode .password-required-page{position:relative!important;z-index:2!important;width:100%!important;height:100%!important;min-height:100%!important;padding:28px 18px 82px!important;display:flex!important;align-items:center!important;justify-content:center!important}
-.password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(7,38,29,.25)!important}
-.password-required-mode .password-required-mode-footer{position:fixed!important;z-index:5!important;left:0!important;right:0!important;bottom:14px!important;text-align:center!important;color:rgba(255,255,255,.88)!important;font-size:12px!important}
-.password-required-mode .password-required-mode-footer .footer-tagline{margin-top:4px!important;font-size:11px!important;color:rgba(255,255,255,.72)!important}
-.password-required-mode .password-required-icon{width:44px!important;height:44px!important;margin:0 auto 10px!important}
-.password-required-mode .password-required-card{width:min(390px,100%)!important;max-width:390px!important;padding:26px 30px 28px!important;border-radius:16px!important;background:#fff!important;border:0!important;box-shadow:0 24px 60px rgba(18,58,45,.18)!important}
-.password-required-mode .password-required-card .welcome-kicker{font-size:11px!important;letter-spacing:3px!important}
-.password-required-mode .password-required-card h1{font-size:26px!important;line-height:1.1!important;margin:6px 0 7px!important}
-.password-required-mode .password-required-subtitle{font-size:12px!important;line-height:1.45!important;margin:0 auto 16px!important;max-width:330px!important}
-.password-required-mode .password-required-card .password-rules{font-size:10.5px!important;line-height:1.45!important;margin:0 auto 16px!important;padding:8px 10px!important}
-.password-required-mode .password-required-form .field{margin-bottom:12px!important}
-.password-required-mode .password-required-form .field label{font-size:11px!important;margin-bottom:5px!important}
-.password-required-mode .password-required-form .change-password-field{position:relative!important;display:block!important;width:100%!important}
-.password-required-mode .password-required-form .change-password-field input{display:block!important;width:100%!important;height:43px!important;padding:0 42px 0 12px!important;border:1px solid #d5dfdb!important;border-radius:8px!important;background:#fff!important;font-size:13px!important;box-sizing:border-box!important}
-.password-required-mode .password-required-form .change-password-field .password-toggle{position:absolute!important;right:5px!important;top:50%!important;transform:translateY(-50%)!important;width:34px!important;height:34px!important;margin:0!important;padding:0!important;border:0!important;border-radius:6px!important;background:transparent!important;display:flex!important;align-items:center!important;justify-content:center!important;color:#8b9b95!important;z-index:3!important;cursor:pointer!important;appearance:none!important;-webkit-appearance:none!important}
-.password-required-mode .password-required-form .change-password-field .password-toggle svg{display:block!important;width:17px!important;height:17px!important}
-.password-required-mode .password-required-form .change-password-field .password-toggle:hover{background:#eaf7f0!important;color:#008653!important}
-.password-required-mode .password-required-submit{height:43px!important;margin-top:4px!important;border-radius:8px!important;font-size:13px!important;box-shadow:0 8px 18px rgba(21,155,98,.18)!important}
-@media(max-width:620px){.password-required-mode .password-required-page{padding:20px 14px!important}.password-required-mode .password-required-card{width:min(390px,100%)!important;padding:24px 22px 25px!important;border-radius:16px!important}}
+/* Change Password: same visual language as the Login page, centered and viewport-safe. */
+html:has(body.change-password-page),body.change-password-page{width:100%!important;height:100%!important;min-height:100%!important;margin:0!important;overflow:hidden!important}
+body.change-password-page{background:#005f3f!important;color:#17342a!important}
+body.change-password-page .sidebar,body.change-password-page .app-topbar{display:none!important}
+body.change-password-page .content{margin:0!important;padding:0!important;width:100%!important;height:100vh!important;min-height:100vh!important;position:relative!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#005f3f url('login-hero.png') center/cover no-repeat!important}
+body.change-password-page .content:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,76,49,.97) 0%,rgba(0,95,63,.82) 42%,rgba(0,76,49,.25) 100%);pointer-events:none}
+body.change-password-page .content:after{content:"";position:absolute;left:-10%;bottom:-28%;width:58vw;height:48vh;border-radius:50%;background:rgba(255,255,255,.08);transform:rotate(-8deg);pointer-events:none}
+body.change-password-page .password-required-page{position:relative!important;z-index:2!important;width:100%!important;height:100%!important;min-height:100%!important;padding:24px 18px 68px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+body.change-password-page .password-required-card,body.change-password-page .password-panel{position:relative!important;z-index:2!important;width:min(390px,calc(100vw - 32px))!important;max-width:390px!important;margin:0 auto!important;padding:28px 30px!important;border-radius:16px!important;background:#fff!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 20px 55px rgba(0,30,20,.24)!important;box-sizing:border-box!important}
+body.change-password-page .password-required-icon{width:44px!important;height:44px!important;margin:0 auto 10px!important;color:#008b59!important;background:#e8f7f0!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important}
+body.change-password-page .password-required-icon svg{width:22px!important;height:22px!important}
+body.change-password-page .welcome-kicker{font-size:11px!important;letter-spacing:3px!important;font-weight:800!important;text-align:center!important;color:#008b59!important}
+body.change-password-page .password-required-card h1,body.change-password-page .page-intro h1{font-size:28px!important;line-height:1.1!important;margin:6px 0 7px!important;text-align:center!important;color:#073f2e!important}
+body.change-password-page .password-required-subtitle,body.change-password-page .page-intro .muted{font-size:12px!important;line-height:1.45!important;margin:0 auto 16px!important;text-align:center!important;color:#6d7c98!important}
+body.change-password-page .password-rules{font-size:10.5px!important;line-height:1.45!important;margin:0 auto 16px!important;padding:0!important;text-align:center!important;color:#60736d!important;background:transparent!important}
+body.change-password-page .password-required-form .field,body.change-password-page .password-form .field{margin-bottom:12px!important}
+body.change-password-page .password-required-form .field label,body.change-password-page .password-form .field label{font-size:11px!important;margin-bottom:5px!important;color:#17342a!important}
+body.change-password-page .password-required-form .change-password-field,body.change-password-page .password-form .change-password-field{position:relative!important;display:block!important;width:100%!important}
+body.change-password-page .password-required-form .change-password-field input,body.change-password-page .password-form .change-password-field input{display:block!important;width:100%!important;height:43px!important;padding:0 42px 0 12px!important;border:1px solid #d5dfdb!important;border-radius:8px!important;background:#fff!important;font-size:13px!important;box-sizing:border-box!important;outline:none!important}
+body.change-password-page .password-required-form .change-password-field input:focus,body.change-password-page .password-form .change-password-field input:focus{border-color:#008f5b!important;box-shadow:0 0 0 3px rgba(0,143,91,.10)!important}
+body.change-password-page .change-password-field .password-toggle{position:absolute!important;right:5px!important;top:50%!important;transform:translateY(-50%)!important;width:34px!important;height:34px!important;margin:0!important;padding:0!important;border:0!important;border-radius:6px!important;background:transparent!important;display:flex!important;align-items:center!important;justify-content:center!important;color:#7d8ba3!important;z-index:5!important;cursor:pointer!important;appearance:none!important;-webkit-appearance:none!important}
+body.change-password-page .change-password-field .password-toggle svg{display:block!important;width:17px!important;height:17px!important}
+body.change-password-page .change-password-field .password-toggle:hover{background:#eaf7f0!important;color:#008653!important}
+body.change-password-page .password-required-submit,body.change-password-page .password-form .btn.primary{width:100%!important;height:43px!important;margin-top:4px!important;border-radius:8px!important;font-size:13px!important;background:#008f5b!important;color:#fff!important;border:0!important;box-shadow:0 7px 18px rgba(0,143,91,.18)!important}
+body.change-password-page .password-form .form-actions{display:grid!important;grid-template-columns:1fr auto!important;gap:10px!important;align-items:center!important}
+body.change-password-page .password-form .form-actions .btn.secondary{height:43px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:8px!important}
+body.change-password-page .app-footer{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:48px!important;padding:0 28px!important;z-index:10!important;background:rgba(0,60,39,.28)!important;border-top:1px solid rgba(255,255,255,.18)!important;color:rgba(255,255,255,.92)!important}
+body.change-password-page .app-footer .footer-content{height:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;font-size:11px!important}
+body.change-password-page .app-footer .footer-tagline{color:rgba(255,255,255,.78)!important;font-size:10px!important}
+body.change-password-page .password-required-mode-footer{display:none!important}
+body.change-password-page .alert{font-size:11px!important;padding:9px!important;margin-bottom:12px!important}
+@media(max-width:620px){
+  html:has(body.change-password-page),body.change-password-page{overflow:auto!important}
+  body.change-password-page .content{min-height:100svh!important;height:auto!important;overflow:auto!important;padding:18px 0 58px!important}
+  body.change-password-page .password-required-page{height:auto!important;min-height:calc(100svh - 58px)!important;padding:18px 12px 20px!important}
+  body.change-password-page .password-required-card,body.change-password-page .password-panel{width:min(390px,calc(100vw - 24px))!important;padding:24px 22px!important}
+  body.change-password-page .app-footer{height:52px!important;padding:0 14px!important}
+  body.change-password-page .app-footer .footer-content{font-size:9px!important}
+  body.change-password-page .app-footer .footer-tagline{font-size:8px!important}
+}
 </style>
 
 <?php if($required): ?>
