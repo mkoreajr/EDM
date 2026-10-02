@@ -56,9 +56,10 @@ body.change-password-page .change-password-field .password-toggle:hover{backgrou
 body.change-password-page .password-required-submit,body.change-password-page .password-form .btn.primary{width:100%!important;height:43px!important;margin-top:4px!important;border-radius:8px!important;font-size:13px!important;background:#008f5b!important;color:#fff!important;border:0!important;box-shadow:0 7px 18px rgba(0,143,91,.18)!important}
 body.change-password-page .password-form .form-actions{display:grid!important;grid-template-columns:1fr auto!important;gap:10px!important;align-items:center!important}
 body.change-password-page .password-form .form-actions .btn.secondary{height:43px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:8px!important}
-body.change-password-page .app-footer{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:48px!important;padding:0 28px!important;z-index:10!important;background:rgba(255,255,255,.72)!important;border-top:1px solid rgba(0,95,63,.10)!important;color:#71847c!important}
+body.change-password-page .app-footer{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;height:48px!important;padding:0 28px!important;z-index:10!important;background:rgba(255,255,255,.72)!important;border-top:1px solid rgba(0,95,63,.10)!important;color:#000!important}
 body.change-password-page .app-footer .footer-content{height:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;font-size:11px!important}
-body.change-password-page .app-footer .footer-tagline{color:#71847c!important;font-size:10px!important}
+body.change-password-page .app-footer .footer-content>div:first-child{color:#000!important}
+body.change-password-page .app-footer .footer-tagline{color:#000!important;font-size:10px!important}
 body.change-password-page .password-required-mode-footer{display:none!important}
 body.change-password-page .alert{font-size:11px!important;padding:9px!important;margin-bottom:12px!important}
 @media(max-width:620px){
