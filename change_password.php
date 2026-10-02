@@ -125,3 +125,14 @@ function eyeIconSvg(visible){
 function eyeIcon(){return eyeIconSvg(false);}
 </script>
 <?php require 'partials/footer.php'; ?>
+<style id="change-password-no-sidebar-final">
+/* Change Password must use the full viewport; no sidebar space on desktop. */
+html:has(body.change-password-page),
+body.change-password-page{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;overflow:hidden!important}
+body.change-password-page>.sidebar,
+body.change-password-page>.sidebar-backdrop,
+body.change-password-page .sidebar-backdrop{display:none!important;width:0!important;visibility:hidden!important}
+body.change-password-page>.content{margin-left:0!important;margin-right:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;min-width:100%!important;padding-left:0!important;padding-right:0!important}
+body.change-password-page>.content>.app-topbar{display:none!important}
+body.change-password-page .password-required-page{width:100%!important;max-width:none!important;margin:0!important;left:0!important;right:0!important}
+</style>
