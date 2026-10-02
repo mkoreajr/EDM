@@ -2152,10 +2152,19 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
 .app-body .stat-card:hover,
 .app-body .quick-card:hover,
 .app-body .info-box:hover{
-  transform:scale(1.035) translateY(-2px);
-  box-shadow:0 12px 28px rgba(0,61,42,.14);
+  transform:scale(1.018) translateY(-2px);
+  box-shadow:0 10px 22px rgba(0,61,42,.12);
   position:relative;
   z-index:2;
 }
 .app-body .stat-card,
 .app-body .quick-card{cursor:pointer}
+
+/* Subtle dashboard hover: keep card text crisp and readable. */
+.app-body .stat-card:hover > *,
+.app-body .quick-card:hover > *,
+.app-body .info-box:hover > *{
+  transform:none!important;
+  filter:none!important;
+  text-rendering:optimizeLegibility;
+}
