@@ -2569,3 +2569,72 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   }
   .app-body>.content>.app-footer .footer-content{padding:0 14px!important;}
 }
+
+
+/* v169 — Footer final layout: topbar-height, clear gap from content, full content-area width with side inset. */
+.app-body>.content{
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  padding-bottom:24px!important;
+}
+.app-body>.content>.app-footer{
+  width:calc(100% - 48px)!important;
+  margin-left:24px!important;
+  margin-right:24px!important;
+  margin-top:24px!important;
+  height:88px!important;
+  min-height:88px!important;
+  flex:0 0 88px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  background:#fff!important;
+  border-top:1px solid #edf2ef!important;
+  border-bottom:1px solid #edf2ef!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0 24px!important;
+  border-top:0!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:20px!important;
+  box-sizing:border-box!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child{
+  text-align:left!important;
+  margin:0!important;
+}
+.app-body>.content>.app-footer .footer-tagline{
+  text-align:right!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+@media(max-width:850px){
+  .app-body>.content{padding-bottom:18px!important;}
+  .app-body>.content>.app-footer{
+    width:calc(100% - 28px)!important;
+    margin-left:14px!important;
+    margin-right:14px!important;
+    margin-top:18px!important;
+    height:72px!important;
+    min-height:72px!important;
+    flex-basis:72px!important;
+  }
+  .app-body>.content>.app-footer .footer-content{
+    padding:0 14px!important;
+    gap:8px!important;
+    font-size:10px!important;
+  }
+  .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
+}
