@@ -22,10 +22,11 @@ require "partials/header.php"; ?>
 .report-sales-table{min-width:980px;}
 .report-sales-table th.report-date-col,.report-sales-table td.report-date-col{min-width:112px;width:112px;white-space:nowrap;}
 @media (max-width:600px){
-  .report-filter{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:end;width:100%;max-width:100%;box-sizing:border-box;}
-  .report-filter .field{min-width:0;width:100%;box-sizing:border-box;}
-  .report-filter .field input{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;padding:11px 9px;}
-  .report-filter .btn{grid-column:1 / -1;width:100%;text-align:center;margin-top:2px;}
+  .report-filter{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;column-gap:12px!important;row-gap:14px!important;align-items:end;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;}
+  .report-filter .field{min-width:0!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;overflow:hidden;}
+  .report-filter .field label{display:block;width:100%;box-sizing:border-box;}
+  .report-filter .field input[type=date]{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:11px 8px!important;font-size:15px;}
+  .report-filter .btn{grid-column:1 / -1!important;width:100%!important;max-width:100%!important;text-align:center;margin-top:0!important;box-sizing:border-box!important;}
   .report-sales-table th.report-date-col,.report-sales-table td.report-date-col{min-width:118px;width:118px;white-space:nowrap;}
   .report-sales-table th,.report-sales-table td{white-space:nowrap;}
 }
