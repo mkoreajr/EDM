@@ -10,9 +10,10 @@ $totalPages=max(1,(int)ceil($totalCustomers/$perPage));
 if($page>$totalPages)$page=$totalPages;
 $offset=($page-1)*$perPage;
 require "partials/header.php"; ?>
-<div class="panel customer-form-panel"><h3><?= $edit?'Edit Customer':'Add Customer' ?></h3><form method="post"><input type="hidden" name="id" value="<?=e($edit['id']??0)?>"><div class="form-grid">
+<div class="products-page customer-page">
+<div class="panel product-form-panel customer-form-panel"><h3><?= $edit?'Edit Customer':'Add Customer' ?></h3><form method="post"><input type="hidden" name="id" value="<?=e($edit['id']??0)?>"><div class="form-grid product-form-grid">
 <div class="field"><label>Customer Name</label><input name="name" value="<?=e($edit['name']??'')?>" required></div><div class="field"><label>Phone</label><input name="phone" value="<?=e($edit['phone']??'')?>"></div><div class="field"><label>Address</label><input name="address" value="<?=e($edit['address']??'')?>"></div></div><div class="form-actions"><button class="btn primary" name="save">Save Customer</button></div></form></div>
-<div class="panel customer-list-panel" style="margin-top:20px"><h3>Customer List</h3><div class="table-wrap customer-list-table-scroll"><table class="table customer-list-table"><tr><th>SN</th><th>Name</th><th>Phone</th><th>Address</th><th>Actions</th></tr><?php $rs=$conn->query("SELECT * FROM customers ORDER BY name LIMIT $perPage OFFSET $offset");$sn=$offset+1;while($r=$rs->fetch_assoc()):?><tr><td><?=$sn++?></td><td><?=e($r['name'])?></td><td><?=e($r['phone'])?></td><td><?=e($r['address'])?></td><td><a class="btn btn-sm secondary" href="?edit=<?=$r['id']?>&page=<?=$page?>">Edit</a> <a class="btn btn-sm danger-btn" data-confirm="Delete customer?" href="?delete=<?=$r['id']?>&page=<?=$page?>">Delete</a></td></tr><?php endwhile;?></table></div>
+<div class="panel product-list-panel customer-list-panel" style="margin-top:20px"><div class="toolbar"><h3>Customer List</h3></div><div class="table-wrap customer-list-table-scroll"><table class="table customer-list-table"><tr><th>SN</th><th>Name</th><th>Phone</th><th>Address</th><th>Actions</th></tr><?php $rs=$conn->query("SELECT * FROM customers ORDER BY name LIMIT $perPage OFFSET $offset");$sn=$offset+1;while($r=$rs->fetch_assoc()):?><tr><td><?=$sn++?></td><td><?=e($r['name'])?></td><td><?=e($r['phone'])?></td><td><?=e($r['address'])?></td><td><a class="btn btn-sm secondary" href="?edit=<?=$r['id']?>&page=<?=$page?>">Edit</a> <a class="btn btn-sm danger-btn" data-confirm="Delete customer?" href="?delete=<?=$r['id']?>&page=<?=$page?>">Delete</a></td></tr><?php endwhile;?></table></div>
 <?php if($totalCustomers>$perPage): ?>
 <div class="customers-pagination" aria-label="Customer pages">
 <?php if($page>1): ?><a class="page-arrow" href="customers.php?page=<?=$page-1?>">‹</a><?php endif; ?>
@@ -23,4 +24,5 @@ if($end<$totalPages): ?><?php if($end<$totalPages-1): ?><span class="page-dots">
 if($page<$totalPages): ?><a class="page-arrow" href="customers.php?page=<?=$page+1?>">›</a><?php endif; ?>
 </div><div class="customers-page-info">Showing <?=($offset+1)?>–<?=min($offset+$perPage,$totalCustomers)?> of <?=$totalCustomers?> customers</div>
 <?php endif; ?></div>
+</div>
 <?php require "partials/footer.php"; ?>

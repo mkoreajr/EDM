@@ -2384,3 +2384,40 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
 .customer-list-table th:nth-child(3),.customer-list-table td:nth-child(3){min-width:145px!important;}
 .customer-list-table th:nth-child(4),.customer-list-table td:nth-child(4){min-width:240px!important;}
 .customer-list-table th:nth-child(5),.customer-list-table td:nth-child(5){min-width:180px!important;}
+
+/* v162 — Customer + Reports use the same page/card sizing as Products on desktop/laptop. */
+@media (min-width:901px){
+  .customer-page,
+  .reports-page{width:100%;max-width:1120px;margin-left:auto!important;margin-right:auto!important;}
+  .customer-page .customer-form-panel,
+  .customer-page .customer-list-panel,
+  .reports-page .reports-filter-panel,
+  .reports-page .reports-sales-panel{width:100%;max-width:none!important;margin-left:0!important;margin-right:0!important;}
+}
+
+/* Customer table: fill the same card width as the Products table on desktop/laptop. */
+.customer-list-table{width:100%!important;min-width:760px!important;max-width:none!important;table-layout:auto!important;margin-left:0!important;margin-right:0!important;}
+.customer-list-table th:nth-child(1),.customer-list-table td:nth-child(1){min-width:55px!important;width:55px!important;}
+.customer-list-table th:nth-child(2),.customer-list-table td:nth-child(2){min-width:190px!important;}
+.customer-list-table th:nth-child(3),.customer-list-table td:nth-child(3){min-width:170px!important;}
+.customer-list-table th:nth-child(4),.customer-list-table td:nth-child(4){min-width:250px!important;}
+.customer-list-table th:nth-child(5),.customer-list-table td:nth-child(5){min-width:170px!important;}
+
+/* Reports table fills its Product-style card on desktop/laptop; mobile keeps horizontal scrolling. */
+@media (min-width:901px){
+  .reports-page .report-table-scroll{width:100%!important;max-width:100%!important;overflow-x:auto!important;}
+  .reports-page .report-sales-table{width:100%!important;min-width:980px!important;max-width:none!important;margin-left:0!important;margin-right:0!important;table-layout:auto!important;}
+}
+@media (min-width:621px) and (max-width:1100px){
+  .customer-page .product-form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+  .customer-page .customer-list-panel,
+  .reports-page .reports-filter-panel,
+  .reports-page .reports-sales-panel{width:100%!important;}
+}
+@media (max-width:620px){
+  .customer-page,.reports-page{width:100%;max-width:none;margin-left:0!important;margin-right:0!important;}
+  .customer-page .customer-form-panel,.customer-page .customer-list-panel,
+  .reports-page .reports-filter-panel,.reports-page .reports-sales-panel{width:100%!important;}
+  .customer-list-table{min-width:760px!important;width:max-content!important;}
+  .reports-page .report-sales-table{min-width:980px!important;width:max-content!important;}
+}
