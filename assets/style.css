@@ -2313,3 +2313,34 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .customer-list-table{min-width:760px!important;width:max-content!important;}
   .customer-list-table th,.customer-list-table td{padding:10px 14px!important;font-size:12px!important;}
 }
+
+/* Products page responsive layout - desktop, laptop and mobile */
+.products-page .table-wrap{overflow-x:auto;overflow-y:hidden;width:100%;-webkit-overflow-scrolling:touch}
+.products-page .products-table{width:100%;min-width:760px;border-collapse:collapse;margin:0 auto}
+.products-page .products-table th,.products-page .products-table td{white-space:nowrap;vertical-align:middle}
+.products-page .products-table th:nth-child(1){width:16%}
+.products-page .products-table th:nth-child(2){width:16%}
+.products-page .products-table th:nth-child(3){width:16%}
+.products-page .products-table th:nth-child(4){width:16%}
+.products-page .products-table th:nth-child(5){width:16%}
+.products-page .products-table th:nth-child(6){width:20%}
+.products-page .actions{justify-content:flex-start;white-space:nowrap}
+@media (min-width:901px){
+  .products-page .product-list-panel{max-width:1120px;margin:20px auto 0}
+  .products-page .product-form-panel{max-width:1120px;margin-left:auto;margin-right:auto}
+}
+@media (min-width:621px) and (max-width:1100px){
+  .products-page .product-form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .products-page .product-list-panel{width:100%;margin-left:auto;margin-right:auto}
+  .products-page .products-table{min-width:720px}
+}
+@media (max-width:620px){
+  .products-page .product-form-grid{grid-template-columns:1fr;gap:12px}
+  .products-page .product-form-panel,.products-page .product-list-panel{width:100%;margin-left:0;margin-right:0}
+  .products-page .table-wrap{border-radius:8px}
+  .products-page .products-table{min-width:760px}
+  .products-page .products-table th,.products-page .products-table td{padding:11px 10px}
+  .products-page .toolbar{margin-bottom:12px}
+  .products-page .form-actions{flex-wrap:wrap}
+  .products-page .form-actions .btn{flex:1 1 auto;text-align:center}
+}

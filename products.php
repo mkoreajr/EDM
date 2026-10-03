@@ -25,10 +25,11 @@ $offset=($page-1)*$perPage;
 require "partials/header.php";
 ?>
 <?php if($message): ?><div class="alert danger"><?=e($message)?></div><?php endif; ?>
-<div class="panel">
+<div class="products-page">
+<div class="panel product-form-panel">
 <h3><?= $edit?'Edit Product':'Add Product' ?></h3>
 <form method="post"><input type="hidden" name="id" value="<?=e($edit['id']??0)?>">
-<div class="form-grid">
+<div class="form-grid product-form-grid">
 <?php $editCat=$edit['category']??'Eggs'; ?>
 <div class="field"><label>Product Type</label><select name="category" id="category" required><option value="Eggs" <?= $editCat==='Eggs'?'selected':'' ?>>Eggs</option><option value="Rice" <?= $editCat==='Rice'?'selected':'' ?>>Rice</option><option value="Flour" <?= $editCat==='Flour'?'selected':'' ?>>Flour</option></select></div>
 <div class="field"><label>Product Name</label><select name="name" id="product_name" required><option value="Eggs" <?= (($edit['name']??'Eggs')==='Eggs')?'selected':'' ?>>Eggs</option><option value="Rice" <?= (($edit['name']??'')==='Rice')?'selected':'' ?>>Rice</option><option value="Flour" <?= (($edit['name']??'')==='Flour')?'selected':'' ?>>Flour</option></select></div>
@@ -39,7 +40,7 @@ require "partials/header.php";
 </div>
 <div class="form-actions"><button class="btn primary" name="save">Save Product</button><?php if($edit): ?><a class="btn secondary" href="products.php">Cancel</a><?php endif;?></div>
 </form></div>
-<div class="panel" style="margin-top:20px"><div class="toolbar"><h3>Products</h3></div><div class="table-wrap"><table class="table"><tr><th>Product</th><th>Type</th><th>Package</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+<div class="panel product-list-panel" style="margin-top:20px"><div class="toolbar"><h3>Products</h3></div><div class="table-wrap"><table class="table products-table"><tr><th>Product</th><th>Type</th><th>Package</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
 <?php $rows=$conn->query("SELECT * FROM products ORDER BY id DESC LIMIT $perPage OFFSET $offset");while($r=$rows->fetch_assoc()):
   $isEgg=$r['category']==='Eggs'; $package=$isEgg?'Tray':number_format((float)$r['package_size_kg'],0).' Kg';
   $stockText=number_format((float)$r['stock_quantity'],0).' '.($isEgg?'tray':'bag').((float)$r['stock_quantity']===1?'':'s');
@@ -52,6 +53,7 @@ require "partials/header.php";
   <?php if($page<$totalPages): ?><a class="page-arrow" href="products.php?page=<?=$page+1?>" aria-label="Next page">›</a><?php endif; ?>
 </div><div class="products-page-info">Showing <?=($offset+1)?>–<?=min($offset+$perPage,$totalProducts)?> of <?=$totalProducts?> products</div>
 <?php endif; ?></div></div>
+</div>
 <style>.field-help{display:block;margin-top:5px;font-size:12px;color:#60736d}.field input[readonly]{background:#f7faf9;color:#1d2b27}.package-field.hidden{display:none}</style>
 <script>
 const cat=document.getElementById('category'), productName=document.getElementById('product_name'), pkg=document.getElementById('package_size_kg'), unit=document.getElementById('unit_display'), stockLabel=document.getElementById('stock_label'), stockHelp=document.getElementById('stock_help'), unitHelp=document.getElementById('unit_help');
