@@ -2280,3 +2280,36 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .customer-list-table{min-width:760px!important;margin-left:0!important;margin-right:0!important;}
   .customer-list-table th,.customer-list-table td{padding:10px 12px!important;font-size:12px!important;}
 }
+
+/* Customer List: mobile-first readable table, contained inside its card. */
+.customer-list-table-scroll{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  box-sizing:border-box!important;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+.customer-list-table{
+  width:max-content!important;
+  min-width:760px!important;
+  max-width:none!important;
+  table-layout:auto!important;
+}
+.customer-list-table th,
+.customer-list-table td{
+  white-space:nowrap!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+}
+.customer-list-table th:nth-child(1),.customer-list-table td:nth-child(1){min-width:190px!important;}
+.customer-list-table th:nth-child(2),.customer-list-table td:nth-child(2){min-width:145px!important;}
+.customer-list-table th:nth-child(3),.customer-list-table td:nth-child(3){min-width:240px!important;}
+.customer-list-table th:nth-child(4),.customer-list-table td:nth-child(4){min-width:180px!important;}
+@media(max-width:600px){
+  .customer-list-table-scroll{width:100%!important;max-width:100%!important;padding-bottom:8px!important;}
+  .customer-list-table{min-width:760px!important;width:max-content!important;}
+  .customer-list-table th,.customer-list-table td{padding:10px 14px!important;font-size:12px!important;}
+}
