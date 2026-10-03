@@ -2453,3 +2453,28 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .app-body>.content>.app-footer .footer-content>div:first-child{white-space:nowrap!important}
   .app-body>.content>.app-footer .footer-tagline{white-space:nowrap!important;font-size:10px!important}
 }
+
+/* v164 — Sales/POS follows the same width and page/card layout as Products. */
+.sales-page{width:100%;max-width:1120px;margin-left:auto;margin-right:auto;}
+.sales-page>.panel{width:100%;max-width:none;margin-left:0!important;margin-right:0!important;}
+.sales-page>.panel+ .panel{margin-top:20px!important;}
+.sales-page .sale-top-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.sales-page .sale-item-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto;gap:14px;align-items:end;}
+.sales-page .sale-items{display:flex;flex-direction:column;gap:14px;}
+.sales-page .sale-item-row .field{min-width:0;}
+.sales-page .recent-sales-table-scroll{width:100%;max-width:100%;overflow-x:auto!important;}
+.sales-page .recent-sales-table{width:100%;min-width:980px;margin-left:0!important;margin-right:0!important;}
+.sales-page .sale-summary{margin-top:14px;}
+
+@media (min-width:621px) and (max-width:1100px){
+  .sales-page{width:100%;max-width:none;}
+  .sales-page .sale-item-row{grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto;}
+}
+
+@media (max-width:620px){
+  .sales-page{width:100%;max-width:none;margin-left:0;margin-right:0;}
+  .sales-page>.panel{width:100%;}
+  .sales-page .sale-top-grid{grid-template-columns:1fr;gap:12px;}
+  .sales-page .sale-item-row{grid-template-columns:1fr;gap:12px;}
+  .sales-page .recent-sales-table{width:max-content;min-width:980px;}
+}

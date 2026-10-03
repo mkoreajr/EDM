@@ -69,6 +69,7 @@ require "partials/header.php";
 ?>
 <?php if($message): ?><div class="alert danger"><?=e($message)?></div><?php endif;?>
 <?php if($productCount===0): ?><div class="alert danger stock-no-sale">No stock available. Please contact the administrator to update stock before making a sale.</div><?php endif; ?>
+<div class="sales-page">
 <div class="panel"><h3>New Sale</h3><form method="post" id="saleForm">
 <div class="form-grid sale-top-grid">
 <div class="field"><label>Customer</label><select name="customer_id"><option value="0">Walk-in Customer</option><?php while($c=$customers->fetch_assoc()): ?><option value="<?=$c['id']?>"><?=e($c['name'])?></option><?php endwhile;?></select></div>
@@ -97,6 +98,7 @@ require "partials/header.php";
 </form></div>
 <div class="panel" style="margin-top:20px"><h3>Recent Sales</h3><div class="recent-sales-table-scroll"><table class="table recent-sales-table"><tr><th>SN</th><th>Sale No.</th><th>Date</th><th>Customer</th><th>Payment</th><th>Total</th><th></th></tr><?php $recentSn=1; while($r=$recent->fetch_assoc()): ?><tr><td><?= $recentSn++ ?></td><td><?=e($r['sale_number'])?></td><td class="recent-date-col"><?=e($r['sale_date'])?></td><td><?=e($r['customer'])?></td><td><?=e($r['payment_method'])?></td><td>TZS <?=money($r['total_amount'])?></td><td><a class="btn btn-sm secondary" href="receipt.php?id=<?=$r['id']?>">Receipt</a></td></tr><?php endwhile;?></table></div>
 <?php if($totalSales > $perPage): ?><div class="sales-pagination" aria-label="Sales pages"><?php if($page > 1): ?><a class="page-arrow" href="sales.php?page=<?=$page-1?>">‹</a><?php endif; ?><?php $start=max(1,$page-2);$end=min($totalPages,$page+2);if($start>1):?><a href="sales.php?page=1">1</a><?php if($start>2):?><span class="page-dots">…</span><?php endif;?><?php endif;for($i=$start;$i<=$end;$i++):?><a class="<?= $i===$page?'active':'' ?>" href="sales.php?page=<?=$i?>"><?=$i?></a><?php endfor;if($end<$totalPages):?><?php if($end<$totalPages-1):?><span class="page-dots">…</span><?php endif;?><a href="sales.php?page=<?=$totalPages?>"><?=$totalPages?></a><?php endif;if($page<$totalPages):?><a class="page-arrow" href="sales.php?page=<?=$page+1?>">›</a><?php endif;?></div><div class="sales-page-info">Showing <?=($offset+1)?>–<?=min($offset+$perPage,$totalSales)?> of <?=$totalSales?> sales</div><?php endif; ?></div></div>
+</div>
 
 <script>
 (function(){
