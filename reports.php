@@ -31,7 +31,7 @@ require "partials/header.php"; ?>
   .report-sales-table th,.report-sales-table td{white-space:nowrap;}
 }
 </style>
-<div class="panel">
+<div class="panel reports-filter-panel">
 <form class="report-filter" method="get">
  <div class="field"><label>From</label><input type="date" name="from" value="<?=e($from)?>"></div>
  <div class="field"><label>To</label><input type="date" name="to" value="<?=e($to)?>"></div>
@@ -42,8 +42,8 @@ require "partials/header.php"; ?>
  <a class="btn" href="report_export.php?format=pdf&amp;from=<?=e($from)?>&amp;to=<?=e($to)?>">Download PDF</a>
 </div>
 </div>
-<div class="cards" style="margin-top:20px"><div class="card"><div class="label">Sales Transactions</div><div class="value"><?=number_format($saleCount)?></div></div><div class="card"><div class="label">Sales Total</div><div class="value">TZS <?=money($sales)?></div></div><div class="card"><div class="label">Purchases</div><div class="value">TZS <?=money($purchases)?></div></div><div class="card"><div class="label">Expenses</div><div class="value">TZS <?=money($expenses)?></div></div></div>
-<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3 style="margin:0">Sales List</h3><p style="margin:5px 0 0;color:#60736d"><?=e($from)?> to <?=e($to)?> · <?=number_format($saleCount)?> sales · Total TZS <?=money($sales)?></p></div></div>
+<div class="cards reports-summary-cards" style="margin-top:20px"><div class="card"><div class="label">Sales Transactions</div><div class="value"><?=number_format($saleCount)?></div></div><div class="card"><div class="label">Sales Total</div><div class="value">TZS <?=money($sales)?></div></div><div class="card"><div class="label">Purchases</div><div class="value">TZS <?=money($purchases)?></div></div><div class="card"><div class="label">Expenses</div><div class="value">TZS <?=money($expenses)?></div></div></div>
+<div class="panel reports-sales-panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3 style="margin:0">Sales List</h3><p style="margin:5px 0 0;color:#60736d"><?=e($from)?> to <?=e($to)?> · <?=number_format($saleCount)?> sales · Total TZS <?=money($sales)?></p></div></div>
 <div class="report-table-scroll" style="overflow:auto;margin-top:14px"><table class="table report-sales-table"><tr><th>SN</th><th>Sale No.</th><th class="report-date-col">Date</th><th>Customer</th><th>Cashier</th><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th><th>Payment</th></tr>
 <?php if(!$items): ?><tr><td colspan="10">No sales found for the selected date range.</td></tr><?php else:$sn=$offset+1;foreach($items as $x): ?><tr><td><?=$sn++?></td><td><?=e($x['sale_number'])?></td><td class="report-date-col"><?=e($x['sale_date'])?></td><td><?=e($x['customer'])?></td><td><?=e($x['cashier'])?></td><td><?=e($x['product'])?></td><td><?=e($x['quantity'])?></td><td>TZS <?=money($x['unit_price'])?></td><td>TZS <?=money($x['total'])?></td><td><?=e($x['payment_method'])?></td></tr><?php endforeach; ?><tr><td colspan="8"><b>REPORT TOTAL</b></td><td><b>TZS <?=money($sales)?></b></td><td></td></tr><?php endif; ?></table></div></div>
 <?php if($totalPages>1): ?>
