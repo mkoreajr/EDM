@@ -2236,3 +2236,19 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .recent-sales-table{min-width:980px!important;}
   .recent-sales-table th,.recent-sales-table td{padding:10px 12px!important;font-size:12px!important;}
 }
+
+/* Center wide report/recent-sales tables on desktop while keeping mobile scroll natural. */
+@media(min-width:901px){
+  .report-sales-table,
+  .recent-sales-table{
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+@media(max-width:900px){
+  .report-sales-table,
+  .recent-sales-table{
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+}
