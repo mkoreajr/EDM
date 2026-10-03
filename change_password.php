@@ -144,3 +144,28 @@ body.change-password-page>.content{margin-left:0!important;margin-right:0!import
 body.change-password-page>.content>.app-topbar{display:none!important}
 body.change-password-page .password-required-page{width:100%!important;max-width:none!important;margin:0!important;left:0!important;right:0!important}
 </style>
+
+<style id="change-password-footer-final-v173">
+body.change-password-page .app-footer{
+  position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:88px!important;min-height:88px!important;
+  padding:0!important;z-index:20!important;box-sizing:border-box!important;
+  background:linear-gradient(90deg,#edf8f2 0%,#f5faf5 50%,#fff9dc 100%)!important;
+  border-top:1px solid rgba(0,95,63,.10)!important;color:#111!important;
+}
+body.change-password-page .app-footer .footer-content{
+  width:100%!important;height:100%!important;min-height:0!important;
+  padding:0 32px!important;box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  font-size:12px!important;line-height:1.2!important;gap:24px!important;color:#111!important;
+}
+body.change-password-page .app-footer .footer-content>div:first-child,
+body.change-password-page .app-footer .footer-tagline{color:#111!important;margin:0!important}
+body.change-password-page .app-footer .footer-content>div:first-child{white-space:nowrap!important;text-align:left!important}
+body.change-password-page .app-footer .footer-tagline{white-space:nowrap!important;text-align:right!important;font-size:12px!important}
+@media(max-width:620px){
+  body.change-password-page .app-footer{height:64px!important;min-height:64px!important}
+  body.change-password-page .app-footer .footer-content{padding:0 18px!important;font-size:10px!important;gap:12px!important}
+  body.change-password-page .app-footer .footer-tagline{font-size:9px!important}
+}
+</style>
