@@ -2528,3 +2528,44 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   }
   .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
 }
+
+/* v167 — Global footer: bottom anchored, clear of cards, centered across the full viewport. */
+.app-body>.content>.app-footer{
+  width:calc(100vw - 48px)!important;
+  margin-left:calc(-276px + 24px)!important;
+  margin-right:24px!important;
+  margin-top:auto!important;
+  height:48px!important;
+  min-height:48px!important;
+  flex:0 0 48px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  background:linear-gradient(90deg,#ffffff 0%,#f4fbf7 72%,#fff9dc 100%)!important;
+  border-top:1px solid #dfece5!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0 24px!important;
+  border-top:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  box-sizing:border-box!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+@media(max-width:850px){
+  .app-body>.content>.app-footer{
+    width:calc(100vw - 28px)!important;
+    margin-left:-14px!important;
+    margin-right:14px!important;
+    height:48px!important;
+    min-height:48px!important;
+    flex-basis:48px!important;
+  }
+  .app-body>.content>.app-footer .footer-content{padding:0 14px!important;}
+}

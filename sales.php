@@ -85,7 +85,7 @@ require "partials/header.php";
         <?php endforeach; ?>
       </select>
     </div>
-    <div class="field"><label>Quantity</label><input type="number" step="1" min="1" name="quantity[]" class="sale-qty" value="1" required <?= $productCount===0 ? "disabled" : "" ?>><small class="field-help">Eggs: whole trays (1 tray = 30 eggs). Rice/Flour: whole bags/packages.</small></div>
+    <div class="field"><label>Quantity</label><input type="number" step="1" min="1" name="quantity[]" class="sale-qty" value="1" required <?= $productCount===0 ? "disabled" : "" ?>></div>
     <div class="field"><label>Unit Price (TZS)</label><input class="sale-price" readonly></div>
     <div class="field"><label>Line Total (TZS)</label><input class="sale-total" readonly></div>
     <button type="button" class="remove-sale-item" title="Remove product" aria-label="Remove product" style="display:none">×</button>
