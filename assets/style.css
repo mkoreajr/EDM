@@ -2775,3 +2775,83 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   }
   .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
 }
+
+/* v172 — Footer final correction: full viewport width from the sidebar edge,
+   guaranteed visual gap from the last card, and bottom-aligned without overlap. */
+.app-body>.content{
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  box-sizing:border-box!important;
+  padding-bottom:0!important;
+}
+.app-body>.content>.app-footer{
+  width:calc(100% + 56px)!important;
+  margin-left:-28px!important;
+  margin-right:-28px!important;
+  margin-top:auto!important;
+  height:112px!important;
+  min-height:112px!important;
+  flex:0 0 112px!important;
+  padding:24px 0 0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:stretch!important;
+  background:linear-gradient(to bottom,transparent 0,transparent 24px,#ffffff 24px,#f4fbf7 76%,#fff9dc 100%)!important;
+  border:0!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  width:100%!important;
+  height:88px!important;
+  min-height:88px!important;
+  margin:0!important;
+  padding:0 28px!important;
+  border-top:1px solid #dfece5!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  font-size:12px!important;
+  line-height:1.2!important;
+  color:#000!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child{
+  color:#000!important;
+  text-align:left!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+.app-body>.content>.app-footer .footer-tagline{
+  color:#000!important;
+  text-align:right!important;
+  margin:0!important;
+  white-space:nowrap!important;
+  font-size:12px!important;
+}
+@media(max-width:850px){
+  .app-body>.content{
+    padding-bottom:0!important;
+  }
+  .app-body>.content>.app-footer{
+    width:calc(100% + 28px)!important;
+    margin-left:-14px!important;
+    margin-right:-14px!important;
+    margin-top:auto!important;
+    height:94px!important;
+    min-height:94px!important;
+    flex-basis:94px!important;
+    padding-top:18px!important;
+    background:linear-gradient(to bottom,transparent 0,transparent 18px,#ffffff 18px,#f4fbf7 70%,#fff9dc 100%)!important;
+  }
+  .app-body>.content>.app-footer .footer-content{
+    height:76px!important;
+    min-height:76px!important;
+    padding:0 14px!important;
+    font-size:10px!important;
+    gap:10px!important;
+  }
+  .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
+}
