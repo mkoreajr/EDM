@@ -2421,3 +2421,35 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .customer-list-table{min-width:760px!important;width:max-content!important;}
   .reports-page .report-sales-table{min-width:980px!important;width:max-content!important;}
 }
+
+/* v163 — Compact global footer matching the Change Password footer. */
+.app-body>.content>.app-footer{
+  flex:none!important;
+  height:48px!important;
+  min-height:48px!important;
+  margin-top:auto!important;
+  padding:24px 28px 0!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  height:24px!important;
+  min-height:24px!important;
+  padding:0!important;
+  border-top:1px solid #e5ebe9!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  color:#000!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child{color:#000!important;text-align:left!important}
+.app-body>.content>.app-footer .footer-tagline{color:#000!important;text-align:right!important;font-size:11px!important;white-space:nowrap!important}
+@media(max-width:700px){
+  .app-body>.content>.app-footer{height:48px!important;min-height:48px!important;padding:24px 14px 0!important}
+  .app-body>.content>.app-footer .footer-content{height:24px!important;min-height:24px!important;flex-direction:row!important;gap:10px!important;font-size:10px!important;line-height:1!important}
+  .app-body>.content>.app-footer .footer-content>div:first-child{white-space:nowrap!important}
+  .app-body>.content>.app-footer .footer-tagline{white-space:nowrap!important;font-size:10px!important}
+}
