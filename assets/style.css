@@ -2699,3 +2699,79 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .app-body>.content>.app-footer{margin-left:-14px!important;}
   .app-body>.content>.app-footer .footer-content{padding:0 14px!important;}
 }
+
+/* v171 — Footer starts after the sidebar, stays at the bottom of the content area,
+   and remains separated from the last card. */
+.app-body>.content{
+  min-height:100vh!important;
+  min-height:100dvh!important;
+  display:flex!important;
+  flex-direction:column!important;
+  padding-bottom:24px!important;
+  box-sizing:border-box!important;
+}
+.app-body>.content>.app-footer{
+  width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  margin-top:auto!important;
+  height:88px!important;
+  min-height:88px!important;
+  flex:0 0 88px!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  background:linear-gradient(90deg,#ffffff 0%,#f4fbf7 72%,#fff9dc 100%)!important;
+  border-top:1px solid #dfece5!important;
+  border-bottom:0!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0 28px!important;
+  border-top:0!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  box-sizing:border-box!important;
+  font-size:12px!important;
+  line-height:1.2!important;
+  color:#000!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child{
+  color:#000!important;
+  text-align:left!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+.app-body>.content>.app-footer .footer-tagline{
+  color:#000!important;
+  text-align:right!important;
+  margin:0!important;
+  white-space:nowrap!important;
+  font-size:12px!important;
+}
+@media(max-width:850px){
+  .app-body>.content{
+    padding-bottom:18px!important;
+  }
+  .app-body>.content>.app-footer{
+    width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    margin-top:18px!important;
+    height:72px!important;
+    min-height:72px!important;
+    flex-basis:72px!important;
+  }
+  .app-body>.content>.app-footer .footer-content{
+    padding:0 14px!important;
+    font-size:10px!important;
+    gap:10px!important;
+  }
+  .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
+}
