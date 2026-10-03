@@ -40,11 +40,11 @@ require "partials/header.php";
 </div>
 <div class="form-actions"><button class="btn primary" name="save">Save Product</button><?php if($edit): ?><a class="btn secondary" href="products.php">Cancel</a><?php endif;?></div>
 </form></div>
-<div class="panel product-list-panel" style="margin-top:20px"><div class="toolbar"><h3>Product List</h3></div><div class="table-wrap"><table class="table products-table"><tr><th>Product</th><th>Type</th><th>Package</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
-<?php $rows=$conn->query("SELECT * FROM products ORDER BY id DESC LIMIT $perPage OFFSET $offset");while($r=$rows->fetch_assoc()):
+<div class="panel product-list-panel" style="margin-top:20px"><div class="toolbar"><h3>Product List</h3></div><div class="table-wrap"><table class="table products-table"><tr><th>SN</th><th>Product</th><th>Type</th><th>Package</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+<?php $rows=$conn->query("SELECT * FROM products ORDER BY id DESC LIMIT $perPage OFFSET $offset"); $sn=$offset+1; while($r=$rows->fetch_assoc()):
   $isEgg=$r['category']==='Eggs'; $package=$isEgg?'Tray':number_format((float)$r['package_size_kg'],0).' Kg';
   $stockText=number_format((float)$r['stock_quantity'],0).' '.($isEgg?'tray':'bag').((float)$r['stock_quantity']===1?'':'s');
-  ?><tr><td><?=e($r['name'])?></td><td><?=e($r['category'])?></td><td><?=e($package)?></td><td>TZS <?=money($r['selling_price'])?></td><td><?=e($stockText)?></td><td class="actions"><a class="btn btn-sm secondary" href="?edit=<?=$r['id']?>&page=<?=$page?>">Edit</a><a class="btn btn-sm danger-btn" data-confirm="Delete this product?" href="?delete=<?=$r['id']?>&page=<?=$page?>">Delete</a></td></tr><?php endwhile;?>
+  ?><tr><td><?= $sn++ ?></td><td><?=e($r['name'])?></td><td><?=e($r['category'])?></td><td><?=e($package)?></td><td>TZS <?=money($r['selling_price'])?></td><td><?=e($stockText)?></td><td class="actions"><a class="btn btn-sm secondary" href="?edit=<?=$r['id']?>&page=<?=$page?>">Edit</a><a class="btn btn-sm danger-btn" data-confirm="Delete this product?" href="?delete=<?=$r['id']?>&page=<?=$page?>">Delete</a></td></tr><?php endwhile;?>
 </table></div>
 <?php if($totalProducts>$perPage): ?>
 <div class="products-pagination" aria-label="Product pages">
