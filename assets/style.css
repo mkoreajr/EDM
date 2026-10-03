@@ -2478,3 +2478,53 @@ body.change-password-page .app-footer .footer-tagline{font-size:12px!important}
   .sales-page .sale-item-row{grid-template-columns:1fr;gap:12px;}
   .sales-page .recent-sales-table{width:max-content;min-width:980px;}
 }
+
+/* v165 — Footer text vertically centered with topbar background. */
+.app-body>.content>.app-footer{
+  height:48px!important;
+  min-height:48px!important;
+  padding:0 28px!important;
+  background:linear-gradient(90deg,#ffffff 0%,#f4fbf7 72%,#fff9dc 100%)!important;
+  border-top:1px solid #dfece5!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.app-body>.content>.app-footer .footer-content{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  padding:0!important;
+  border-top:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child,
+.app-body>.content>.app-footer .footer-tagline{
+  color:#000!important;
+  display:flex!important;
+  align-items:center!important;
+  margin:0!important;
+}
+.app-body>.content>.app-footer .footer-tagline{
+  font-size:11px!important;
+  white-space:nowrap!important;
+}
+@media(max-width:700px){
+  .app-body>.content>.app-footer{
+    height:48px!important;
+    min-height:48px!important;
+    padding:0 14px!important;
+  }
+  .app-body>.content>.app-footer .footer-content{
+    height:100%!important;
+    min-height:0!important;
+    gap:10px!important;
+    font-size:10px!important;
+  }
+  .app-body>.content>.app-footer .footer-tagline{font-size:10px!important;}
+}
