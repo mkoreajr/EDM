@@ -36,3 +36,54 @@ CREATE INDEX IF NOT EXISTS idx_notifications_user_unread ON notifications(user_i
 
 INSERT INTO users(name,username,password,role) SELECT 'Administrator','admin',encode(digest('admin123','sha256'),'hex'),'Admin' WHERE NOT EXISTS(SELECT 1 FROM users WHERE username='admin');
 INSERT INTO notifications(user_id,title,message) SELECT id,'Welcome to EDM Kienyeji Food Shop','Your administrator account is ready. You can manage sales, products and stock from the dashboard.' FROM users u WHERE u.username='admin' AND NOT EXISTS(SELECT 1 FROM notifications n WHERE n.user_id=u.id);
+
+-- Online customer portal and delivery orders
+CREATE TABLE IF NOT EXISTS customer_accounts(
+  id BIGSERIAL PRIMARY KEY,
+  customer_id BIGINT NOT NULL UNIQUE REFERENCES customers(id) ON DELETE CASCADE,
+  username VARCHAR(80) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login_at TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders(
+  id BIGSERIAL PRIMARY KEY,
+  order_number VARCHAR(40) UNIQUE NOT NULL,
+  customer_id BIGINT NOT NULL REFERENCES customers(id) ON DELETE RESTRICT,
+  status VARCHAR(30) NOT NULL DEFAULT 'Pending',
+  delivery_address VARCHAR(255) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  payment_method VARCHAR(30) NOT NULL DEFAULT 'Cash on Delivery',
+  notes TEXT,
+  total_amount NUMERIC(12,2) NOT NULL DEFAULT 0,
+  delivery_person VARCHAR(100),
+  admin_note TEXT,
+  stock_reserved BOOLEAN NOT NULL DEFAULT FALSE,
+  sale_id BIGINT REFERENCES sales(id) ON DELETE SET NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  delivered_at TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS order_items(
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
+  quantity NUMERIC(12,2) NOT NULL,
+  unit_price NUMERIC(12,2) NOT NULL,
+  total NUMERIC(12,2) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_customer_accounts_username ON customer_accounts(username);
+CREATE INDEX IF NOT EXISTS idx_orders_customer_id ON orders(customer_id);
+CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items(order_id);
+
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivery_person VARCHAR(100);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS admin_note TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS stock_reserved BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS sale_id BIGINT REFERENCES sales(id) ON DELETE SET NULL;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMP NULL;

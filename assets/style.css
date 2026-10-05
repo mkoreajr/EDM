@@ -3018,3 +3018,7 @@ body.change-password-page .app-footer .footer-content>div:first-child{
   text-align:center!important;
   white-space:nowrap!important;
 }
+
+/* Online order navigation */
+.nav-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:#f2b134;color:#fff;font-size:10px;font-weight:800;margin-left:auto}.side-nav a{gap:9px}
+.alert.success{background:#eaf8f0;border:1px solid #c7e8d5;color:#176b49}

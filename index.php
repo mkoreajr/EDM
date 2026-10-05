@@ -128,6 +128,7 @@ body{overflow:auto}
       <div class="forgot-row"><a class="forgot" href="admin-recovery.php">Forgot password?</a></div>
       <button class="btn" type="submit">LOGIN</button>
     </form>
+    <a href="portal/" style="display:block;text-align:center;margin-top:14px;color:#157d57;text-decoration:none;font-size:12px;font-weight:800">Customer Portal → Order Online</a>
   </main>
   <div class="right-footer">
     <div class="support">Need help? Contact <a href="mailto:ict@psrs.go.tz">ICT Support</a> : +225 682 657 202</div>
