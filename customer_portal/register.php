@@ -85,7 +85,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
       <?php if($error): ?><div class="portal-alert error"><?=pe($error)?></div><?php endif; ?>
 
-      <form method="post" class="customer-auth-form registration-form" novalidate>
+      <form method="post" action="/shop/register.php" class="customer-auth-form registration-form" novalidate>
         <div class="registration-grid">
           <div class="customer-field">
             <label for="reg-name">Full name</label>
@@ -128,7 +128,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         <button class="customer-auth-btn" type="submit">Create Customer Account</button>
       </form>
 
-      <div class="auth-switch">Already registered? <a href="index.php">Sign in</a></div>
+      <div class="auth-switch">Already registered? <a href="/shop">Sign in</a></div>
     </div>
     <div class="customer-auth-footer">© 2026 MSINDA Food Shop | All Rights Reserved</div>
   </section>

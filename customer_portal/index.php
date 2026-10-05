@@ -52,7 +52,7 @@ $timedOut=isset($_GET['timeout']);
       <?php if($timedOut): ?><div class="portal-alert error">Your session expired. Please sign in again.</div><?php endif; ?>
       <?php if($error): ?><div class="portal-alert error"><?=pe($error)?></div><?php endif; ?>
 
-      <form method="post" action="login.php" class="customer-auth-form" novalidate>
+      <form method="post" action="/shop/login.php" class="customer-auth-form" novalidate>
         <div class="customer-field">
           <label for="customer-username">Username</label>
           <div class="customer-input-wrap">
@@ -80,7 +80,7 @@ $timedOut=isset($_GET['timeout']);
         <button class="customer-auth-btn" type="submit">Sign in to Customer Portal</button>
       </form>
 
-      <div class="auth-switch">New to MSINDA Food Shop? <a href="register.php">Create an account</a></div>
+      <div class="auth-switch">New to MSINDA Food Shop? <a href="/shop/register.php">Create an account</a></div>
       <a class="customer-back-link" href="/shop">Customer Portal Home</a>
     </div>
     <div class="customer-auth-footer">© 2026 MSINDA Food Shop | All Rights Reserved</div>
