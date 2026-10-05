@@ -1,3 +1,6 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <?php
 require "auth.php";
 $error=''; $success='';
@@ -29,9 +32,9 @@ $pageTitle='Change Password'; $active='settings'; require 'partials/header.php';
 ?>
 <style id="change-password-final-fix">
 /* Change Password: same visual language as the Login page, centered and viewport-safe. */
-body.change-password-page *{font-family:Arial,Helvetica,sans-serif!important}
+body.change-password-page *{font-family:Inter!important}
 html:has(body.change-password-page),body.change-password-page{width:100%!important;height:100%!important;min-height:100%!important;margin:0!important;overflow:hidden!important}
-body.change-password-page{background:#eef3f1!important;color:#17352b!important;font-family:Arial,Helvetica,sans-serif!important}
+body.change-password-page{background:#eef3f1!important;color:#17352b!important;font-family:Inter!important}
 body.change-password-page .sidebar,body.change-password-page .app-topbar{display:none!important}
 body.change-password-page .content{margin:0!important;padding:0!important;width:100%!important;height:100vh!important;min-height:100vh!important;position:fixed!important;inset:0!important;left:0!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;background:linear-gradient(135deg,#f4f7f5 0%,#e8efec 100%)!important}
 /* Exact Login-page background treatment */
@@ -129,9 +132,9 @@ function eyeIcon(){return eyeIconSvg(false);}
 <style id="change-password-panel-heading-fix">
 body.change-password-page .change-password-panel-heading{text-align:center;margin:0 0 18px!important}
 body.change-password-page .change-password-panel-heading .welcome-kicker{font-size:11px!important;letter-spacing:3px!important;font-weight:800!important;margin:0 0 5px!important}
-body.change-password-page .change-password-panel-heading h1{font-family:Arial,Helvetica,sans-serif!important;font-size:27px!important;line-height:1.12!important;margin:0 0 7px!important;color:#073f2e!important;text-align:center!important}
-body.change-password-page .change-password-panel-heading .muted{font-family:Arial,Helvetica,sans-serif!important;font-size:12px!important;line-height:1.45!important;margin:0 auto 13px!important;color:#6d7c98!important;text-align:center!important}
-body.change-password-page .change-password-panel-heading .password-rules{font-family:Arial,Helvetica,sans-serif!important;font-size:10.5px!important;line-height:1.45!important;margin:0 auto!important;padding:0!important;color:#60736d!important;text-align:center!important;background:transparent!important}
+body.change-password-page .change-password-panel-heading h1{font-family:Inter!important;font-size:27px!important;line-height:1.12!important;margin:0 0 7px!important;color:#073f2e!important;text-align:center!important}
+body.change-password-page .change-password-panel-heading .muted{font-family:Inter!important;font-size:12px!important;line-height:1.45!important;margin:0 auto 13px!important;color:#6d7c98!important;text-align:center!important}
+body.change-password-page .change-password-panel-heading .password-rules{font-family:Inter!important;font-size:10.5px!important;line-height:1.45!important;margin:0 auto!important;padding:0!important;color:#60736d!important;text-align:center!important;background:transparent!important}
 </style>
 <style id="change-password-no-sidebar-final">
 /* Change Password must use the full viewport; no sidebar space on desktop. */

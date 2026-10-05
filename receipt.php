@@ -24,6 +24,9 @@ $discount=max(0,$subtotal-(float)$s['total_amount']);
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Receipt <?=e($s['sale_number'])?></title>
@@ -31,7 +34,7 @@ $discount=max(0,$subtotal-(float)$s['total_amount']);
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:Inter;
   background:linear-gradient(135deg,#eef8f3,#f9fbea);
   color:#17332a;
   min-height:100vh;
@@ -45,7 +48,7 @@ body{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   min-width:142px;height:42px;padding:0 17px;border-radius:8px;
   border:1px solid #d2dfda;background:#fff;color:#164333;
-  font:700 13px Arial,Helvetica,sans-serif;text-decoration:none;cursor:pointer;
+  font:700 13px Inter;text-decoration:none;cursor:pointer;
 }
 .action-btn svg{width:17px;height:17px}
 .action-btn.primary{background:#008e5b;border-color:#008e5b;color:#fff}

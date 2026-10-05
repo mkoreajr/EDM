@@ -28,7 +28,7 @@ $error=$_SESSION['login_error']??'';unset($_SESSION['login_error']);
 <?php if($firstSlideSrc!==''): ?><link rel="preload" as="image" href="<?=htmlspecialchars($firstSlideSrc,ENT_QUOTES,'UTF-8')?>" fetchpriority="high"><?php endif; ?>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#eef3f1;color:#17352b}
+html,body{margin:0;width:100%;min-height:100%;font-family:Inter;background:#eef3f1;color:#17352b}
 body{overflow:auto}
 .login-page{min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:34px 24px 26px;position:relative;overflow:hidden;background:linear-gradient(135deg,#f4f7f5 0%,#e8efec 100%)}
 .login-page:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:rgba(0,117,75,.06);left:-180px;top:-220px}
@@ -63,13 +63,13 @@ body{overflow:auto}
 .input{height:43px;display:flex;align-items:center;border-radius:8px;background:#fff;border:1px solid #d5dfdb;overflow:hidden;transition:.2s}
 .input:focus-within{border-color:#15945f;box-shadow:0 0 0 3px rgba(21,148,95,.08)}
 .input-icon{width:40px;height:100%;display:grid;place-items:center;flex:none}.input-icon svg{width:16px;height:16px;fill:none;stroke:#8b9b95;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.input input{width:100%;height:100%;border:0;outline:0;background:#fff;color:#233b32;font-family:Arial,Helvetica,sans-serif;font-size:13px;padding:0 10px 0 0}
+.input input{width:100%;height:100%;border:0;outline:0;background:#fff;color:#233b32;font-family:Inter;font-size:13px;padding:0 10px 0 0}
 .input input::placeholder{color:#a3aea9}
 .input input:-webkit-autofill,.input input:-webkit-autofill:hover,.input input:-webkit-autofill:focus,.input input:-webkit-autofill:active{-webkit-text-fill-color:#233b32!important;caret-color:#233b32!important;-webkit-box-shadow:0 0 0 1000px #fff inset!important;box-shadow:0 0 0 1000px #fff inset!important}
 .pass-wrap{position:relative}.pass-wrap .input{padding-right:40px}
 .eye{position:absolute;right:5px;top:22px;width:34px;height:34px;border:0;background:transparent;color:#8b9b95;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}.eye svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .forgot-row{display:flex;justify-content:flex-end;margin:-1px 0 17px}.forgot{color:#157d57;text-decoration:none;font-size:11px;font-weight:700}
-.btn{width:100%;height:45px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}.btn:hover{background:#12a568}
+.btn{width:100%;height:45px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Inter;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}.btn:hover{background:#12a568}
 .secure{display:none}
 .right-footer{position:absolute;z-index:3;left:50%;bottom:-69px;transform:translateX(-50%);width:100%;text-align:center;color:#71847c}.support{text-align:center;color:#75867f;font-size:13px;line-height:1.5;margin:0}.support a{color:#157d57;text-decoration:none}.footer{text-align:center;color:#87958f;font-size:12px;margin-top:7px}
 @media(max-width:920px) and (min-width:761px){.left{width:52vw;height:520px}.login-page>.right-panel{width:42vw;height:520px;padding:32px 34px}.login-slide{width:88%}.left-slogan{width:45%;left:18px}}

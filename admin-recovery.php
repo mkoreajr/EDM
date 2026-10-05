@@ -51,14 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Password Recovery</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#006b4f,#79c879 48%,#fff0a8 100%);display:flex;align-items:center;justify-content:center;padding:24px;color:#073b2c}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter;background:linear-gradient(135deg,#006b4f,#79c879 48%,#fff0a8 100%);display:flex;align-items:center;justify-content:center;padding:24px;color:#073b2c}
 .card{width:min(460px,100%);background:#fff;border-radius:18px;padding:30px;box-shadow:0 20px 60px rgba(0,60,40,.18)}
 h1{margin:0 0 8px;font-size:27px}.sub{color:#617586;margin-bottom:24px}
-label{display:block;font-weight:500;font-size:14px;margin:14px 0 7px}input{width:100%;height:46px;border:1px solid #d6e1dc;border-radius:9px;padding:0 13px;font:400 14px Arial,Helvetica,sans-serif}
+label{display:block;font-weight:500;font-size:14px;margin:14px 0 7px}input{width:100%;height:46px;border:1px solid #d6e1dc;border-radius:9px;padding:0 13px;font:400 14px Inter}
 button{width:100%;height:46px;border:0;border-radius:9px;background:#008b5a;color:#fff;font-weight:700;font-size:14px;margin-top:18px;cursor:pointer}
 .alert{padding:12px;border-radius:9px;margin-bottom:16px;font-size:14px}.ok{background:#e2f6eb;color:#08623f}.bad{background:#fde7e7;color:#9f1e28}
 a{display:block;text-align:center;margin-top:18px;color:#007b52;text-decoration:none;font-size:14px}

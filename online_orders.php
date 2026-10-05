@@ -406,7 +406,7 @@ require 'partials/header.php';
 
 
 <style>
-.online-orders-page,.online-orders-page button,.online-orders-page input,.online-orders-page select{font-family:'Inter',sans-serif}
+.online-orders-page,.online-orders-page button,.online-orders-page input,.online-orders-page select{font-family:Inter}
 .order-row{transition:background .18s ease,box-shadow .18s ease}
 .order-row.is-selected{background:#f5fbf8!important;box-shadow:inset 4px 0 0 #0fa46a}
 .order-row.just-updated{animation:orderUpdated 1.15s ease}

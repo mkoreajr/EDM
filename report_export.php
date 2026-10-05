@@ -22,7 +22,10 @@ if($format==='excel'){
  header('Content-Type: application/vnd.ms-excel; charset=UTF-8');
  header('Content-Disposition: attachment; filename="MSINDA-Food-Shop-Sales-Report-'.$from.'-to-'.$to.'.xls"');
  echo "\xEF\xBB\xBF";
- echo '<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:Arial}th,td{border:1px solid #bbb;padding:7px}th{background:#eaf5ef} .num{text-align:right}</style></head><body>';
+ echo '<html><head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><meta charset="UTF-8"><style>table{border-collapse:collapse;font-family:Inter}th,td{border:1px solid #bbb;padding:7px}th{background:#eaf5ef} .num{text-align:right}</style></head><body>';
  echo '<h2>MSINDA FOOD SHOP</h2><h3>Sales Report</h3>';
  echo '<p><b>Report Period:</b> '.e($from).' to '.e($to).'<br><b>Downloaded By:</b> '.e($downloadedBy).'<br><b>Total Sales:</b> '.number_format((float)$summary['sale_count']).' &nbsp; <b>Total Amount:</b> TZS '.money($summary['total']).'</p>';
  echo '<table><tr><th>SN</th><th>Sale No.</th><th>Date</th><th>Customer</th><th>Cashier</th><th>Product</th><th>Category</th><th>Quantity</th><th>Unit Price</th><th>Line Total</th><th>Payment Method</th></tr>';
