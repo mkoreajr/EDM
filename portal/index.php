@@ -5,7 +5,10 @@ require_once __DIR__ . '/db.php';
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 if(portal_logged_in()){
-    header('Location: /shop');
+    // /shop is the public customer entry route. Do not redirect /shop to
+    // itself after login, otherwise Apache/browser enters an infinite loop.
+    // Render the authenticated shop page internally while keeping /shop in the URL.
+    require __DIR__ . '/shop.php';
     exit;
 }
 
