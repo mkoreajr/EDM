@@ -100,14 +100,17 @@ if(isset($_POST['update_order'])){
   $note=trim((string)($_POST['admin_note']??''));
   $isAjax=isset($_POST['ajax']) && $_POST['ajax']==='1';
   try{
+    if($isAjax) ob_start();
     $result=updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap);
     if($isAjax){
+      $noise=ob_get_clean();
       header('Content-Type: application/json; charset=utf-8');
       echo json_encode(['ok'=>true]+$result); exit;
     }
     $message=$result['message'];
   }catch(Throwable $e){
     if($isAjax){
+      if(ob_get_level()) ob_end_clean();
       http_response_code(422);
       header('Content-Type: application/json; charset=utf-8');
       echo json_encode(['ok'=>false,'message'=>$e->getMessage()]); exit;
@@ -617,9 +620,17 @@ require 'partials/header.php';
       const newStatus=form.querySelector('[data-status-select]')?.value || oldStatus;
       setLoading(form,true); showMessage(form,'',true);
       try{
-        const response=await fetch(window.location.href,{method:'POST',body:new FormData(form),headers:{'X-Requested-With':'XMLHttpRequest'}});
-        const data=await response.json().catch(()=>({ok:false,message:'The server returned an invalid response.'}));
-        if(!response.ok || !data.ok) throw new Error(data.message || 'Unable to update the order.');
+        const response=await fetch(window.location.href,{method:'POST',body:new FormData(form),headers:{'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},credentials:'same-origin'});
+        const contentType=(response.headers.get('content-type')||'').toLowerCase();
+        let data=null;
+        if(contentType.includes('application/json')){
+          data=await response.json().catch(()=>null);
+        }else{
+          const raw=await response.text().catch(()=> '');
+          if(response.status===401) throw new Error('Your admin session has expired. Please log in again.');
+          throw new Error(raw.trim() ? 'The server returned an unexpected response. Please try again.' : 'The server returned an invalid response.');
+        }
+        if(!data || !response.ok || !data.ok) throw new Error(data?.message || 'Unable to update the order.');
 
         if(row){
           row.dataset.status=data.status;
