@@ -651,17 +651,15 @@ require 'partials/header.php';
       const newStatus=form.querySelector('[data-status-select]')?.value || oldStatus;
       setLoading(form,true); showMessage(form,'',true);
       try{
-        const response=await fetch(window.location.href,{method:'POST',body:new FormData(form),headers:{'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},credentials:'same-origin'});
-        const contentType=(response.headers.get('content-type')||'').toLowerCase();
+        const response=await fetch('order_status_api.php',{method:'POST',body:new FormData(form),headers:{'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},credentials:'same-origin',cache:'no-store'});
+        const raw=await response.text().catch(()=> '');
         let data=null;
-        if(contentType.includes('application/json')){
-          data=await response.json().catch(()=>null);
-        }else{
-          const raw=await response.text().catch(()=> '');
+        try { data=raw ? JSON.parse(raw) : null; } catch(e) { data=null; }
+        if(!data){
           if(response.status===401) throw new Error('Your admin session has expired. Please log in again.');
-          throw new Error(raw.trim() ? 'The server returned an unexpected response. Please try again.' : 'The server returned an invalid response.');
+          throw new Error('The order update endpoint did not return valid JSON.');
         }
-        if(!data || !response.ok || !data.ok) throw new Error(data?.message || 'Unable to update the order.');
+        if(!response.ok || !data.ok) throw new Error(data.message || 'Unable to update the order.');
 
         if(row){
           row.dataset.status=data.status;
