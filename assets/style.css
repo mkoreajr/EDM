@@ -3073,3 +3073,26 @@ html, body, body *, button, input, select, textarea {
   font-size: 17px !important;
   line-height: 1.5 !important;
 }
+
+/* Header controls: make the hamburger, notification and profile controls interactive. */
+.menu-btn[aria-expanded="true"]{background:#e7f6ee;border-radius:10px;padding:7px 10px}
+@media (max-width:850px){
+  .app-body.sidebar-open>.sidebar{
+    width:276px!important;
+    flex-basis:276px!important;
+    min-width:276px!important;
+    overflow-y:auto!important;
+    box-shadow:12px 0 30px rgba(0,0,0,.16);
+    z-index:1200;
+  }
+  .app-body.sidebar-open>.content{margin-left:0!important}
+  .app-body.sidebar-open>.content::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(7,35,25,.34);
+    z-index:1100;
+    pointer-events:auto;
+  }
+  .app-body.sidebar-open .app-topbar{position:relative;z-index:1300}
+}
