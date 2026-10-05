@@ -274,3 +274,9 @@ p,small,span{font-weight:450}
   .registration-wide{grid-column:auto}
   .registration-card-modern{max-width:none}
 }
+
+/* Customer portal section headings are presented as cards for clearer visual grouping. */
+.section-head-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 24px;box-shadow:var(--shadow);margin-top:28px;margin-bottom:20px;align-items:center}
+.order-detail-head-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px 26px;box-shadow:var(--shadow);margin-bottom:22px}
+.section-head-card h1,.section-head-card h2,.order-detail-head-card h1{margin-top:4px}
+@media(max-width:680px){.section-head-card{padding:20px}.order-detail-head-card{padding:20px}.section-head-card .portal-btn{width:100%}}

@@ -28,7 +28,7 @@ $categories=[]; foreach($products as $p){$categories[$p['category']]=true;} ksor
   </div>
 </section>
 <?php if($message): ?><div class="portal-alert success"><?=pe($message)?></div><?php endif; ?>
-<section class="section-head" id="products"><div><div class="eyebrow">SHOP WITH CONFIDENCE</div><h2>Available products</h2><p>Choose a product, set the quantity, and add it to your cart.</p></div></section>
+<section class="section-head section-head-card" id="products"><div><div class="eyebrow">SHOP WITH CONFIDENCE</div><h2>Available products</h2><p>Choose a product, set the quantity, and add it to your cart.</p></div></section>
 <div class="shop-toolbar">
   <label class="search-box" aria-label="Search products">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>

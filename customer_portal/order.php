@@ -27,7 +27,7 @@ $stages=[
   </div>
 <?php endif; ?>
 
-<section class="order-detail-head">
+<section class="order-detail-head order-detail-head-card">
   <div>
     <div class="eyebrow">ORDER <?=pe($order['order_number'])?></div>
     <h1>Delivery status</h1>
