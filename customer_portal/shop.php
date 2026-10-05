@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/auth.php'; $pageTitle='Shop'; $active='shop';
-$products=[]; $rs=$conn->query("SELECT * FROM products WHERE stock_quantity>0 ORDER BY category,name,package_size_kg"); while($r=$rs->fetch_assoc()) $products[]=$r;
+$products=[];
+// Show the three customer-facing product categories from the database.
+// Prefer an in-stock row when duplicate category records exist, otherwise keep the latest row.
+$sqlProducts="SELECT * FROM (SELECT DISTINCT ON (category) * FROM products WHERE category IN ('Eggs','Flour','Rice') ORDER BY category, CASE WHEN stock_quantity > 0 THEN 0 ELSE 1 END, stock_quantity DESC, id DESC) p ORDER BY CASE p.category WHEN 'Eggs' THEN 1 WHEN 'Flour' THEN 2 WHEN 'Rice' THEN 3 ELSE 9 END";
+$rs=$conn->query($sqlProducts); while($r=$rs->fetch_assoc()) $products[]=$r;
 $message=$_SESSION['portal_message']??''; unset($_SESSION['portal_message']);
 $customer=portal_current_customer();
 $categories=[]; foreach($products as $p){$categories[$p['category']]=true;} ksort($categories);
@@ -35,10 +39,10 @@ $categories=[]; foreach($products as $p){$categories[$p['category']]=true;} ksor
 <?php if(!$products): ?><div class="empty-card"><div class="empty-illustration">🛒</div><h3>No products available right now</h3><p>Please check again later. We will keep the shop updated.</p></div><?php else: ?><div class="product-grid" id="productGrid">
 <?php foreach($products as $p): $egg=$p['category']==='Eggs'; $package=$egg?'Tray':number_format((float)$p['package_size_kg'],0).' Kg Bag'; ?>
 <article class="product-card" data-category="<?=pe(strtolower($p['category']))?>" data-name="<?=pe(strtolower($p['name'].' '.$p['category'].' '.$package))?>">
-  <div class="product-top"><div class="product-icon <?=strtolower($p['category'])?>"><?= $egg?'🥚':($p['category']==='Rice'?'🍚':'🌾') ?></div><span class="stock-badge">In stock</span></div>
+  <div class="product-top"><div class="product-icon <?=strtolower($p['category'])?><?= $egg?' plain-product-icon':'' ?>"></div><span class="stock-badge <?=((float)$p['stock_quantity']<=0?'out-of-stock':'')?>"><?=((float)$p['stock_quantity']>0?'In stock':'Out of stock')?></span></div>
   <div class="product-meta"><span><?=pe($p['category'])?></span><h3><?=pe($p['name'])?></h3><p><?=pe($package)?> · <?=number_format((float)$p['stock_quantity'],0)?> available</p></div>
   <strong class="product-price">TZS <?=pmoney($p['selling_price'])?></strong>
-  <form method="post" action="cart.php" class="add-form"><input type="hidden" name="action" value="add"><input type="hidden" name="product_id" value="<?=$p['id']?>"><input aria-label="Quantity" type="number" name="quantity" value="1" min="1" max="<?=max(1,(int)$p['stock_quantity'])?>"><button class="portal-btn small" type="submit">Add to cart</button></form>
+  <form method="post" action="cart.php" class="add-form"><input type="hidden" name="action" value="add"><input type="hidden" name="product_id" value="<?=$p['id']?>"><input aria-label="Quantity" type="number" name="quantity" value="1" min="1" max="<?=max(1,(int)$p['stock_quantity'])?>" <?=((float)$p['stock_quantity']<=0?'disabled':'')?>><button class="portal-btn small" type="submit" <?=((float)$p['stock_quantity']<=0?'disabled aria-disabled="true"':'')?>><?=((float)$p['stock_quantity']>0?'Add to cart':'Out of stock')?></button></form>
 </article>
 <?php endforeach; ?></div><div id="noResults" class="empty-card" style="display:none"><div class="empty-illustration">⌕</div><h3>No matching products</h3><p>Try a different product name or category.</p><button class="portal-btn secondary" type="button" onclick="document.getElementById('productSearch').value='';document.querySelector('[data-category=all]').click();filterProducts();">Show all products</button></div><?php endif; ?>
 <script>
