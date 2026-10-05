@@ -9,7 +9,7 @@
     <a href="shop.php" class="<?=($active??'')==='shop'?'active':''?>">Shop</a>
     <?php if($customer): ?><a href="orders.php" class="<?=($active??'')==='orders'?'active':''?>">My Orders</a><?php endif; ?>
     <a href="cart.php" class="cart-link <?=($active??'')==='cart'?'active':''?>">Cart <b><?=portal_cart_count()?></b></a>
-    <?php if($customer): ?><span class="portal-user">Hi, <?=pe($customer['name'])?></span><a class="logout" href="logout.php">Log out</a><?php else: ?><a href="login.php">Sign in</a><?php endif; ?>
+    <?php if($customer): ?><span class="portal-user">Hi, <?=pe($customer['name'])?></span><a class="logout" href="logout.php">Log out</a><?php else: ?><a href="index.php">Sign in</a><?php endif; ?>
   </nav>
 </header>
 <main class="portal-main">
