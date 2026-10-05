@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* Robust font fallback: keep the UI sans-serif even when Google Fonts is unavailable. */
 :root{
   --green:#0f8f5b;--green-dark:#086c45;--green-soft:#eaf8f1;--ink:#153b2f;--muted:#71847d;--line:#e5eee9;
   --bg:#f6faf8;--white:#fff;--gold:#f3c85b;--shadow:0 16px 40px rgba(20,63,48,.08);--radius:22px;
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}.portal-body{min-height:100vh;display:flex;flex-direction:column}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}.portal-body{min-height:100vh;display:flex;flex-direction:column}
 .portal-header{height:82px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,5vw,72px);position:sticky;top:0;z-index:50}.portal-brand{display:flex;align-items:center;gap:12px;font-weight:900;color:var(--ink);letter-spacing:-.2px}.portal-brand img{width:46px;height:46px;object-fit:contain}.portal-brand span{font-size:16px}.portal-nav{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800}.portal-nav a{color:#60766d;padding:10px 13px;border-radius:12px;transition:.2s}.portal-nav a:hover,.portal-nav a.active{background:var(--green-soft);color:var(--green-dark)}.cart-link{display:flex;align-items:center;gap:7px}.cart-link b{display:inline-grid;place-items:center;min-width:23px;height:23px;padding:0 6px;border-radius:99px;background:var(--green);color:#fff;font-size:11px}.portal-user{color:#81918b;padding-left:8px;white-space:nowrap}.logout{color:#b14c43!important}.portal-main{width:min(1180px,92vw);margin:34px auto 70px;flex:1}.portal-footer{background:#fff;border-top:1px solid var(--line);text-align:center;padding:24px;font-size:12px;color:#7b8d86}
 .eyebrow{font-size:11px;letter-spacing:1.4px;font-weight:900;color:var(--green);text-transform:uppercase}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:32px 0 18px}.section-head h1,.section-head h2,.order-detail-head h1{margin:5px 0 7px;letter-spacing:-.7px;line-height:1.15}.section-head h1{font-size:32px}.section-head h2{font-size:23px}.section-head p{margin:0;color:var(--muted);line-height:1.55}
 .shop-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:1.25fr .75fr;gap:25px;align-items:center;background:linear-gradient(135deg,#e7f8ef 0%,#fffdf3 100%);border:1px solid #d9ebe2;border-radius:28px;padding:42px clamp(25px,4vw,48px);margin-bottom:28px;box-shadow:var(--shadow)}.shop-hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-90px;background:rgba(15,143,91,.09)}.hero-copy{position:relative;z-index:1}.shop-hero h1{font-size:clamp(31px,4vw,48px);line-height:1.05;letter-spacing:-1.8px;margin:10px 0 13px;max-width:650px}.shop-hero p{max-width:620px;color:#60766d;line-height:1.65;margin:0}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.hero-panel{position:relative;z-index:1;background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.9);border-radius:22px;padding:22px;box-shadow:0 14px 32px rgba(29,78,59,.08)}.hero-panel-title{font-size:12px;font-weight:900;color:#60766d;text-transform:uppercase;letter-spacing:.8px}.hero-stat{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid #e8eee9}.hero-stat:last-child{border-bottom:0}.hero-stat-icon{width:42px;height:42px;border-radius:14px;background:var(--green-soft);display:grid;place-items:center;color:var(--green-dark);font-weight:900}.hero-stat strong{display:block;font-size:14px}.hero-stat span{font-size:11px;color:var(--muted)}
@@ -14,10 +15,10 @@
 .cart-layout,.checkout-layout,.detail-grid{display:grid;grid-template-columns:1fr 340px;gap:22px}.cart-list{display:flex;flex-direction:column;gap:10px}.cart-row{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;display:grid;grid-template-columns:50px 1fr 145px 125px auto;gap:14px;align-items:center;box-shadow:0 7px 20px rgba(31,74,58,.035)}.cart-info{display:flex;flex-direction:column;gap:4px}.cart-info small{color:#778981}.qty-form{display:flex;gap:6px}.qty-form input{width:70px;padding:9px}.qty-form button,.remove-link{border:0;background:none;color:#167b55;font-weight:800;cursor:pointer}.line-total{font-size:14px}.remove-link{color:#b54a42}.cart-summary{height:max-content;position:sticky;top:102px}.cart-summary h3{margin-top:0}.cart-summary>div{display:flex;justify-content:space-between;padding:9px 0;color:#667a72}.summary-total{border-top:1px solid #e3ebe7;margin-top:8px;padding-top:15px!important;font-size:18px;color:#173f31!important}.back-link{display:block;text-align:center;margin-top:14px;color:#178055;font-size:13px;font-weight:800}.checkout-card{display:flex;flex-direction:column;gap:16px}.checkout-card label{font-size:12px;font-weight:900;color:#526a61}.checkout-card input,.checkout-card select,.checkout-card textarea{display:block;margin-top:7px}.checkout-item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #edf1ef;font-size:13px}
 .orders-table{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}.orders-head,.order-row{display:grid;grid-template-columns:1.3fr 1.4fr 1fr 1fr .7fr;gap:14px;padding:16px 18px;align-items:center}.orders-head{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:#7c8c86;background:#f7faf8;font-weight:900}.order-row{border-top:1px solid #edf1ef;font-size:13px}.order-row:hover{background:#fbfdfc}.order-row>span:last-child{text-align:right;color:#158055;font-weight:900}.status{display:inline-flex;padding:6px 9px;border-radius:99px;font-size:10px;background:#edf1ef;color:#60736b;font-weight:900}.status.pending{background:#fff5d9;color:#927018}.status.confirmed{background:#e7f5ee;color:#19734e}.status.out-for-delivery{background:#eaf1ff;color:#3565a4}.status.delivered{background:#dff5e7;color:#147143}.status.cancelled{background:#ffe9e7;color:#ad443b}.status.big{padding:10px 14px;font-size:12px}.order-detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.order-detail-head p{color:#788a83}
 /* Typography tuned for clear, modern UI */
-:root{--font-ui:Inter}
-html,body{font-family:Inter;font-synthesis:none}
+:root{--font-ui:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+html,body{font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-synthesis:none}
 body{font-weight:400;letter-spacing:-.005em}
-h1,h2,h3,h4,strong,b,.portal-btn,.category-pill,.status,.eyebrow{font-family:Inter}
+h1,h2,h3,h4,strong,b,.portal-btn,.category-pill,.status,.eyebrow{font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 h1,h2,h3{font-weight:750}
 p,small,span{font-weight:450}
 
@@ -167,6 +168,20 @@ p,small,span{font-weight:450}
 .add-form .portal-btn:disabled{opacity:.62;cursor:not-allowed;transform:none!important;box-shadow:none}
 
 
+/*
+ * Authentication typography lock.
+ * The Google Fonts request is optional; if it cannot load (common on mobile/offline
+ * environments), the page must still render in a clean modern sans-serif font.
+ */
+.portal-auth-body.customer-login-page,
+.portal-auth-body.customer-login-page *,
+.portal-auth-body.customer-login-page input,
+.portal-auth-body.customer-login-page button,
+.portal-auth-body.customer-login-page label {
+  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-synthesis: none;
+}
+
 /* Customer authentication: visual language aligned with the Admin Login. */
 .portal-auth-body.customer-login-page{
   min-height:100vh;
@@ -229,7 +244,7 @@ p,small,span{font-weight:450}
 .customer-field label{display:block;margin:0 0 6px;color:#566961;font-size:11px;font-weight:700}
 .customer-input-wrap{position:relative;display:flex;align-items:center;min-height:44px;border:1px solid #d5dfdb;border-radius:8px;background:#fff;overflow:hidden;transition:.2s}
 .customer-input-wrap:focus-within{border-color:#15945f;box-shadow:0 0 0 3px rgba(21,148,95,.08)}
-.customer-input-wrap>input{width:100%;height:42px;border:0;outline:0;background:transparent;color:#233b32;font-family:Inter;font-size:13px;padding:0 12px}
+.customer-input-wrap>input{width:100%;height:42px;border:0;outline:0;background:transparent;color:#233b32;font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:13px;padding:0 12px}
 .customer-input-wrap>input::placeholder{color:#a3aea9}
 .customer-input-icon{width:40px;height:42px;display:grid;place-items:center;flex:none;color:#8b9b95}
 .customer-input-icon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -242,7 +257,7 @@ p,small,span{font-weight:450}
 .password-eye .eye-closed{display:none}
 .password-eye.is-visible .eye-open{display:none}
 .password-eye.is-visible .eye-closed{display:block}
-.customer-auth-btn{width:100%;min-height:45px;margin-top:2px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Inter;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}
+.customer-auth-btn{width:100%;min-height:45px;margin-top:2px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}
 .customer-auth-btn:hover{background:#12a568;transform:translateY(-1px)}
 .customer-auth-btn:active{transform:translateY(0)}
 .customer-auth-btn:focus-visible{outline:3px solid rgba(21,155,98,.2);outline-offset:2px}
