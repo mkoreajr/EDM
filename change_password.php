@@ -99,7 +99,7 @@ body.change-password-page .alert{font-size:11px!important;padding:9px!important;
 </div>
 <?php else: ?>
 <div class="panel password-panel">
-<div class="change-password-panel-heading"><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div></div>
+<div class="change-password-panel-heading"><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Manage your account password securely.</p><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div></div>
 <?php if($error):?><div class="alert danger"><?=e($error)?></div><?php endif;?>
 <?php if($success):?><div class="alert success"><?=e($success)?></div><div class="form-actions"><a class="btn primary" href="dashboard.php">Continue to Dashboard</a></div><?php endif;?>
 <?php if(!$success):?>

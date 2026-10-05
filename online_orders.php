@@ -258,7 +258,7 @@ require 'partials/header.php';
               <td>
                 <div class="table-actions">
                   <button type="button" class="table-action primary" data-view-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">View</button>
-                  <button type="button" class="table-action secondary" data-update-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">Update</button>
+                  <button type="button" class="table-action secondary" data-update-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">Manage</button>
                 </div>
               </td>
             </tr>
