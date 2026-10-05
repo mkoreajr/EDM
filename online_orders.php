@@ -31,16 +31,19 @@ function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap)
       $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
       while($it=$items->fetch_assoc()){
         $ps=$conn->prepare('SELECT id,name,stock_quantity FROM products WHERE id=? FOR UPDATE');
-        $ps->bind_param('i',$it['product_id']); $ps->execute();
+        $productId=(int)$it['product_id'];
+        $ps->bind_param('i',$productId); $ps->execute();
         $product=$ps->get_result()->fetch_assoc();
         if(!$product) throw new Exception('A product in this order no longer exists.');
         if((float)$product['stock_quantity'] < (float)$it['quantity']){
           throw new Exception('Insufficient stock for '.$product['name'].'. Available: '.number_format((float)$product['stock_quantity'],0).'.');
         }
         $up=$conn->prepare('UPDATE products SET stock_quantity=stock_quantity-? WHERE id=?');
-        $up->bind_param('di',$it['quantity'],$it['product_id']); $up->execute();
+        $productQty=(float)$it['quantity']; $productId=(int)$it['product_id'];
+        $up->bind_param('di',$productQty,$productId); $up->execute();
         $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Adjustment',?,?)");
-        $qty=-1*(float)$it['quantity']; $mv->bind_param('idi',$it['product_id'],$qty,$id); $mv->execute();
+        $productId=(int)$it['product_id']; $qty=-1*(float)$it['quantity'];
+        $mv->bind_param('idi',$productId,$qty,$id); $mv->execute();
       }
     }
 
@@ -48,9 +51,11 @@ function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap)
       $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
       while($it=$items->fetch_assoc()){
         $up=$conn->prepare('UPDATE products SET stock_quantity=stock_quantity+? WHERE id=?');
-        $up->bind_param('di',$it['quantity'],$it['product_id']); $up->execute();
+        $productQty=(float)$it['quantity']; $productId=(int)$it['product_id'];
+        $up->bind_param('di',$productQty,$productId); $up->execute();
         $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Adjustment',?,?)");
-        $qty=(float)$it['quantity']; $mv->bind_param('idi',$it['product_id'],$qty,$id); $mv->execute();
+        $productId=(int)$it['product_id']; $qty=(float)$it['quantity'];
+        $mv->bind_param('idi',$productId,$qty,$id); $mv->execute();
       }
     }
 
@@ -60,14 +65,17 @@ function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap)
       $payment=$paymentMap[$order['payment_method']]??'Cash';
       $saleNo='SALE-'.date('YmdHis').'-'.random_int(100,999);
       $sale=$conn->prepare('INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(?,?,CURRENT_DATE,?,?,?) RETURNING id');
-      $sale->bind_param('sisdi',$saleNo,$order['customer_id'],$payment,$order['total_amount'],$_SESSION['user_id']);
+      $customerId=(int)$order['customer_id']; $totalAmount=(float)$order['total_amount']; $createdBy=(int)$_SESSION['user_id'];
+      $sale->bind_param('sisdi',$saleNo,$customerId,$payment,$totalAmount,$createdBy);
       $sale->execute(); $saleRow=$sale->get_result()->fetch_assoc(); $saleId=(int)$saleRow['id'];
       $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
       $si=$conn->prepare('INSERT INTO sale_items(sale_id,product_id,quantity,unit_price,total) VALUES(?,?,?,?,?)');
       $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Sale',?,?)");
       while($it=$items->fetch_assoc()){
-        $si->bind_param('iiddd',$saleId,$it['product_id'],$it['quantity'],$it['unit_price'],$it['total']); $si->execute();
-        $mv->bind_param('idi',$it['product_id'],$it['quantity'],$saleId); $mv->execute();
+        $productId=(int)$it['product_id']; $itemQty=(float)$it['quantity']; $unitPrice=(float)$it['unit_price']; $itemTotal=(float)$it['total'];
+        $si->bind_param('iiddd',$saleId,$productId,$itemQty,$unitPrice,$itemTotal); $si->execute();
+        $productId=(int)$it['product_id']; $itemQty=(float)$it['quantity'];
+        $mv->bind_param('idi',$productId,$itemQty,$saleId); $mv->execute();
       }
       $up=$conn->prepare('UPDATE orders SET sale_id=?,delivered_at=CURRENT_TIMESTAMP WHERE id=?');
       $up->bind_param('ii',$saleId,$id); $up->execute();
@@ -258,16 +266,60 @@ require 'partials/header.php';
               <td>
                 <div class="table-actions">
                   <button type="button" class="table-action primary" data-view-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">View</button>
-                  <button type="button" class="table-action secondary" data-update-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">Manage</button>
+                  <button type="button" class="table-action secondary" data-confirm-order="<?=$o['id']?>" onclick="toggleOrderConfirm(<?=$o['id']?>)">Confirm</button>
                 </div>
               </td>
             </tr>
-            <tr class="order-update-row" id="order-details-<?=$o['id']?>"><td colspan="9">
+            <?php
+              $detailItems=$conn->query("SELECT oi.*,p.name FROM order_items oi JOIN products p ON p.id=oi.product_id WHERE oi.order_id=".(int)$o['id']." ORDER BY oi.id");
+            ?>
+            <tr class="order-view-row" id="order-view-<?=$o['id']?>"><td colspan="9">
+              <div class="order-view-panel">
+                <div class="order-view-head">
+                  <div><span class="order-view-kicker">ORDER DETAILS</span><strong><?=e($o['order_number'])?></strong></div>
+                  <span class="order-view-status" data-view-status><?=e($o['status'])?></span>
+                </div>
+                <div class="order-view-grid">
+                  <section class="order-view-card order-items-card">
+                    <h3>Customer Items</h3>
+                    <div class="order-items-table-wrap">
+                      <table class="order-items-table">
+                        <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Item Total</th></tr></thead>
+                        <tbody>
+                        <?php while($dit=$detailItems->fetch_assoc()): ?>
+                          <tr><td><strong><?=e($dit['name'])?></strong></td><td><?=number_format((float)$dit['quantity'],0)?></td><td>TZS <?=money($dit['unit_price'])?></td><td><strong>TZS <?=money($dit['total'])?></strong></td></tr>
+                        <?php endwhile; ?>
+                        </tbody>
+                        <tfoot><tr><th colspan="3">Order Total</th><th>TZS <?=money($o['total_amount'])?></th></tr></tfoot>
+                      </table>
+                    </div>
+                  </section>
+                  <section class="order-view-card">
+                    <h3>Customer &amp; Delivery</h3>
+                    <dl class="order-info-list">
+                      <div><dt>Customer</dt><dd><?=e($o['customer_name'])?></dd></div>
+                      <div><dt>Phone</dt><dd><?=e($o['customer_phone'])?></dd></div>
+                      <div><dt>Delivery Address</dt><dd><?=e($o['delivery_address'])?></dd></div>
+                      <div><dt>Order Date</dt><dd><?=e(date('d M Y, h:i A',strtotime($o['created_at'])))?></dd></div>
+                    </dl>
+                  </section>
+                  <section class="order-view-card">
+                    <h3>Payment &amp; Notes</h3>
+                    <dl class="order-info-list">
+                      <div><dt>Payment</dt><dd><?=e($o['payment_method'])?></dd></div>
+                      <div><dt>Order Note</dt><dd><?=e($o['notes']?:'No customer note')?></dd></div>
+                      <div><dt>Admin Note</dt><dd data-view-admin-note><?=e($o['admin_note']?:'No admin note')?></dd></div>
+                    </dl>
+                  </section>
+                </div>
+              </div>
+            </td></tr>
+            <tr class="order-confirm-row" id="order-details-<?=$o['id']?>"><td colspan="9">
               <form method="post" class="order-update-form" id="order-update-<?=$o['id']?>" data-order-id="<?=$o['id']?>">
                 <input type="hidden" name="order_id" value="<?=$o['id']?>">
                 <input type="hidden" name="ajax" value="1">
                 <div class="order-editor-heading">
-                  <div><span>Order details</span><strong><?=e($o['order_number'])?></strong><small><?=e($o['customer_name'])?> · <?=e($o['customer_phone'])?></small></div>
+                  <div><span>Prepare &amp; Confirm</span><strong><?=e($o['order_number'])?></strong><small><?=e($o['customer_name'])?> · <?=e($o['customer_phone'])?> · Review items in View before confirming.</small></div>
                   <span class="order-editor-current" data-current-label>Current: <?=e($o['status'])?></span>
                 </div>
                 <label>Delivery person<input name="delivery_person" value="<?=e($o['delivery_person']??'')?>" placeholder="Driver / rider name"></label>
@@ -277,7 +329,7 @@ require 'partials/header.php';
                     <option value="<?=e($option)?>" <?= $option===$o['status']?'selected':'' ?> <?= in_array($option,$transitionMap[$o['status']]??[$o['status']],true)?'':'disabled' ?>><?=e($option)?></option>
                   <?php endforeach; ?>
                 </select><small class="status-help" data-status-help><?= $o['status']==='Delivered' ? 'Delivered orders are final and cannot be moved backward.' : ($o['status']==='Cancelled' ? 'Cancelled orders are final.' : 'Choose the next valid stage or cancel before delivery.') ?></small></label>
-                <div class="order-editor-actions"><button class="btn primary order-save-btn" type="submit" name="update_order"><span class="save-label">Save changes</span><span class="save-spinner" aria-hidden="true"></span></button><span class="order-save-message" role="status" aria-live="polite"></span></div>
+                <div class="order-editor-actions"><button class="btn primary order-save-btn" type="submit" name="update_order"><span class="save-label">Confirm</span><span class="save-spinner" aria-hidden="true"></span></button><span class="order-save-message" role="status" aria-live="polite"></span></div>
               </form>
             </td></tr>
           <?php endforeach;?>
@@ -331,7 +383,7 @@ require 'partials/header.php';
 .empty-info span{width:23px;height:23px;border-radius:50%;background:#0eaa6c;color:#fff;display:grid;place-items:center;font-weight:900;font-size:13px;flex:0 0 23px}
 .online-orders-table-card{background:#fff;border:1px solid #e1e9e5;border-radius:17px;box-shadow:0 7px 24px rgba(32,76,58,.045);overflow:hidden}
 .orders-table-scroll{overflow:auto}.online-orders-table{width:100%;min-width:1180px;border-collapse:collapse}.online-orders-table th{padding:15px 13px;background:#f7f9f9;color:#5b6d7d;text-align:left;font-size:11px;text-transform:none;font-weight:900;white-space:nowrap}.online-orders-table td{padding:14px 13px;border-bottom:1px solid #edf1ef;color:#334b5f;font-size:12px;vertical-align:middle}.online-orders-table tbody tr:not(.order-update-row):hover{background:#fbfdfc}
-.order-number-chip{display:inline-flex;padding:7px 9px;border-radius:8px;background:#eaf9f2;color:#079761;font-size:11px;font-weight:900}.order-detail-name{font-weight:800;color:#1b3551;font-size:13px}.online-orders-table td small{display:block;color:#7b8b98;margin-top:4px;font-size:11px}.customer-cell{display:flex;align-items:center;gap:8px}.customer-avatar{width:30px;height:30px;border:1px solid #d8e2de;border-radius:50%;display:grid;place-items:center;color:#5f7385;font-size:18px}.customer-cell strong{color:#203950}.table-total{color:#142f4e;font-size:13px;white-space:nowrap}.payment-chip,.table-status{display:inline-flex;align-items:center;padding:7px 9px;border-radius:8px;font-size:11px;font-weight:800;white-space:nowrap}.payment-chip{background:#eef8f4;color:#16835d;border:1px solid #cdeedf}.table-status.pending{background:#fff5df;color:#cf8610}.table-status.confirmed{background:#eaf5ff;color:#1779d4}.table-status.out-for-delivery{background:#fff0dc;color:#e79418}.table-status.delivered{background:#e5f8ef;color:#12905e}.table-status.cancelled{background:#fff0f0;color:#d3363d}.date-cell{color:#506477;white-space:nowrap}.date-cell small{margin-top:5px}.table-actions{display:flex;gap:7px}.table-action{height:36px;padding:0 12px;border-radius:8px;border:1px solid #dce6e2;font-weight:800;font-size:11px;cursor:pointer}.table-action.primary{background:#0da66b;border-color:#0da66b;color:#fff}.table-action.secondary{background:#fff;color:#405669}.order-update-row{background:#f8fbfa}.order-update-row td{padding:0 16px;border-bottom:1px solid #e4ece8}.order-update-form{display:grid;grid-template-columns:1fr 1fr 190px auto;gap:10px;align-items:end;padding:15px 0}.order-update-form label{font-size:11px;font-weight:800;color:#5b7067}.order-update-form input,.order-update-form select{display:block;width:100%;margin-top:6px;height:38px;border:1px solid #d6e1dd;border-radius:7px;padding:0 10px;background:#fff}.order-update-form .btn{height:38px;white-space:nowrap}.order-final-note{background:#eaf8f1;border-radius:8px;padding:10px 13px;color:#277457;font-size:12px;font-weight:800}.orders-table-footer{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;color:#6e7f8e;font-size:12px}.orders-table-footer>div{display:flex;align-items:center;gap:6px}.orders-table-footer button,.orders-table-footer b{height:36px;min-width:36px;padding:0 10px;border:1px solid #e1e8e5;border-radius:8px;background:#fff;color:#8795a0}.orders-table-footer b{display:grid;place-items:center;background:#10a66b;color:#fff;border-color:#10a66b}
+.order-number-chip{display:inline-flex;padding:7px 9px;border-radius:8px;background:#eaf9f2;color:#079761;font-size:11px;font-weight:900}.order-detail-name{font-weight:800;color:#1b3551;font-size:13px}.online-orders-table td small{display:block;color:#7b8b98;margin-top:4px;font-size:11px}.customer-cell{display:flex;align-items:center;gap:8px}.customer-avatar{width:30px;height:30px;border:1px solid #d8e2de;border-radius:50%;display:grid;place-items:center;color:#5f7385;font-size:18px}.customer-cell strong{color:#203950}.table-total{color:#142f4e;font-size:13px;white-space:nowrap}.payment-chip,.table-status{display:inline-flex;align-items:center;padding:7px 9px;border-radius:8px;font-size:11px;font-weight:800;white-space:nowrap}.payment-chip{background:#eef8f4;color:#16835d;border:1px solid #cdeedf}.table-status.pending{background:#fff5df;color:#cf8610}.table-status.confirmed{background:#eaf5ff;color:#1779d4}.table-status.out-for-delivery{background:#fff0dc;color:#e79418}.table-status.delivered{background:#e5f8ef;color:#12905e}.table-status.cancelled{background:#fff0f0;color:#d3363d}.date-cell{color:#506477;white-space:nowrap}.date-cell small{margin-top:5px}.table-actions{display:flex;gap:7px}.table-action{height:36px;padding:0 12px;border-radius:8px;border:1px solid #dce6e2;font-weight:800;font-size:11px;cursor:pointer}.table-action.primary{background:#0da66b;border-color:#0da66b;color:#fff}.table-action.secondary{background:#fff;color:#405669}.order-view-row,.order-confirm-row{background:#f8fbfa}.order-view-row td,.order-confirm-row td{padding:0 16px;border-bottom:1px solid #e4ece8}.order-update-form{display:grid;grid-template-columns:1fr 1fr 190px auto;gap:10px;align-items:end;padding:15px 0}.order-update-form label{font-size:11px;font-weight:800;color:#5b7067}.order-update-form input,.order-update-form select{display:block;width:100%;margin-top:6px;height:38px;border:1px solid #d6e1dd;border-radius:7px;padding:0 10px;background:#fff}.order-update-form .btn{height:38px;white-space:nowrap}.order-final-note{background:#eaf8f1;border-radius:8px;padding:10px 13px;color:#277457;font-size:12px;font-weight:800}.orders-table-footer{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;color:#6e7f8e;font-size:12px}.orders-table-footer>div{display:flex;align-items:center;gap:6px}.orders-table-footer button,.orders-table-footer b{height:36px;min-width:36px;padding:0 10px;border:1px solid #e1e8e5;border-radius:8px;background:#fff;color:#8795a0}.orders-table-footer b{display:grid;place-items:center;background:#10a66b;color:#fff;border-color:#10a66b}
 @media(max-width:1200px){.online-orders-heading{flex-direction:column}.online-orders-summary{width:100%;min-width:0}.online-orders-toolbar{flex-direction:column;align-items:stretch}.orders-search-form{width:100%}.orders-search{flex:1;width:auto}.orders-date{width:150px}}
 @media(max-width:800px){.online-orders-summary{grid-template-columns:repeat(2,1fr)}.online-orders-title-wrap{min-width:0}.orders-search-form{flex-wrap:wrap}.orders-search{min-width:220px}.orders-date{flex:1}.empty-info{text-align:left;justify-content:flex-start}}
 @media(max-width:560px){.online-orders-page{padding-top:0}.online-orders-title-row{align-items:flex-start}.online-orders-title-row h1{font-size:29px}.online-orders-cart-icon{width:50px;height:50px;flex-basis:50px}.online-orders-summary{grid-template-columns:1fr 1fr}.order-filter-pills{display:grid;grid-template-columns:1fr 1fr}.order-filter-pill{justify-content:center}.orders-search-form{display:grid;grid-template-columns:1fr 1fr}.orders-search{grid-column:1/-1;width:100%}.orders-date{width:100%}.date-dash{display:none}.orders-search-btn{grid-column:1/-1}.online-orders-empty{min-height:420px}.empty-info{font-size:12px}.online-orders-empty h2{font-size:24px}}
@@ -411,9 +463,9 @@ require 'partials/header.php';
 .order-row.is-selected{background:#f5fbf8!important;box-shadow:inset 4px 0 0 #0fa46a}
 .order-row.just-updated{animation:orderUpdated 1.15s ease}
 @keyframes orderUpdated{0%{background:#e8fbf1}100%{background:transparent}}
-.order-update-row{display:none!important}
-.order-update-row.is-open{display:table-row!important}
-.order-update-row>td{background:#f7fbf9!important;padding:0 18px!important}
+.order-view-row,.order-confirm-row{display:none!important}
+.order-view-row.is-open,.order-confirm-row.is-open{display:table-row!important}
+.order-view-row>td,.order-confirm-row>td{background:#f7fbf9!important;padding:0 18px!important}
 .order-update-form{display:grid;grid-template-columns:minmax(170px,1fr) minmax(200px,1.2fr) minmax(210px,250px) auto;gap:12px;align-items:end;padding:18px 0}
 .order-editor-heading{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:2px 0 4px}
 .order-editor-heading>div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -433,8 +485,20 @@ require 'partials/header.php';
 @keyframes spin{to{transform:rotate(360deg)}}
 .order-save-message{min-height:18px;font-size:11px;font-weight:800}
 .order-save-message.success{color:#16875f}.order-save-message.error{color:#d33d46}
-@media(max-width:1050px){.order-update-form{grid-template-columns:1fr 1fr}.order-editor-heading,.order-editor-actions{grid-column:1/-1}}
-@media(max-width:620px){.order-update-form{grid-template-columns:1fr}.order-editor-heading,.order-editor-actions{grid-column:1}.order-editor-heading{align-items:flex-start;flex-direction:column}.order-editor-current{align-self:flex-start}}
+
+.order-view-panel{padding:18px 0 20px}
+.order-view-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
+.order-view-head>div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.order-view-kicker{font-size:11px;font-weight:900;letter-spacing:.08em;color:#079761}
+.order-view-head strong{font-size:14px;color:#173b5e}
+.order-view-status{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:#eaf8f1;border:1px solid #c7ebdb;color:#087d56;font-size:11px;font-weight:900}
+.order-view-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,1fr) minmax(220px,1fr);gap:12px}
+.order-view-card{background:#fff;border:1px solid #e1ebe6;border-radius:11px;padding:14px;box-shadow:0 4px 14px rgba(30,70,54,.035)}
+.order-view-card h3{margin:0 0 11px;color:#274963;font-size:12px;font-weight:900}
+.order-items-table-wrap{overflow:auto}.order-items-table{width:100%;border-collapse:collapse;min-width:470px}.order-items-table th,.order-items-table td{padding:9px 8px;border-bottom:1px solid #edf2ef;text-align:left;font-size:11px;color:#5b6e7e;white-space:nowrap}.order-items-table th{font-weight:900;color:#627687;background:#f8faf9}.order-items-table td strong{color:#1d3a55}.order-items-table tfoot th{border-bottom:0;padding-top:11px;color:#173b5e;background:#fff;font-size:12px}.order-items-table tfoot th:last-child{text-align:right}.order-info-list{margin:0;display:grid;gap:9px}.order-info-list>div{display:grid;grid-template-columns:105px 1fr;gap:8px}.order-info-list dt{font-size:10px;font-weight:900;color:#83918d}.order-info-list dd{margin:0;font-size:11px;font-weight:700;color:#304b61;line-height:1.45;overflow-wrap:anywhere}
+.order-row.is-selected{background:#f3fbf7!important}.order-row.is-selected td:first-child{box-shadow:inset 4px 0 #10a66b}
+@media(max-width:1050px){.order-view-grid{grid-template-columns:1fr 1fr}.order-items-card{grid-column:1/-1}.order-update-form{grid-template-columns:1fr 1fr}.order-editor-heading,.order-editor-actions{grid-column:1/-1}}
+@media(max-width:620px){.order-view-grid{grid-template-columns:1fr}.order-items-card{grid-column:auto}.order-update-form{grid-template-columns:1fr}.order-editor-heading,.order-editor-actions{grid-column:1}.order-editor-heading{align-items:flex-start;flex-direction:column}.order-editor-current{align-self:flex-start}}
 </style>
 
 <script>
@@ -449,13 +513,30 @@ require 'partials/header.php';
   const statusClass = s => s.toLowerCase().replace(/\s+/g,'-');
   const esc = s => String(s ?? '');
 
-  window.toggleOrderDetails = function(id){
-    const row = document.getElementById('order-details-'+id);
-    const main = document.getElementById('order-row-'+id);
-    if(!row || !main) return;
-    const isOpen = row.classList.contains('is-open');
-    document.querySelectorAll('.order-update-row.is-open').forEach(el=>el.classList.remove('is-open'));
+  function closeOrderPanels(){
+    document.querySelectorAll('.order-view-row.is-open,.order-confirm-row.is-open').forEach(el=>el.classList.remove('is-open'));
     document.querySelectorAll('.order-row.is-selected').forEach(el=>el.classList.remove('is-selected'));
+  }
+
+  window.toggleOrderDetails = function(id){
+    const row=document.getElementById('order-view-'+id);
+    const main=document.getElementById('order-row-'+id);
+    if(!row || !main) return;
+    const isOpen=row.classList.contains('is-open');
+    closeOrderPanels();
+    if(!isOpen){
+      row.classList.add('is-open');
+      main.classList.add('is-selected');
+      setTimeout(()=>row.scrollIntoView({behavior:'smooth',block:'center'}),30);
+    }
+  };
+
+  window.toggleOrderConfirm = function(id){
+    const row=document.getElementById('order-details-'+id);
+    const main=document.getElementById('order-row-'+id);
+    if(!row || !main) return;
+    const isOpen=row.classList.contains('is-open');
+    closeOrderPanels();
     if(!isOpen){
       row.classList.add('is-open');
       main.classList.add('is-selected');
@@ -549,6 +630,14 @@ require 'partials/header.php';
         }
         const label=details?.querySelector('[data-current-label]');
         if(label) label.textContent='Current: '+data.status;
+        const view=document.getElementById('order-view-'+id);
+        const viewStatus=view?.querySelector('[data-view-status]');
+        if(viewStatus) viewStatus.textContent=data.status;
+        const select=form.querySelector('[data-status-select]');
+        if(select){
+          select.value=data.status;
+          [...select.options].forEach(opt=>{ opt.disabled=!(transitionMap[data.status]||[data.status]).includes(opt.value); });
+        }
         updateCounts(oldStatus,data.status);
         showMessage(form,'Order status updated successfully.',true);
         syncStatusHint(id);
