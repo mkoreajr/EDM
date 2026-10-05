@@ -9,3 +9,9 @@ Final login polish:
 
 Login: admin / admin123
 Deploy with Render -> New -> Blueprint using render.yaml.
+
+## Public routes
+- Customer portal: `/shop`
+- Admin entry: `/admin`
+
+The physical portal folders are intentionally named `customer_portal` and `admin_entry` so Apache does not issue a DirectorySlash redirect containing Render's internal port.
