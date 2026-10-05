@@ -20,7 +20,7 @@ $timedOut=isset($_GET['timeout']);
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Customer Login - MSINDA Food Shop</title>
-<link rel="stylesheet" href="assets/portal.css">
+<link rel="stylesheet" href="/shop/assets/portal.css">
 </head>
 <body class="portal-auth-body customer-login-page">
 <div class="customer-auth-shell">

@@ -54,7 +54,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Create Customer Account - MSINDA Food Shop</title>
-<link rel="stylesheet" href="assets/portal.css">
+<link rel="stylesheet" href="/shop/assets/portal.css">
 </head>
 <body class="portal-auth-body customer-login-page">
 <div class="customer-auth-shell registration-shell">

@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../auth.php'; $pageTitle=$pageTitle??'Customer Portal'; $customer=portal_current_customer(); ?>
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/shop/">
-<title><?=pe($pageTitle)?> - MSINDA Food Shop</title><link rel="stylesheet" href="assets/portal.css">
+<title><?=pe($pageTitle)?> - MSINDA Food Shop</title><link rel="stylesheet" href="/shop/assets/portal.css">
 </head><body class="portal-body">
 <header class="portal-header">
   <a class="portal-brand" href="shop.php"><img src="../assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop"><span>MSINDA Food Shop</span></a>
