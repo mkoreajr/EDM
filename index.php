@@ -131,7 +131,7 @@ body{overflow:auto}
   </main>
   <div class="right-footer">
     <div class="support">Need help? Contact <a href="mailto:ict@psrs.go.tz">ICT Support</a> : +225 682 657 202</div>
-    <div class="footer" style="text-align:center;width:100%;">© 2026 MSINDA Food Shop | All Rights Reserved (version 1.0)</div>
+    <div class="footer">© 2026 MSINDA Food Shop | All Rights Reserved (version 1.0)</div>
   </div>
   </section>
 </div>

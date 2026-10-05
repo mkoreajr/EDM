@@ -2981,3 +2981,40 @@ body.change-password-page .app-footer .footer-tagline{white-space:nowrap!importa
 .app-footer .footer-content{justify-content:center!important;text-align:center!important;display:flex!important;align-items:center!important;width:100%!important;gap:0!important}
 .app-footer .footer-content>div:first-child{text-align:center!important;width:100%!important}
 .app-footer .footer-tagline{display:none!important}
+
+
+/* FINAL FIX: center the copyright footer text across the entire footer */
+.app-body>.content>.app-footer .footer-content{
+  display:grid!important;
+  place-items:center!important;
+  justify-content:center!important;
+  align-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.app-body>.content>.app-footer .footer-content>div:first-child{
+  width:auto!important;
+  margin:0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
+body.change-password-page .app-footer .footer-content{
+  display:grid!important;
+  place-items:center!important;
+  justify-content:center!important;
+  align-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+}
+body.change-password-page .app-footer .footer-content>div:first-child{
+  width:auto!important;
+  margin:0!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+}
