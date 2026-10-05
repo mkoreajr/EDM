@@ -93,7 +93,7 @@ body.change-password-page .alert{font-size:11px!important;padding:9px!important;
     </form>
   </div>
 </div>
-<div class="password-required-mode-footer">© 2026 MSINDA Food Shop | All Rights Reserved (version 1.0)</div>
+</div>
 <?php else: ?>
 <div class="panel password-panel">
 <div class="change-password-panel-heading"><div class="welcome-kicker">SECURITY</div><h1>Change Password</h1><p class="muted">Update your account password securely.</p><div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div></div>
