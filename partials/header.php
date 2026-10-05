@@ -72,7 +72,6 @@ input:invalid:not(:placeholder-shown){border-color:#d9a400;}
       </button>
       <div class="dropdown profile-dropdown" id="profileDropdown">
         <div class="profile-menu-head"><span class="avatar small-avatar"><?=strtoupper(substr((string)($_SESSION['name']??'Admin'),0,2))?></span><div><strong><?=e($_SESSION['name']??'Administrator')?></strong><small><?=e($_SESSION['role']??'Admin')?></small></div></div>
-        <?php if(is_admin()): ?><a href="change_name.php"><svg viewBox="0 0 24 24"><path d="M4 20h4l10-10-4-4L4 16zM13 7l4 4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Change Name</a><?php endif; ?>
         <a href="change_password.php"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Change Password</a>
         <a class="logout-link" href="logout.php"><svg viewBox="0 0 24 24"><path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M14 8l4 4-4 4M18 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log Out</a>
       </div>

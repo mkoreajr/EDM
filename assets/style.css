@@ -524,6 +524,16 @@ body.app-body{min-height:100vh}
   flex:none!important;
 }
 
+
+.change-name-intro>div{
+  width:100%;
+  text-align:center;
+}
+.change-name-intro h1{margin:5px 0!important;}
+.change-name-intro p{margin:0!important;}
+.change-name-panel .password-form{width:min(560px,100%)!important;margin:0 auto!important;}
+.change-name-panel .form-actions{justify-content:center!important;}
+
 /* Normal Change Password page */
 .page-intro:has(+ .password-panel){
   width:100%;
