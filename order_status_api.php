@@ -11,13 +11,20 @@ $transitionMap=[
  'Delivered'=>['Delivered'],
  'Cancelled'=>['Cancelled']
 ];
-function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap){
+function updateOnlineOrder($conn,$id,$new,$driver,$note,$cancelReason,$cancelCustom,$allowed,$transitionMap){
   // Use the native PDO connection for this transaction. The page still uses the
   // compatibility layer for legacy reads, but status transitions are critical
   // writes and must use PostgreSQL/PDO directly so errors are deterministic.
   global $pdo;
   if(!$pdo instanceof PDO) throw new Exception('Database connection is unavailable.');
   if($id<=0 || !in_array($new,$allowed,true)) throw new Exception('Invalid order update.');
+  if($new==='Cancelled'){
+    $cancelReason=trim((string)$cancelReason);
+    $cancelCustom=trim((string)$cancelCustom);
+    if($cancelReason==='') throw new Exception('Please choose a cancellation reason.');
+    if($cancelReason==='Other' && $cancelCustom==='') throw new Exception('Please specify the cancellation reason.');
+    if($cancelReason==='Other') $cancelReason=$cancelCustom;
+  }
 
   $pdo->beginTransaction();
   try{
@@ -103,18 +110,21 @@ function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap)
 
     $reserved=($new==='Confirmed' || ($new!=='Cancelled' && (bool)$order['stock_reserved'])) ? true : false;
     if($new==='Cancelled') $reserved=false;
-    $up=$pdo->prepare('UPDATE orders SET status=:status,delivery_person=:delivery_person,admin_note=:admin_note,stock_reserved=CAST(:stock_reserved AS BOOLEAN),updated_at=CURRENT_TIMESTAMP WHERE id=:id');
+    $up=$pdo->prepare('UPDATE orders SET status=:status,delivery_person=:delivery_person,admin_note=:admin_note,stock_reserved=CAST(:stock_reserved AS BOOLEAN),cancellation_reason=:cancellation_reason,cancelled_at=:cancelled_at,cancelled_by=:cancelled_by,updated_at=CURRENT_TIMESTAMP WHERE id=:id');
     $up->execute([
       ':status'=>$new,
       ':delivery_person'=>$driver!==''?$driver:null,
       ':admin_note'=>$note!==''?$note:null,
       ':stock_reserved'=>$reserved ? 'true' : 'false',
+      ':cancellation_reason'=>$new==='Cancelled' ? $cancelReason : ($order['cancellation_reason'] ?? null),
+      ':cancelled_at'=>$new==='Cancelled' ? date('Y-m-d H:i:s') : ($order['cancelled_at'] ?? null),
+      ':cancelled_by'=>$new==='Cancelled' ? (int)($_SESSION['user_id']??0) : ($order['cancelled_by'] ?? null),
       ':id'=>$id
     ]);
     if($up->rowCount()!==1) throw new Exception('The order status could not be saved.');
 
     $pdo->commit();
-    return ['order_number'=>$order['order_number'],'status'=>$new,'previous_status'=>$current,'message'=>"Order {$order['order_number']} updated to $new."];
+    return ['order_number'=>$order['order_number'],'status'=>$new,'previous_status'=>$current,'cancellation_reason'=>$new==='Cancelled' ? $cancelReason : ($order['cancellation_reason'] ?? null),'message'=>"Order {$order['order_number']} updated to $new."];
   }catch(Throwable $e){
     if($pdo->inTransaction()) $pdo->rollBack();
     throw $e;
@@ -127,7 +137,9 @@ try {
   $new=trim((string)($_POST['status']??''));
   $driver=trim((string)($_POST['delivery_person']??''));
   $note=trim((string)($_POST['admin_note']??''));
-  $result=updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap);
+  $cancelReason=trim((string)($_POST['cancellation_reason']??''));
+  $cancelCustom=trim((string)($_POST['cancellation_reason_custom']??''));
+  $result=updateOnlineOrder($conn,$id,$new,$driver,$note,$cancelReason,$cancelCustom,$allowed,$transitionMap);
   echo json_encode(['ok'=>true]+$result, JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
   http_response_code(422);

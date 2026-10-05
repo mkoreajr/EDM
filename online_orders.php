@@ -300,7 +300,7 @@ require 'partials/header.php';
               <td>
                 <div class="table-actions">
                   <button type="button" class="table-action primary" data-view-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">View</button>
-                  <?php if($o['status']!=='Delivered'): ?>
+                  <?php if(!in_array($o['status'],['Delivered','Cancelled'],true)): ?>
                   <button type="button" class="table-action secondary" data-confirm-order="<?=$o['id']?>" onclick="toggleOrderConfirm(<?=$o['id']?>)">Confirm</button>
                   <?php endif; ?>
                 </div>
@@ -345,6 +345,8 @@ require 'partials/header.php';
                       <div><dt>Payment</dt><dd><?=e($o['payment_method'])?></dd></div>
                       <div><dt>Order Note</dt><dd><?=e($o['notes']?:'No customer note')?></dd></div>
                       <div><dt>Admin Note</dt><dd data-view-admin-note><?=e($o['admin_note']?:'No admin note')?></dd></div>
+                      <?php if(!empty($o['cancellation_reason'])): ?><div><dt>Cancellation Reason</dt><dd data-view-cancellation-reason><?=e($o['cancellation_reason'])?></dd></div><?php endif; ?>
+                      <?php if(!empty($o['cancelled_at'])): ?><div><dt>Cancelled At</dt><dd><?=e(date('d M Y, h:i A',strtotime($o['cancelled_at'])))?></dd></div><?php endif; ?>
                     </dl>
                   </section>
                 </div>
@@ -354,6 +356,8 @@ require 'partials/header.php';
               <form method="post" class="order-update-form" id="order-update-<?=$o['id']?>" data-order-id="<?=$o['id']?>">
                 <input type="hidden" name="order_id" value="<?=$o['id']?>">
                 <input type="hidden" name="ajax" value="1">
+                <input type="hidden" name="cancellation_reason" value="">
+                <input type="hidden" name="cancellation_reason_custom" value="">
                 <div class="order-editor-heading">
                   <div><span>Prepare &amp; Confirm</span><strong><?=e($o['order_number'])?></strong><small><?=e($o['customer_name'])?> · <?=e($o['customer_phone'])?> · Review items in View before confirming.</small></div>
                   <span class="order-editor-current" data-current-label>Current: <?=e($o['status'])?></span>
@@ -522,6 +526,8 @@ require 'partials/header.php';
 .order-save-message{min-height:18px;font-size:11px;font-weight:800}
 .order-save-message.success{color:#16875f}.order-save-message.error{color:#d33d46}
 
+.cancel-modal{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:20px}.cancel-modal.is-open{display:flex}.cancel-modal-backdrop{position:absolute;inset:0;background:rgba(16,37,31,.48);backdrop-filter:blur(2px)}.cancel-modal-card{position:relative;width:min(480px,100%);background:#fff;border:1px solid #e1ebe6;border-radius:16px;box-shadow:0 24px 70px rgba(22,55,44,.2);padding:24px;z-index:1}.cancel-modal-icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#fff0f0;color:#d3363d;font-weight:900;font-size:20px;margin-bottom:12px}.cancel-modal-card h3{margin:0;color:#173b5e;font-size:18px}.cancel-modal-card p{margin:7px 0 18px;color:#70818d;font-size:12px}.cancel-modal-close{position:absolute;right:14px;top:12px;border:0;background:transparent;color:#80908b;font-size:25px;cursor:pointer}.cancel-reason-label,.cancel-other-wrap{display:block;color:#526a62;font-size:11px;font-weight:800;margin-top:10px}.cancel-reason-label select,.cancel-other-wrap textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;border:1px solid #d3e0db;border-radius:9px;background:#fff;color:#263f56;padding:10px;font:inherit;outline:none}.cancel-other-wrap{display:none}.cancel-other-wrap.is-visible{display:block}.cancel-modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.cancel-back-btn,.cancel-confirm-btn{height:40px;border-radius:9px;padding:0 14px;font-weight:800;font-size:11px;cursor:pointer}.cancel-back-btn{border:1px solid #dce6e2;background:#fff;color:#526879}.cancel-confirm-btn{border:1px solid #d3363d;background:#d3363d;color:#fff}.cancel-modal-error{min-height:16px;margin-top:9px;color:#d3363d;font-size:11px;font-weight:800}
+
 .order-view-panel{padding:18px 0 20px}
 .order-view-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
 .order-view-head>div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
@@ -536,6 +542,37 @@ require 'partials/header.php';
 @media(max-width:1050px){.order-view-grid{grid-template-columns:1fr 1fr}.order-items-card{grid-column:1/-1}.order-update-form{grid-template-columns:1fr 1fr}.order-editor-heading,.order-editor-actions{grid-column:1/-1}}
 @media(max-width:620px){.order-view-grid{grid-template-columns:1fr}.order-items-card{grid-column:auto}.order-update-form{grid-template-columns:1fr}.order-editor-heading,.order-editor-actions{grid-column:1}.order-editor-heading{align-items:flex-start;flex-direction:column}.order-editor-current{align-self:flex-start}}
 </style>
+<div class="cancel-modal" id="cancel-modal" aria-hidden="true">
+  <div class="cancel-modal-backdrop" data-cancel-close></div>
+  <div class="cancel-modal-card" role="dialog" aria-modal="true" aria-labelledby="cancel-modal-title">
+    <button type="button" class="cancel-modal-close" data-cancel-close aria-label="Close">&times;</button>
+    <div class="cancel-modal-icon">!</div>
+    <h3 id="cancel-modal-title">Why are you cancelling this order?</h3>
+    <p>Select a reason before cancelling the order.</p>
+    <label class="cancel-reason-label">Cancellation reason
+      <select id="cancel-reason-select">
+        <option value="">Choose a reason</option>
+        <option>Customer requested cancellation</option>
+        <option>Product/item out of stock</option>
+        <option>Payment issue</option>
+        <option>Invalid customer/order information</option>
+        <option>Delivery unavailable</option>
+        <option>Customer did not respond</option>
+        <option>Duplicate order</option>
+        <option>Order placed by mistake</option>
+        <option>Other</option>
+      </select>
+    </label>
+    <label class="cancel-other-wrap" id="cancel-other-wrap">Please specify the reason
+      <textarea id="cancel-reason-custom" rows="3" placeholder="Please specify the reason"></textarea>
+    </label>
+    <div class="cancel-modal-actions">
+      <button type="button" class="cancel-back-btn" data-cancel-close>Back</button>
+      <button type="button" class="cancel-confirm-btn" id="cancel-confirm-btn">Confirm Cancellation</button>
+    </div>
+    <div class="cancel-modal-error" id="cancel-modal-error" role="alert"></div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -548,6 +585,50 @@ require 'partials/header.php';
   };
   const statusClass = s => s.toLowerCase().replace(/\s+/g,'-');
   const esc = s => String(s ?? '');
+  let cancelTargetForm = null;
+  const cancelModal=document.getElementById('cancel-modal');
+  const cancelSelect=document.getElementById('cancel-reason-select');
+  const cancelOther=document.getElementById('cancel-reason-custom');
+  const cancelOtherWrap=document.getElementById('cancel-other-wrap');
+  const cancelError=document.getElementById('cancel-modal-error');
+  function openCancelModal(form){
+    cancelTargetForm=form;
+    if(cancelModal){ cancelModal.classList.add('is-open'); cancelModal.setAttribute('aria-hidden','false'); }
+    if(cancelSelect) cancelSelect.value=form.querySelector('[name=\"cancellation_reason\"]')?.value || '';
+    if(cancelOther) cancelOther.value=form.querySelector('[name=\"cancellation_reason_custom\"]')?.value || '';
+    if(cancelOtherWrap) cancelOtherWrap.classList.toggle('is-visible',cancelSelect?.value==='Other');
+    if(cancelError) cancelError.textContent='';
+    setTimeout(()=>cancelSelect?.focus(),50);
+  }
+  function closeCancelModal(resetStatus=true){
+    const form=cancelTargetForm;
+    if(cancelModal){ cancelModal.classList.remove('is-open'); cancelModal.setAttribute('aria-hidden','true'); }
+    if(resetStatus && form){
+      const row=document.getElementById('order-row-'+form.dataset.orderId);
+      const current=row?.dataset.status || '';
+      const select=form.querySelector('[data-status-select]');
+      if(select && current && current!=='Cancelled'){ select.value=current; }
+      form.querySelector('[name=\"cancellation_reason\"]')?.setAttribute('value','');
+      form.querySelector('[name=\"cancellation_reason_custom\"]')?.setAttribute('value','');
+      if(cancelSelect) cancelSelect.value=''; if(cancelOther) cancelOther.value=''; if(cancelOtherWrap) cancelOtherWrap.classList.remove('is-visible');
+      syncStatusHint(form.dataset.orderId);
+    }
+    cancelTargetForm=null;
+  }
+  document.querySelectorAll('[data-cancel-close]').forEach(el=>el.addEventListener('click',()=>closeCancelModal(true)));
+  cancelSelect?.addEventListener('change',()=>{ cancelOtherWrap?.classList.toggle('is-visible',cancelSelect.value==='Other'); if(cancelError) cancelError.textContent=''; });
+  document.getElementById('cancel-confirm-btn')?.addEventListener('click',()=>{
+    if(!cancelTargetForm) return;
+    const reason=(cancelSelect?.value||'').trim(); const custom=(cancelOther?.value||'').trim();
+    if(!reason){ if(cancelError) cancelError.textContent='Please choose a cancellation reason.'; return; }
+    if(reason==='Other' && !custom){ if(cancelError) cancelError.textContent='Please specify the reason.'; cancelOther?.focus(); return; }
+    const form=cancelTargetForm;
+    form.querySelector('[name=\"cancellation_reason\"]').value=reason;
+    form.querySelector('[name=\"cancellation_reason_custom\"]').value=custom;
+    if(cancelModal){ cancelModal.classList.remove('is-open'); cancelModal.setAttribute('aria-hidden','true'); }
+    cancelTargetForm=null;
+    form.requestSubmit();
+  });
 
   function closeOrderPanels(){
     document.querySelectorAll('.order-view-row.is-open,.order-confirm-row.is-open').forEach(el=>el.classList.remove('is-open'));
@@ -594,7 +675,7 @@ require 'partials/header.php';
       else if(next==='Confirmed') help.textContent='Stock will be reserved when the order is confirmed.';
       else if(next==='Out for Delivery') help.textContent='The order is ready to be delivered.';
       else if(next==='Delivered') help.textContent='Delivery will complete the order and record the sale.';
-      
+      else if(next==='Cancelled'){ help.textContent='A cancellation reason is required before this order can be cancelled.'; openCancelModal(form); }
     }
   };
 
@@ -651,6 +732,13 @@ require 'partials/header.php';
       const details=document.getElementById('order-details-'+id);
       const oldStatus=row?.dataset.status || form.querySelector('[data-status-select]')?.value || '';
       const newStatus=form.querySelector('[data-status-select]')?.value || oldStatus;
+      const cancellationReason=(form.querySelector('[name=\"cancellation_reason\"]')?.value||'').trim();
+      const cancellationCustom=(form.querySelector('[name=\"cancellation_reason_custom\"]')?.value||'').trim();
+      if(newStatus==='Cancelled' && (!cancellationReason || (cancellationReason==='Other' && !cancellationCustom))){
+        openCancelModal(form);
+        setLoading(form,false);
+        return;
+      }
       setLoading(form,true); showMessage(form,'',true);
       try{
         const response=await fetch('order_status_api.php',{method:'POST',body:new FormData(form),headers:{'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},credentials:'same-origin',cache:'no-store'});
@@ -670,7 +758,7 @@ require 'partials/header.php';
           const actions=row.querySelector('.table-actions');
           const confirmBtn=actions?.querySelector('[data-confirm-order]');
           if(actions){
-            if(data.status==='Delivered'){
+            if(data.status==='Delivered' || data.status==='Cancelled'){
               confirmBtn?.remove();
             } else if(!confirmBtn){
               const btn=document.createElement('button');
@@ -690,6 +778,14 @@ require 'partials/header.php';
         const view=document.getElementById('order-view-'+id);
         const viewStatus=view?.querySelector('[data-view-status]');
         if(viewStatus) viewStatus.textContent=data.status;
+        if(view && data.status==='Cancelled' && data.cancellation_reason){
+          let reason=view.querySelector('[data-view-cancellation-reason]');
+          if(!reason){
+            const list=view.querySelector('.order-view-card:last-child .order-info-list');
+            if(list){ const wrap=document.createElement('div'); wrap.innerHTML='<dt>Cancellation Reason</dt><dd data-view-cancellation-reason></dd>'; list.appendChild(wrap); reason=wrap.querySelector('[data-view-cancellation-reason]'); }
+          }
+          if(reason) reason.textContent=data.cancellation_reason;
+        }
         const select=form.querySelector('[data-status-select]');
         if(select){
           select.value=data.status;
