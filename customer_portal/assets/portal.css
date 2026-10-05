@@ -289,3 +289,13 @@ p,small,span{font-weight:450}
   .registration-wide{grid-column:auto}
   .registration-card-modern{max-width:none}
 }
+
+/* Customer-facing cancelled order notice */
+.cancellation-alert{background:#fff4f3;border:1px solid #efc9c5;color:#9b3d36;padding:16px 18px;border-radius:14px;margin:0 0 22px}
+.cancellation-alert>strong{display:block;font-size:15px;color:#9b3d36;margin-bottom:4px}
+.cancellation-alert p{margin:0 0 10px;color:#6f5753;font-size:13px;line-height:1.5}
+.cancellation-alert small{display:block;margin-top:10px;color:#8a6a65;font-size:11px}
+.cancellation-reason{margin-top:10px;padding:11px 12px;background:#fff;border:1px solid #f0d8d5;border-radius:10px}
+.cancellation-reason span{display:block;text-transform:uppercase;letter-spacing:.06em;font-size:10px;font-weight:700;color:#9b3d36;margin-bottom:4px}
+.cancellation-reason strong{display:block;font-size:13px;line-height:1.5;color:#3f514b}
+.order-cancel-reason{display:block;margin-top:5px;color:#9b3d36;font-size:10px;line-height:1.35;font-weight:600}

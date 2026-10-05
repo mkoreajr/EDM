@@ -5,6 +5,7 @@ $items=[];$rs=$conn->query("SELECT oi.*,p.name,p.category,p.unit,p.package_size_
 $placed=!empty($_GET['placed']);
 $status=$order['status'];
 $stageIndex=['Pending'=>0,'Confirmed'=>1,'Out for Delivery'=>2,'Delivered'=>3];
+$isCancelled = strcasecmp((string)$status, 'Cancelled') === 0;
 $currentStage=$stageIndex[$status]??0;
 $stages=[
   ['label'=>'Order Received','description'=>'We received your order.'],
@@ -15,6 +16,16 @@ $stages=[
 ?>
 <?php require __DIR__.'/partials/header.php'; ?>
 <?php if($placed): ?><div class="portal-alert success">Order placed successfully. MSINDA Food Shop has received your order.</div><?php endif; ?>
+<?php if($isCancelled): ?>
+  <div class="portal-alert error cancellation-alert" role="alert">
+    <strong>Order Cancelled</strong>
+    <p>This order was cancelled by MSINDA.</p>
+    <?php if(!empty($order['cancellation_reason'])): ?>
+      <div class="cancellation-reason"><span>Cancellation reason</span><strong><?=nl2br(pe($order['cancellation_reason']))?></strong></div>
+    <?php endif; ?>
+    <?php if(!empty($order['cancelled_at'])): ?><small>Cancelled <?=pe(date('d M Y, H:i',strtotime($order['cancelled_at'])))?></small><?php endif; ?>
+  </div>
+<?php endif; ?>
 
 <section class="order-detail-head">
   <div>
@@ -25,7 +36,7 @@ $stages=[
   <b class="status big <?=pe(portal_status_class($status))?>"><?=pe($status)?></b>
 </section>
 
-<section class="order-stage-card" aria-label="Order progress">
+<?php if(!$isCancelled): ?><section class="order-stage-card" aria-label="Order progress">
   <div class="stage-track" aria-hidden="true"><span class="stage-track-fill" style="width: <?=($currentStage/3)*100?>%"></span></div>
   <div class="stage-list">
     <?php foreach($stages as $i=>$stage):
@@ -49,7 +60,7 @@ $stages=[
       </div>
     <?php endforeach; ?>
   </div>
-</section>
+</section><?php endif; ?>
 
 <div class="detail-grid">
   <section class="detail-card">
