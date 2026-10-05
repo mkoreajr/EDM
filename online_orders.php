@@ -106,12 +106,12 @@ function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap)
 
     $reserved=($new==='Confirmed' || ($new!=='Cancelled' && (bool)$order['stock_reserved'])) ? true : false;
     if($new==='Cancelled') $reserved=false;
-    $up=$pdo->prepare('UPDATE orders SET status=:status,delivery_person=:delivery_person,admin_note=:admin_note,stock_reserved=:stock_reserved,updated_at=CURRENT_TIMESTAMP WHERE id=:id');
+    $up=$pdo->prepare('UPDATE orders SET status=:status,delivery_person=:delivery_person,admin_note=:admin_note,stock_reserved=CAST(:stock_reserved AS BOOLEAN),updated_at=CURRENT_TIMESTAMP WHERE id=:id');
     $up->execute([
       ':status'=>$new,
       ':delivery_person'=>$driver!==''?$driver:null,
       ':admin_note'=>$note!==''?$note:null,
-      ':stock_reserved'=>$reserved,
+      ':stock_reserved'=>$reserved ? 'true' : 'false',
       ':id'=>$id
     ]);
     if($up->rowCount()!==1) throw new Exception('The order status could not be saved.');
