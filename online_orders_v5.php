@@ -516,7 +516,7 @@ require 'partials/header.php';
       else if(next==='Confirmed') help.textContent='Stock will be reserved when the order is confirmed.';
       else if(next==='Out for Delivery') help.textContent='The order is ready to be delivered.';
       else if(next==='Delivered') help.textContent='Delivery will complete the order and record the sale.';
-      else if(next==='Cancelled') help.textContent='Cancellation releases reserved stock when applicable.';
+      
     }
   };
 
