@@ -53,7 +53,7 @@ body{overflow:auto}
 .left-secure svg{width:15px;height:15px;vertical-align:middle;margin-right:5px;fill:none;stroke:#ffd447;stroke-width:2}
 /* Right login side */
 .login-card{position:relative;z-index:3;width:100%;padding:0;background:transparent;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
-.logo-wrap{height:82px;width:210px;margin:0 auto 17px;display:flex;align-items:center;justify-content:center}
+.logo-wrap{height:94px;width:240px;margin:0 auto 17px;display:flex;align-items:center;justify-content:center}
 .logo-wrap img{width:100%;height:100%;object-fit:contain;display:block}
 .welcome{font-size:12px;letter-spacing:1.1px;font-weight:800;color:#60746c;margin:0 0 7px;text-transform:none}
 .login-title{font-size:26px;line-height:1;font-weight:800;margin:0 0 8px;color:#163b2f;letter-spacing:-.3px}
@@ -77,7 +77,7 @@ body{overflow:auto}
  html,body{background:#eef3f1}.login-page{display:flex!important;min-height:100vh;height:auto;padding:24px 14px 70px;align-items:center;justify-content:center;background:linear-gradient(145deg,#edf4f1,#f7f9f8)}
  .left{display:none!important}
  .login-page>.right-panel{width:min(430px,100%);height:auto;min-height:0;border-radius:16px;padding:28px 24px 26px;box-shadow:0 18px 45px rgba(18,58,45,.14)}
- .logo-wrap{height:78px;width:200px;margin-bottom:14px}.login-title{font-size:25px}.sub{margin-bottom:20px}.right-footer{position:relative;left:auto;bottom:auto;transform:none;width:100%;margin-top:16px}.support{font-size:13px}.footer{font-size:12px}
+ .logo-wrap{height:88px;width:225px;margin-bottom:14px}.login-title{font-size:25px}.sub{margin-bottom:20px}.right-footer{position:relative;left:auto;bottom:auto;transform:none;width:100%;margin-top:16px}.support{font-size:13px}.footer{font-size:12px}
 }
 </style>
 </head>
@@ -104,7 +104,7 @@ body{overflow:auto}
   </section>
   <section class="right-panel">
   <main class="login-card">
-    <div class="logo-wrap"><img src="assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop" width="210" height="82" decoding="async" fetchpriority="high"></div>
+    <div class="logo-wrap"><img src="assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop" width="240" height="94" decoding="async" fetchpriority="high"></div>
     <div class="welcome">WELCOME BACK</div>
     <h1 class="login-title">LOGIN</h1>
     <p class="sub">Access your MSINDA Food Shop dashboard.</p>
