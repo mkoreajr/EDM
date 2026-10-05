@@ -31,7 +31,7 @@ if($format==='excel'){
 }
 
 if($format==='pdf'){
- $logo=__DIR__.'/assets/branding/msinda-food-shop.png';
+ $logo=__DIR__.'/assets/branding/msinda-agricultural-emblem.png';
  if(!is_file($logo) || !is_readable($logo)){ http_response_code(500); echo 'Report logo asset is missing.'; exit; }
 
  // Dependency-free, landscape A4 PDF. Designed so report columns and names remain readable.

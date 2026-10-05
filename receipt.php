@@ -130,7 +130,7 @@ body{
 
   <div class="receipt-card" id="receiptDocument">
     <div class="receipt-header">
-      <img class="shop-logo" src="assets/branding/msinda-food-shop.png" alt="MSINDA Food Shop logo">
+      <img class="shop-logo" src="assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop logo">
     </div>
 
     <div class="receipt-title">SALES RECEIPT</div>
