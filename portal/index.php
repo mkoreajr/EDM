@@ -83,7 +83,7 @@ $timedOut=isset($_GET['timeout']);
         <button class="customer-auth-btn" type="submit">Sign in to Customer Portal</button>
       </form>
 
-      <div class="auth-switch">New to MSINDA Food Shop? <a href="/shop/register.php">Create an account</a></div>
+      <div class="auth-switch">Don't have an account? <a href="https://portal.ajira.go.tz/auth/register">Register Now</a></div>
       <a class="customer-back-link" href="/shop">Customer Portal Home</a>
     </div>
     <div class="customer-auth-footer">© 2026 MSINDA Food Shop | All Rights Reserved</div>
