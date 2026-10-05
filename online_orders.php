@@ -273,12 +273,12 @@ require 'partials/header.php';
 @media(max-width:560px){.online-orders-page{padding-top:0}.online-orders-title-row{align-items:flex-start}.online-orders-title-row h1{font-size:29px}.online-orders-cart-icon{width:50px;height:50px;flex-basis:50px}.online-orders-summary{grid-template-columns:1fr 1fr}.order-filter-pills{display:grid;grid-template-columns:1fr 1fr}.order-filter-pill{justify-content:center}.orders-search-form{display:grid;grid-template-columns:1fr 1fr}.orders-search{grid-column:1/-1;width:100%}.orders-date{width:100%}.date-dash{display:none}.orders-search-btn{grid-column:1/-1}.online-orders-empty{min-height:420px}.empty-info{font-size:12px}.online-orders-empty h2{font-size:24px}}
 </style>
 <style>
-/* Reference layout: all status tabs + search/date controls stay inside ONE toolbar card. */
+/* Reference layout: everything stays inside ONE card, with a clean two-row layout when needed. */
 .online-orders-toolbar{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  align-items:center;
-  gap:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:12px;
   width:100%;
   box-sizing:border-box;
   padding:16px 17px;
@@ -288,44 +288,45 @@ require 'partials/header.php';
   box-shadow:0 6px 20px rgba(34,74,57,.04);
 }
 .order-filter-pills{
-  display:flex;
-  align-items:center;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  align-items:stretch;
   gap:8px;
-  flex-wrap:nowrap;
   min-width:0;
-  overflow-x:auto;
-  scrollbar-width:none;
+  width:100%;
   padding:1px 0;
 }
-.order-filter-pills::-webkit-scrollbar{display:none}
 .order-filter-pill{
-  flex:0 0 auto;
+  width:100%;
+  min-width:0;
   height:48px;
-  padding:0 12px;
+  padding:0 10px;
   border:1px solid #dfe7e4;
   border-radius:10px;
   background:#fff;
+  justify-content:center;
+  box-sizing:border-box;
 }
+.order-filter-pill .pill-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .orders-search-form{
   display:grid;
-  grid-template-columns:minmax(250px,310px) 132px 12px 132px auto;
+  grid-template-columns:minmax(260px,1fr) 150px 18px 150px auto;
   align-items:center;
   gap:8px;
-  flex:0 0 auto;
+  width:100%;
   margin:0;
 }
 .orders-search{width:auto;min-width:0;height:48px}
 .orders-date{width:auto;height:48px;min-width:0}
 .orders-date input{min-width:0}
-.orders-search-btn{height:48px;padding:0 18px;white-space:nowrap}
+.orders-search-btn{height:48px;padding:0 20px;white-space:nowrap}
 
 @media (max-width:1250px){
-  .online-orders-toolbar{grid-template-columns:minmax(0,1fr);gap:12px}
-  .orders-search-form{justify-content:flex-end;grid-template-columns:minmax(220px,1fr) 132px 12px 132px auto}
+  .order-filter-pills{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 @media (max-width:760px){
-  .online-orders-toolbar{padding:12px;}
-  .order-filter-pills{margin-bottom:2px}
+  .online-orders-toolbar{padding:12px;gap:10px}
+  .order-filter-pills{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .orders-search-form{grid-template-columns:1fr 1fr;gap:8px}
   .orders-search{grid-column:1 / -1}
   .orders-date{width:100%}
@@ -333,5 +334,8 @@ require 'partials/header.php';
   .orders-search-form .orders-date:nth-of-type(2){grid-column:1}
   .orders-search-form .orders-date:nth-of-type(3){grid-column:2}
   .orders-search-btn{grid-column:1 / -1}
+}
+@media (max-width:430px){
+  .order-filter-pills{grid-template-columns:1fr}
 }
 </style>
