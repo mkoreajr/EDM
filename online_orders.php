@@ -300,7 +300,9 @@ require 'partials/header.php';
               <td>
                 <div class="table-actions">
                   <button type="button" class="table-action primary" data-view-order="<?=$o['id']?>" onclick="toggleOrderDetails(<?=$o['id']?>)">View</button>
+                  <?php if($o['status']!=='Delivered'): ?>
                   <button type="button" class="table-action secondary" data-confirm-order="<?=$o['id']?>" onclick="toggleOrderConfirm(<?=$o['id']?>)">Confirm</button>
+                  <?php endif; ?>
                 </div>
               </td>
             </tr>
@@ -665,6 +667,21 @@ require 'partials/header.php';
           row.dataset.status=data.status;
           const chip=row.querySelector('[data-status-chip]');
           if(chip){chip.className='table-status '+statusClass(data.status);chip.textContent=data.status;}
+          const actions=row.querySelector('.table-actions');
+          const confirmBtn=actions?.querySelector('[data-confirm-order]');
+          if(actions){
+            if(data.status==='Delivered'){
+              confirmBtn?.remove();
+            } else if(!confirmBtn){
+              const btn=document.createElement('button');
+              btn.type='button';
+              btn.className='table-action secondary';
+              btn.dataset.confirmOrder=id;
+              btn.textContent='Confirm';
+              btn.addEventListener('click',()=>toggleOrderConfirm(id));
+              actions.appendChild(btn);
+            }
+          }
           row.classList.add('just-updated');
           setTimeout(()=>row.classList.remove('just-updated'),1300);
         }
