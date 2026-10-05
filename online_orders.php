@@ -15,80 +15,111 @@ $transitionMap=[
  * happen in the same transaction as the order update.
  */
 function updateOnlineOrder($conn,$id,$new,$driver,$note,$allowed,$transitionMap){
+  // Use the native PDO connection for this transaction. The page still uses the
+  // compatibility layer for legacy reads, but status transitions are critical
+  // writes and must use PostgreSQL/PDO directly so errors are deterministic.
+  global $pdo;
+  if(!$pdo instanceof PDO) throw new Exception('Database connection is unavailable.');
   if($id<=0 || !in_array($new,$allowed,true)) throw new Exception('Invalid order update.');
-  $conn->begin_transaction();
+
+  $pdo->beginTransaction();
   try{
-    $st=$conn->prepare('SELECT * FROM orders WHERE id=? FOR UPDATE');
-    $st->bind_param('i',$id); $st->execute();
-    $order=$st->get_result()->fetch_assoc();
+    $st=$pdo->prepare('SELECT * FROM orders WHERE id=:id FOR UPDATE');
+    $st->execute([':id'=>$id]);
+    $order=$st->fetch(PDO::FETCH_ASSOC);
     if(!$order) throw new Exception('Order not found.');
+
     $current=(string)$order['status'];
     if(!isset($transitionMap[$current]) || !in_array($new,$transitionMap[$current],true)){
       throw new Exception("Cannot change an order from $current to $new. Follow the order workflow: Pending → Confirmed → Out for Delivery → Delivered. Orders can be cancelled before delivery.");
     }
 
-    if($new==='Confirmed' && !$order['stock_reserved']){
-      $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
-      while($it=$items->fetch_assoc()){
-        $ps=$conn->prepare('SELECT id,name,stock_quantity FROM products WHERE id=? FOR UPDATE');
-        $productId=(int)$it['product_id'];
-        $ps->bind_param('i',$productId); $ps->execute();
-        $product=$ps->get_result()->fetch_assoc();
-        if(!$product) throw new Exception('A product in this order no longer exists.');
-        if((float)$product['stock_quantity'] < (float)$it['quantity']){
-          throw new Exception('Insufficient stock for '.$product['name'].'. Available: '.number_format((float)$product['stock_quantity'],0).'.');
+    // Reserve stock exactly once when the order becomes Confirmed.
+    if($new==='Confirmed' && !(bool)$order['stock_reserved']){
+      $items=$pdo->prepare('SELECT oi.product_id, oi.quantity, p.name, p.stock_quantity FROM order_items oi JOIN products p ON p.id=oi.product_id WHERE oi.order_id=:order_id ORDER BY oi.id FOR UPDATE OF p');
+      $items->execute([':order_id'=>$id]);
+      $rows=$items->fetchAll(PDO::FETCH_ASSOC);
+      if(!$rows) throw new Exception('This order has no items to confirm.');
+
+      $stock=$pdo->prepare('UPDATE products SET stock_quantity=stock_quantity-:qty_sub WHERE id=:product_id AND stock_quantity>=:qty_check');
+      $movement=$pdo->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(:product_id,'Adjustment',:quantity,:reference_id)");
+      foreach($rows as $it){
+        $qty=(float)$it['quantity'];
+        if($qty<=0) throw new Exception('Invalid quantity for '.$it['name'].'.');
+        if((float)$it['stock_quantity'] < $qty){
+          throw new Exception('Insufficient stock for '.$it['name'].'. Available: '.number_format((float)$it['stock_quantity'],0).'.');
         }
-        $up=$conn->prepare('UPDATE products SET stock_quantity=stock_quantity-? WHERE id=?');
-        $productQty=(float)$it['quantity']; $productId=(int)$it['product_id'];
-        $up->bind_param('di',$productQty,$productId); $up->execute();
-        $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Adjustment',?,?)");
-        $productId=(int)$it['product_id']; $qty=-1*(float)$it['quantity'];
-        $mv->bind_param('idi',$productId,$qty,$id); $mv->execute();
+        $stock->execute([':qty_sub'=>$qty,':qty_check'=>$qty,':product_id'=>(int)$it['product_id']]);
+        if($stock->rowCount()!==1) throw new Exception('Stock could not be reserved for '.$it['name'].'.');
+        $movement->execute([':product_id'=>(int)$it['product_id'],':quantity'=>-$qty,':reference_id'=>$id]);
       }
     }
 
-    if($new==='Cancelled' && $current!=='Cancelled' && !empty($order['stock_reserved']) && empty($order['sale_id'])){
-      $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
-      while($it=$items->fetch_assoc()){
-        $up=$conn->prepare('UPDATE products SET stock_quantity=stock_quantity+? WHERE id=?');
-        $productQty=(float)$it['quantity']; $productId=(int)$it['product_id'];
-        $up->bind_param('di',$productQty,$productId); $up->execute();
-        $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Adjustment',?,?)");
-        $productId=(int)$it['product_id']; $qty=(float)$it['quantity'];
-        $mv->bind_param('idi',$productId,$qty,$id); $mv->execute();
+    // Cancel releases previously reserved stock, provided no sale has been created.
+    if($new==='Cancelled' && $current!=='Cancelled' && (bool)$order['stock_reserved'] && empty($order['sale_id'])){
+      $items=$pdo->prepare('SELECT product_id,quantity FROM order_items WHERE order_id=:order_id ORDER BY id');
+      $items->execute([':order_id'=>$id]);
+      $stock=$pdo->prepare('UPDATE products SET stock_quantity=stock_quantity+:qty WHERE id=:product_id');
+      $movement=$pdo->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(:product_id,'Adjustment',:quantity,:reference_id)");
+      while($it=$items->fetch(PDO::FETCH_ASSOC)){
+        $qty=(float)$it['quantity'];
+        $stock->execute([':qty'=>$qty,':product_id'=>(int)$it['product_id']]);
+        $movement->execute([':product_id'=>(int)$it['product_id'],':quantity'=>$qty,':reference_id'=>$id]);
       }
     }
 
+    // Delivered creates the sale once. Stock was already reserved at Confirmed,
+    // so this stage records the sale without deducting inventory a second time.
     if($new==='Delivered' && $current!=='Delivered' && empty($order['sale_id'])){
-      if(!$order['stock_reserved']) throw new Exception('Confirm the order before marking it as delivered.');
+      if(!(bool)$order['stock_reserved']) throw new Exception('Confirm the order before marking it as delivered.');
       $paymentMap=['Cash on Delivery'=>'Cash','Mobile Money'=>'Mobile Money','Bank'=>'Bank'];
       $payment=$paymentMap[$order['payment_method']]??'Cash';
       $saleNo='SALE-'.date('YmdHis').'-'.random_int(100,999);
-      $sale=$conn->prepare('INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(?,?,CURRENT_DATE,?,?,?) RETURNING id');
-      $customerId=(int)$order['customer_id']; $totalAmount=(float)$order['total_amount']; $createdBy=(int)$_SESSION['user_id'];
-      $sale->bind_param('sisdi',$saleNo,$customerId,$payment,$totalAmount,$createdBy);
-      $sale->execute(); $saleRow=$sale->get_result()->fetch_assoc(); $saleId=(int)$saleRow['id'];
-      $items=$conn->query("SELECT * FROM order_items WHERE order_id=$id ORDER BY id");
-      $si=$conn->prepare('INSERT INTO sale_items(sale_id,product_id,quantity,unit_price,total) VALUES(?,?,?,?,?)');
-      $mv=$conn->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(?,'Sale',?,?)");
-      while($it=$items->fetch_assoc()){
-        $productId=(int)$it['product_id']; $itemQty=(float)$it['quantity']; $unitPrice=(float)$it['unit_price']; $itemTotal=(float)$it['total'];
-        $si->bind_param('iiddd',$saleId,$productId,$itemQty,$unitPrice,$itemTotal); $si->execute();
-        $productId=(int)$it['product_id']; $itemQty=(float)$it['quantity'];
-        $mv->bind_param('idi',$productId,$itemQty,$saleId); $mv->execute();
+      $sale=$pdo->prepare('INSERT INTO sales(sale_number,customer_id,sale_date,payment_method,total_amount,created_by) VALUES(:sale_number,:customer_id,CURRENT_DATE,:payment_method,:total_amount,:created_by) RETURNING id');
+      $sale->execute([
+        ':sale_number'=>$saleNo,
+        ':customer_id'=>(int)$order['customer_id'],
+        ':payment_method'=>$payment,
+        ':total_amount'=>(float)$order['total_amount'],
+        ':created_by'=>(int)($_SESSION['user_id']??0)
+      ]);
+      $saleId=(int)$sale->fetchColumn();
+      if($saleId<=0) throw new Exception('Sale record could not be created.');
+
+      $items=$pdo->prepare('SELECT product_id,quantity,unit_price,total FROM order_items WHERE order_id=:order_id ORDER BY id');
+      $items->execute([':order_id'=>$id]);
+      $saleItem=$pdo->prepare('INSERT INTO sale_items(sale_id,product_id,quantity,unit_price,total) VALUES(:sale_id,:product_id,:quantity,:unit_price,:total)');
+      $movement=$pdo->prepare("INSERT INTO stock_movements(product_id,movement_type,quantity,reference_id) VALUES(:product_id,'Sale',:quantity,:reference_id)");
+      while($it=$items->fetch(PDO::FETCH_ASSOC)){
+        $saleItem->execute([
+          ':sale_id'=>$saleId,
+          ':product_id'=>(int)$it['product_id'],
+          ':quantity'=>(float)$it['quantity'],
+          ':unit_price'=>(float)$it['unit_price'],
+          ':total'=>(float)$it['total']
+        ]);
+        $movement->execute([':product_id'=>(int)$it['product_id'],':quantity'=>(float)$it['quantity'],':reference_id'=>$saleId]);
       }
-      $up=$conn->prepare('UPDATE orders SET sale_id=?,delivered_at=CURRENT_TIMESTAMP WHERE id=?');
-      $up->bind_param('ii',$saleId,$id); $up->execute();
+      $upSale=$pdo->prepare('UPDATE orders SET sale_id=:sale_id,delivered_at=CURRENT_TIMESTAMP WHERE id=:id');
+      $upSale->execute([':sale_id'=>$saleId,':id'=>$id]);
     }
 
-    $reserved=($new==='Confirmed' || ($new!=='Cancelled' && !empty($order['stock_reserved']))) ? 1 : 0;
-    if($new==='Cancelled') $reserved=0;
-    $up=$conn->prepare('UPDATE orders SET status=?,delivery_person=?,admin_note=?,stock_reserved=?,updated_at=CURRENT_TIMESTAMP WHERE id=?');
-    $up->bind_param('sssii',$new,$driver,$note,$reserved,$id); $up->execute();
-    $conn->commit();
+    $reserved=($new==='Confirmed' || ($new!=='Cancelled' && (bool)$order['stock_reserved'])) ? true : false;
+    if($new==='Cancelled') $reserved=false;
+    $up=$pdo->prepare('UPDATE orders SET status=:status,delivery_person=:delivery_person,admin_note=:admin_note,stock_reserved=:stock_reserved,updated_at=CURRENT_TIMESTAMP WHERE id=:id');
+    $up->execute([
+      ':status'=>$new,
+      ':delivery_person'=>$driver!==''?$driver:null,
+      ':admin_note'=>$note!==''?$note:null,
+      ':stock_reserved'=>$reserved,
+      ':id'=>$id
+    ]);
+    if($up->rowCount()!==1) throw new Exception('The order status could not be saved.');
+
+    $pdo->commit();
     return ['order_number'=>$order['order_number'],'status'=>$new,'previous_status'=>$current,'message'=>"Order {$order['order_number']} updated to $new."];
   }catch(Throwable $e){
-    try{$conn->rollback();}catch(Throwable $ignore){}
+    if($pdo->inTransaction()) $pdo->rollBack();
     throw $e;
   }
 }
