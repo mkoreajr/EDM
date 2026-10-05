@@ -80,6 +80,15 @@ function onlineOrderUrl($params=[]){
   foreach($params as $k=>$v) if($v!=='' && $v!==null) $clean[$k]=$v;
   return $base.($clean?'?'.http_build_query($clean):'');
 }
+
+// Use inline SVG icons so they render consistently even when icon fonts are unavailable.
+$orderIcons=[
+  'clock'=>'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  'check'=>'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  'delivery'=>'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="7" cy="18" r="1.7" fill="currentColor"/><circle cx="18" cy="18" r="1.7" fill="currentColor"/></svg>',
+  'orders'=>'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 8h8M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  'cancel'=>'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+];
 require 'partials/header.php';
 ?>
 <div class="online-orders-page">
@@ -98,10 +107,10 @@ require 'partials/header.php';
         </div>
       </div>
       <div class="online-orders-summary">
-        <div class="order-summary-card pending"><span class="summary-icon">◷</span><div><strong><?=number_format($statusCounts['Pending'])?></strong><small>Pending</small></div><i></i></div>
-        <div class="order-summary-card confirmed"><span class="summary-icon">✓</span><div><strong><?=number_format($statusCounts['Confirmed'])?></strong><small>Confirmed</small></div><i></i></div>
-        <div class="order-summary-card delivery"><span class="summary-icon">▣</span><div><strong><?=number_format($statusCounts['Out for Delivery'])?></strong><small>Out for Delivery</small></div><i></i></div>
-        <div class="order-summary-card delivered"><span class="summary-icon">✓</span><div><strong><?=number_format($statusCounts['Delivered'])?></strong><small>Delivered</small></div><i></i></div>
+        <div class="order-summary-card pending"><span class="summary-icon"><?=$orderIcons['clock']?></span><div><strong><?=number_format($statusCounts['Pending'])?></strong><small>Pending</small></div><i></i></div>
+        <div class="order-summary-card confirmed"><span class="summary-icon"><?=$orderIcons['check']?></span><div><strong><?=number_format($statusCounts['Confirmed'])?></strong><small>Confirmed</small></div><i></i></div>
+        <div class="order-summary-card delivery"><span class="summary-icon"><?=$orderIcons['delivery']?></span><div><strong><?=number_format($statusCounts['Out for Delivery'])?></strong><small>Out for Delivery</small></div><i></i></div>
+        <div class="order-summary-card delivered"><span class="summary-icon"><?=$orderIcons['check']?></span><div><strong><?=number_format($statusCounts['Delivered'])?></strong><small>Delivered</small></div><i></i></div>
       </div>
     </div>
   </section>
@@ -123,9 +132,9 @@ require 'partials/header.php';
         foreach($filters as $key=>$meta):
           $params=['status'=>$key==='All'?'':$key,'q'=>$q,'from'=>$from,'to'=>$to];
       ?>
-        <?php $pillIcons=['All'=>'▦','Pending'=>'◷','Confirmed'=>'✓','Out for Delivery'=>'▣','Delivered'=>'✓','Cancelled'=>'×']; ?>
+        <?php $pillIcons=['All'=>'orders','Pending'=>'clock','Confirmed'=>'check','Out for Delivery'=>'delivery','Delivered'=>'check','Cancelled'=>'cancel']; ?>
         <a class="order-filter-pill <?=$status===$key?'active':''?>" href="<?=e(onlineOrderUrl($params))?>">
-          <span class="pill-symbol"><?=e($pillIcons[$key]??'•')?></span>
+          <span class="pill-symbol"><?=$orderIcons[$pillIcons[$key]]??''?></span>
           <?=e($meta[0])?><b><?=number_format($meta[1])?></b>
         </a>
       <?php endforeach;?>
@@ -232,7 +241,7 @@ require 'partials/header.php';
 .order-summary-card.confirmed{background:linear-gradient(135deg,#eef7ff,#e8f3ff);border-color:#e2edf8}
 .order-summary-card.delivery{background:linear-gradient(135deg,#fff9ed,#fff2dc);border-color:#faecd4}
 .order-summary-card.delivered{background:linear-gradient(135deg,#fff3f3,#ffebeb);border-color:#f8dddd}
-.summary-icon{width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:25px;font-weight:900;box-shadow:0 4px 12px rgba(26,60,46,.06)}
+.summary-icon{width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:25px;font-weight:900;box-shadow:0 4px 12px rgba(26,60,46,.06)}.summary-icon svg{width:25px;height:25px;display:block}.pill-symbol{width:18px;height:18px;display:inline-grid;place-items:center;flex:0 0 18px}.pill-symbol svg{width:17px;height:17px;display:block}
 .pending .summary-icon{color:#079b65}.confirmed .summary-icon{color:#1686e5}.delivery .summary-icon{color:#f3a11d}.delivered .summary-icon{color:#e52f35}
 .order-summary-card strong{display:block;font-size:25px;line-height:1;color:#102b55}.order-summary-card small{display:block;margin-top:6px;color:#607386;font-size:12px;font-weight:800;white-space:nowrap}
 .order-summary-card i{position:absolute;left:17px;bottom:10px;width:60px;height:3px;border-radius:5px}.pending i{background:#0ba76b}.confirmed i{background:#168cf0}.delivery i{background:#f5a21a}.delivered i{background:#e53239}
@@ -242,7 +251,7 @@ require 'partials/header.php';
 .order-filter-pill{height:48px;padding:0 12px;border:1px solid #dfe7e4;border-radius:10px;background:#fff;color:#42576c;text-decoration:none;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;white-space:nowrap}
 .order-filter-pill:hover{border-color:#b8d9ca;background:#f8fcfa}.order-filter-pill.active{background:#12a66a;color:#fff;border-color:#12a66a;box-shadow:0 6px 14px rgba(18,166,106,.15)}
 .order-filter-pill b{min-width:24px;height:24px;padding:0 7px;border-radius:50%;display:grid;place-items:center;background:#eaf3ef;color:#167c59;font-size:12px}.order-filter-pill.active b{background:#dff5eb;color:#0a875a}
-.pill-symbol{font-size:17px;line-height:1}
+
 .orders-search-form{display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .orders-search,.orders-date{height:44px;border:1px solid #dfe7e4;border-radius:10px;background:#fff;display:flex;align-items:center}
 .orders-search{width:310px;padding:0 13px;gap:8px}.orders-search span{font-size:23px;color:#82919c}.orders-search input{border:0;outline:0;width:100%;font-size:12px;color:#31475d;background:transparent}
