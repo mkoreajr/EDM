@@ -272,3 +272,66 @@ require 'partials/header.php';
 @media(max-width:800px){.online-orders-summary{grid-template-columns:repeat(2,1fr)}.online-orders-title-wrap{min-width:0}.orders-search-form{flex-wrap:wrap}.orders-search{min-width:220px}.orders-date{flex:1}.empty-info{text-align:left;justify-content:flex-start}}
 @media(max-width:560px){.online-orders-page{padding-top:0}.online-orders-title-row{align-items:flex-start}.online-orders-title-row h1{font-size:29px}.online-orders-cart-icon{width:50px;height:50px;flex-basis:50px}.online-orders-summary{grid-template-columns:1fr 1fr}.order-filter-pills{display:grid;grid-template-columns:1fr 1fr}.order-filter-pill{justify-content:center}.orders-search-form{display:grid;grid-template-columns:1fr 1fr}.orders-search{grid-column:1/-1;width:100%}.orders-date{width:100%}.date-dash{display:none}.orders-search-btn{grid-column:1/-1}.online-orders-empty{min-height:420px}.empty-info{font-size:12px}.online-orders-empty h2{font-size:24px}}
 </style>
+<style>
+/* Reference layout: all status tabs + search/date controls stay inside ONE toolbar card. */
+.online-orders-toolbar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:18px;
+  width:100%;
+  box-sizing:border-box;
+  padding:16px 17px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #e1eae6;
+  box-shadow:0 6px 20px rgba(34,74,57,.04);
+}
+.order-filter-pills{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap;
+  min-width:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+  padding:1px 0;
+}
+.order-filter-pills::-webkit-scrollbar{display:none}
+.order-filter-pill{
+  flex:0 0 auto;
+  height:48px;
+  padding:0 12px;
+  border:1px solid #dfe7e4;
+  border-radius:10px;
+  background:#fff;
+}
+.orders-search-form{
+  display:grid;
+  grid-template-columns:minmax(250px,310px) 132px 12px 132px auto;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  margin:0;
+}
+.orders-search{width:auto;min-width:0;height:48px}
+.orders-date{width:auto;height:48px;min-width:0}
+.orders-date input{min-width:0}
+.orders-search-btn{height:48px;padding:0 18px;white-space:nowrap}
+
+@media (max-width:1250px){
+  .online-orders-toolbar{grid-template-columns:minmax(0,1fr);gap:12px}
+  .orders-search-form{justify-content:flex-end;grid-template-columns:minmax(220px,1fr) 132px 12px 132px auto}
+}
+@media (max-width:760px){
+  .online-orders-toolbar{padding:12px;}
+  .order-filter-pills{margin-bottom:2px}
+  .orders-search-form{grid-template-columns:1fr 1fr;gap:8px}
+  .orders-search{grid-column:1 / -1}
+  .orders-date{width:100%}
+  .date-dash{display:none}
+  .orders-search-form .orders-date:nth-of-type(2){grid-column:1}
+  .orders-search-form .orders-date:nth-of-type(3){grid-column:2}
+  .orders-search-btn{grid-column:1 / -1}
+}
+</style>
