@@ -2976,3 +2976,15 @@ body.change-password-page .app-footer .footer-tagline{white-space:nowrap!importa
   body.change-password-page .app-footer .footer-content{padding:0 18px!important;font-size:10px!important;gap:12px!important}
   body.change-password-page .app-footer .footer-tagline{font-size:9px!important}
 }
+
+
+/* v185: unified footer text */
+.app-footer .footer-content {
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+.app-footer .footer-content > div:first-child {
+  width: 100% !important;
+  text-align: center !important;
+}
