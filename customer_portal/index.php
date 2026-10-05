@@ -5,7 +5,7 @@ require_once __DIR__ . '/db.php';
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 if(portal_logged_in()){
-    header('Location: shop.php');
+    header('Location: /shop');
     exit;
 }
 

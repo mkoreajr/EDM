@@ -4,7 +4,7 @@ function pe($v){ return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 function pmoney($v){ return number_format((float)$v, 2); }
 function portal_customer_id(){ return (int)($_SESSION['portal_customer_id'] ?? 0); }
 function portal_logged_in(){ return portal_customer_id() > 0; }
-function portal_require_login(){ if(!portal_logged_in()){ header('Location: index.php'); exit; } }
+function portal_require_login(){ if(!portal_logged_in()){ header('Location: /shop'); exit; } }
 function portal_current_customer(){
     global $conn;
     $id=portal_customer_id(); if(!$id) return null;

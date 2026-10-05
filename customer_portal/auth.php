@@ -4,7 +4,7 @@ if(session_status() !== PHP_SESSION_ACTIVE){ session_start(); }
 
 if(!portal_logged_in()){
     $_SESSION['portal_error']='Please sign in to access your customer account.';
-    header('Location: index.php');
+    header('Location: /shop');
     exit;
 }
 

@@ -3,12 +3,12 @@ require_once __DIR__ . '/db.php';
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 if(portal_logged_in()){
-    header('Location: shop.php');
+    header('Location: /shop');
     exit;
 }
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    header('Location: index.php');
+    header('Location: /shop');
     exit;
 }
 
@@ -18,7 +18,7 @@ $password=(string)($_POST['password']??'');
 if($username==='' || $password===''){
     $_SESSION['portal_error']='Please enter your username and password.';
     $_SESSION['portal_username']=$username;
-    header('Location: index.php');
+    header('Location: /shop');
     exit;
 }
 
@@ -38,11 +38,11 @@ if($u && hash('sha256',$password)===$u['password']){
     $up->bind_param('i',$u['id']);
     $up->execute();
 
-    header('Location: shop.php');
+    header('Location: /shop');
     exit;
 }
 
 $_SESSION['portal_error']='Invalid username or password. Please check your details and try again.';
 $_SESSION['portal_username']=$username;
-header('Location: index.php');
+header('Location: /shop');
 exit;

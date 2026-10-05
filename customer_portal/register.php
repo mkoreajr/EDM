@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/db.php';
 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
-if(portal_logged_in()){ header('Location: shop.php'); exit; }
+if(portal_logged_in()){ header('Location: /shop'); exit; }
 $error='';
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $_SESSION['portal_customer_id']=$cid;
         $_SESSION['portal_customer_name']=$name;
         $_SESSION['portal_last_activity']=time();
-        header('Location: shop.php');
+        header('Location: /shop');
         exit;
       }
     }catch(Throwable $e){
