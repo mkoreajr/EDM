@@ -130,7 +130,7 @@ body{overflow:auto}
     </form>
   </main>
   <div class="right-footer">
-    <div class="support">For any Technical inquiry, Please contact your Support Team at : <a href="mailto:ictsupport@gmail.com">ictsupport@gmail.com</a></div>
+    <div class="support">For any Technical inquiry, Please contact Contact <a href="mailto:ict@psrs.go.tz">ICT Support</a> : +225 682 657 202</div>
     <div class="footer">© 2026 MSINDA Food Shop | All Rights Reserved.</div>
   </div>
   </section>
