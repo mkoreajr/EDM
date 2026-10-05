@@ -5,11 +5,11 @@
 </head><body class="portal-body">
 <header class="portal-header">
   <a class="portal-brand" href="shop.php"><img src="../assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop"><span>MSINDA Food Shop</span></a>
-  <nav class="portal-nav">
+  <nav class="portal-nav" aria-label="Customer navigation">
     <a href="shop.php" class="<?=($active??'')==='shop'?'active':''?>">Shop</a>
     <?php if($customer): ?><a href="orders.php" class="<?=($active??'')==='orders'?'active':''?>">My Orders</a><?php endif; ?>
     <a href="cart.php" class="cart-link <?=($active??'')==='cart'?'active':''?>">Cart <b><?=portal_cart_count()?></b></a>
-    <?php if($customer): ?><span class="portal-user">Hi, <?=pe($customer['name'])?></span><a class="logout" href="logout.php">Log out</a><?php endif; ?>
+    <?php if($customer): ?><span class="portal-user">Hi, <?=pe($customer['name'])?></span><a class="logout" href="logout.php">Log out</a><?php else: ?><a href="index.php">Sign in</a><?php endif; ?>
   </nav>
 </header>
 <main class="portal-main">

@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 }
 ?>
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/shop/"><title>Create Customer Account - MSINDA Food Shop</title><link rel="stylesheet" href="assets/portal.css"></head><body class="portal-auth-body">
-<div class="auth-card register-card"><div class="auth-logo"><img src="../assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop"></div><div class="eyebrow">CUSTOMER REGISTRATION</div><h1>Create your account</h1><p>Save your delivery details and order food products online.</p>
+<div class="auth-card register-card"><div class="auth-logo"><img src="../assets/branding/msinda-agricultural-emblem.png" alt="MSINDA Food Shop"></div><div class="eyebrow">CUSTOMER REGISTRATION</div><h1>Create your MSINDA account</h1><p>Save your details once, order faster next time, and keep your delivery progress in one place.</p>
 <?php if($error): ?><div class="portal-alert error"><?=pe($error)?></div><?php endif; ?>
 <form method="post" class="auth-form two-col">
 <label>Full name<input name="name" value="<?=pe($_POST['name']??'')?>" required></label><label>Phone<input name="phone" value="<?=pe($_POST['phone']??'')?>" required></label>
@@ -31,5 +31,5 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <label>Username<input name="username" value="<?=pe($_POST['username']??'')?>" autocomplete="username" required></label><label>Password<input type="password" name="password" required></label>
 <label class="wide">Confirm password<input type="password" name="confirm" required></label>
 <div class="wide password-help">Password: 8+ characters with uppercase, lowercase, number and special character.</div>
-<button class="portal-btn wide" type="submit">Create Account</button>
+<button class="portal-btn wide" type="submit">Create account</button>
 </form><div class="auth-switch">Already registered? <a href="index.php">Sign in</a></div></div></body></html>
