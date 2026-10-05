@@ -7,6 +7,7 @@ RUN a2enmod rewrite \
     && docker-php-ext-install pdo_pgsql \
     && rm -rf /var/lib/apt/lists/*
 
+COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY php.ini /usr/local/etc/php/conf.d/uploads.ini
 COPY . /var/www/html/
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
