@@ -3096,3 +3096,70 @@ html, body, body *, button, input, select, textarea {
   }
   .app-body.sidebar-open .app-topbar{position:relative;z-index:1300}
 }
+
+/* V37 — FINAL MOBILE SIDEBAR LAYERING + HEADER CLEARANCE
+   The mobile menu is opened by the header's .sidebar-open class.
+   Keep the fixed top bar visible, keep the sidebar below it, and keep
+   the backdrop behind the sidebar so every navigation link receives taps. */
+@media (max-width:850px){
+  .app-body.sidebar-open > .sidebar{
+    position:fixed !important;
+    top:72px !important;
+    left:0 !important;
+    bottom:0 !important;
+    width:276px !important;
+    min-width:276px !important;
+    height:calc(100dvh - 72px) !important;
+    max-height:calc(100dvh - 72px) !important;
+    padding:20px 14px !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    z-index:3000 !important;
+    pointer-events:auto !important;
+    box-shadow:12px 0 30px rgba(0,0,0,.18) !important;
+  }
+
+  .app-body.sidebar-open > .sidebar .side-brand-logo{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:100% !important;
+    min-height:92px !important;
+    padding:4px 0 16px !important;
+    margin:0 !important;
+    overflow:visible !important;
+  }
+
+  .app-body.sidebar-open > .sidebar .sidebar-edm-logo{
+    display:block !important;
+    width:190px !important;
+    max-width:100% !important;
+    height:auto !important;
+    max-height:76px !important;
+    object-fit:contain !important;
+    object-position:center !important;
+  }
+
+  .app-body.sidebar-open > .sidebar .side-nav,
+  .app-body.sidebar-open > .sidebar .side-nav a,
+  .app-body.sidebar-open > .sidebar .side-nav button{
+    pointer-events:auto !important;
+  }
+
+  /* The existing content pseudo-overlay must stay below the sidebar. */
+  .app-body.sidebar-open > .content::before{
+    z-index:2990 !important;
+    pointer-events:auto !important;
+  }
+
+  /* Header stays above the backdrop and remains fully visible. */
+  .app-body.sidebar-open > .content > .app-topbar{
+    position:relative !important;
+    z-index:3100 !important;
+  }
+
+  .app-body.sidebar-open > .content{
+    margin-left:0 !important;
+    width:100% !important;
+  }
+}
