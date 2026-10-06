@@ -3163,3 +3163,37 @@ html, body, body *, button, input, select, textarea {
     width:100% !important;
   }
 }
+
+/* V38 — MOBILE MENU HEADER MUST STAY FIXED
+   When the sidebar is opened, an older rule changed the topbar to
+   position:relative, pushing it down into the page. Keep it fixed at
+   the top of the mobile viewport while the sidebar opens underneath it. */
+@media (max-width:850px){
+  .app-body.sidebar-open > .content > .app-topbar{
+    position:fixed !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+    height:72px !important;
+    margin:0 !important;
+    padding:10px 14px !important;
+    z-index:4000 !important;
+    display:flex !important;
+    align-items:center !important;
+    box-sizing:border-box !important;
+    transform:none !important;
+  }
+
+  .app-body.sidebar-open > .sidebar{
+    top:72px !important;
+    height:calc(100dvh - 72px) !important;
+    max-height:calc(100dvh - 72px) !important;
+    z-index:3900 !important;
+  }
+
+  .app-body.sidebar-open > .content::before{
+    z-index:3800 !important;
+    pointer-events:auto !important;
+  }
+}
