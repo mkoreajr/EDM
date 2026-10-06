@@ -13,7 +13,7 @@ $sales=(float)($reportSummary['sales_total']??0);
 $saleCount=(int)($reportSummary['sale_count']??0);
 $expenses=(float)($reportSummary['expenses_total']??0);
 $purchases=(float)($reportSummary['purchases_total']??0);
-$perPage=15; $currentPage=max(1,(int)($_GET['page']??1));
+$perPage=10; $currentPage=max(1,(int)($_GET['page']??1));
 $st=$conn->prepare("SELECT COUNT(*) x FROM sale_items si JOIN sales s ON s.id=si.sale_id WHERE s.sale_date BETWEEN ? AND ?");$st->bind_param('ss',$from,$to);$st->execute();$itemCount=(int)$st->get_result()->fetch_assoc()['x']; $totalPages=max(1,(int)ceil($itemCount/$perPage)); if($currentPage>$totalPages)$currentPage=$totalPages; $offset=($currentPage-1)*$perPage;
 $st=$conn->prepare("SELECT s.sale_number,s.sale_date,COALESCE(c.name,'Walk-in Customer') customer,u.name cashier,p.name product,si.quantity,si.unit_price,si.total,s.payment_method FROM sale_items si JOIN sales s ON s.id=si.sale_id JOIN products p ON p.id=si.product_id LEFT JOIN customers c ON c.id=s.customer_id JOIN users u ON u.id=s.created_by WHERE s.sale_date BETWEEN ? AND ? ORDER BY s.sale_date ASC,s.id ASC,si.id ASC LIMIT ? OFFSET ?");$st->bind_param('ssii',$from,$to,$perPage,$offset);$st->execute();$items=[];$rr=$st->get_result();while($x=$rr->fetch_assoc())$items[]=$x;
 require "partials/header.php"; ?>
