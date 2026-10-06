@@ -144,7 +144,7 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Int
 .welcome-tagline span{
   font-family:Inter;
   font-size:clamp(25px,2.6vw,40px);
-  font-style:italic;
+  font-style:normal;
   font-weight:700;
   letter-spacing:-.8px;
   color:#075b3c;
@@ -159,7 +159,7 @@ html,body,.app-body,.app-body input,.app-body button,.app-body a{font-family:Int
 .welcome-tagline em{
   font-family:Inter;
   font-size:clamp(20px,2vw,31px);
-  font-style:italic;
+  font-style:normal;
   font-weight:700;
   color:#d5a900;
   margin-top:4px;
