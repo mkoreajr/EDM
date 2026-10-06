@@ -380,6 +380,7 @@ require 'partials/header.php';
     </section>
   <?php endif; ?>
 </div>
+<?php require "partials/footer.php"; ?>
 <style>
 .online-orders-page{max-width:1440px;margin:0 auto;padding:4px 0 28px}
 .online-orders-hero{padding:4px 0 18px}
