@@ -368,7 +368,7 @@ require 'partials/header.php';
                   <?php foreach($allowed as $option): ?>
                     <option value="<?=e($option)?>" <?= $option===$o['status']?'selected':'' ?> <?= in_array($option,$transitionMap[$o['status']]??[$o['status']],true)?'':'disabled' ?>><?=e($option)?></option>
                   <?php endforeach; ?>
-                </select><small class="status-help" data-status-help><?= $o['status']==='Delivered' ? 'Delivered orders are final and cannot be moved backward.' : ($o['status']==='Cancelled' ? 'Cancelled orders are final.' : 'Choose the next valid stage or cancel before delivery.') ?></small></label>
+                </select></label>
                 <div class="order-editor-actions"><button class="btn primary order-save-btn" type="submit" name="update_order"><span class="save-label">Confirm</span><span class="save-spinner" aria-hidden="true"></span></button><span class="order-save-message" role="status" aria-live="polite"></span></div>
               </form>
             </td></tr>
@@ -516,7 +516,7 @@ require 'partials/header.php';
 .order-update-form label{font-size:11px;font-weight:800;color:#536a62}
 .order-update-form input,.order-update-form select{display:block;width:100%;margin-top:6px;height:42px;border:1px solid #d3e0db;border-radius:9px;padding:0 11px;background:#fff;color:#263f56;outline:none;box-sizing:border-box}
 .order-update-form input:focus,.order-update-form select:focus{border-color:#10a66b;box-shadow:0 0 0 3px rgba(16,166,107,.1)}
-.status-help{display:block!important;margin-top:5px;color:#82918c!important;font-size:10px!important;font-weight:600!important;line-height:1.35}
+
 .order-editor-actions{display:flex;align-items:center;gap:10px;height:42px}
 .order-save-btn{height:42px;min-width:130px;border:0;border-radius:9px;cursor:pointer}
 .order-save-btn:disabled{opacity:.7;cursor:wait}
@@ -667,15 +667,10 @@ require 'partials/header.php';
     const row=document.getElementById('order-details-'+id); if(!row) return;
     const form=row.querySelector('form');
     const select=form.querySelector('[data-status-select]');
-    const help=form.querySelector('[data-status-help]');
     const current=row.closest('tbody').querySelector('#order-row-'+id)?.dataset.status || select.value;
     const next=select.value;
-    if(help){
-      if(next===current) help.textContent='No status change. You can still save delivery details or the admin note.';
-      else if(next==='Confirmed') help.textContent='Stock will be reserved when the order is confirmed.';
-      else if(next==='Out for Delivery') help.textContent='The order is ready to be delivered.';
-      else if(next==='Delivered') help.textContent='Delivery will complete the order and record the sale.';
-      else if(next==='Cancelled'){ help.textContent='A cancellation reason is required before this order can be cancelled.'; openCancelModal(form); }
+    if(next==='Cancelled' && next!==current){
+      openCancelModal(form);
     }
   };
 
