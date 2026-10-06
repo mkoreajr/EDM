@@ -18,7 +18,7 @@ $todaySales=(int)($dashboardStats['today_sales']??0);
   <div class="welcome-copy">
     <div class="welcome-kicker">GOOD DAY,</div>
     <h1><?=e($_SESSION['name']??'Administrator')?>!</h1>
-    <p>Welcome to EDM Kienyeji Food Shop.</p>
+    <p>Welcome to MSINDA Food Shop.</p>
     <a class="hero-btn" href="sales.php"><span>＋</span> New Sale (POS) <b>›</b></a>
   </div>
   <div class="welcome-tagline" aria-label="Mchele, Unga, Mayai">
