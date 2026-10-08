@@ -809,3 +809,104 @@ require 'partials/header.php';
   });
 })();
 </script>
+<style>
+/* Mobile + tablet responsive layout for Online Orders */
+@media (max-width: 1024px){
+  .online-orders-page{padding:8px 14px 28px;max-width:none}
+  .online-orders-heading{flex-direction:column;gap:16px}
+  .online-orders-title-wrap{min-width:0;width:100%}
+  .online-orders-summary{width:100%;min-width:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .online-orders-toolbar{flex-direction:column;align-items:stretch}
+  .order-filter-pills{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px;scrollbar-width:none}
+  .order-filter-pills::-webkit-scrollbar{display:none}
+  .order-filter-pill{flex:0 0 auto}
+  .orders-search-form{width:100%;flex-wrap:wrap}
+  .orders-search{flex:1 1 100%;width:auto}
+  .orders-date{flex:1 1 0;width:auto;min-width:0}
+  .orders-search-btn{flex:0 0 auto}
+}
+
+@media (max-width: 700px){
+  .online-orders-page{padding:6px 10px 24px}
+  .online-orders-kicker{font-size:11px;letter-spacing:2.1px}
+  .online-orders-title-row{gap:11px;align-items:flex-start}
+  .online-orders-title-row h1{font-size:28px;letter-spacing:-.7px}
+  .online-orders-title-row p{font-size:13px}
+  .online-orders-cart-icon{width:46px;height:46px;flex-basis:46px}
+  .online-orders-cart-icon svg{width:25px;height:25px}
+  .online-orders-summary{grid-template-columns:1fr 1fr;gap:8px}
+  .order-summary-card{min-height:76px;padding:12px 10px;gap:8px;border-radius:12px}
+  .summary-icon{width:38px;height:38px}
+  .summary-icon svg{width:20px;height:20px}
+  .order-summary-card strong{font-size:20px}
+  .order-summary-card small{font-size:10px;margin-top:4px}
+  .order-summary-card i{left:10px;bottom:7px;width:42px}
+
+  .online-orders-toolbar{padding:10px;border-radius:12px;gap:10px;margin-bottom:12px}
+  .order-filter-pill{height:42px;padding:0 10px;font-size:11px;gap:6px}
+  .pill-symbol{width:16px;height:16px;flex-basis:16px}
+  .pill-symbol svg{width:15px;height:15px}
+  .order-filter-pill b{min-width:20px;height:20px;font-size:10px;padding:0 5px}
+  .orders-search-form{gap:7px}
+  .orders-search{height:42px;padding:0 10px}
+  .orders-date{height:42px;padding:0 8px}
+  .orders-search-btn{height:42px;padding:0 13px}
+
+  .online-orders-table-card{border-radius:13px;overflow:visible;background:transparent;border:0;box-shadow:none}
+  .orders-table-scroll{overflow:visible}
+  .online-orders-table{display:block;min-width:0;width:100%}
+  .online-orders-table thead{display:none}
+  .online-orders-table tbody{display:block;width:100%}
+  .online-orders-table tr.order-row{display:grid;grid-template-columns:1fr auto;gap:0 10px;background:#fff;border:1px solid #e1e9e5;border-radius:13px;margin:0 0 10px;padding:12px 12px 10px;box-shadow:0 5px 16px rgba(32,76,58,.045)}
+  .online-orders-table tr.order-row.is-selected{border-color:#b8dfcf;box-shadow:0 7px 20px rgba(18,166,106,.10)}
+  .online-orders-table tr.order-row td{display:flex;align-items:center;min-width:0;padding:7px 0;border:0;font-size:12px;gap:8px}
+  .online-orders-table tr.order-row td::before{content:'';color:#80909d;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.45px;flex:0 0 auto;width:70px}
+  .online-orders-table tr.order-row td:nth-child(1){grid-column:1 / -1;padding-top:0}
+  .online-orders-table tr.order-row td:nth-child(1)::before{content:'Order'}
+  .online-orders-table tr.order-row td:nth-child(2)::before{content:'Details'}
+  .online-orders-table tr.order-row td:nth-child(3)::before{content:'Customer'}
+  .online-orders-table tr.order-row td:nth-child(4)::before{content:'Items'}
+  .online-orders-table tr.order-row td:nth-child(5)::before{content:'Total'}
+  .online-orders-table tr.order-row td:nth-child(6)::before{content:'Payment'}
+  .online-orders-table tr.order-row td:nth-child(7)::before{content:'Status'}
+  .online-orders-table tr.order-row td:nth-child(8)::before{content:'Date'}
+  .online-orders-table tr.order-row td:nth-child(9){grid-column:1 / -1;justify-content:flex-end;padding-top:9px;margin-top:4px;border-top:1px solid #edf1ef}
+  .online-orders-table tr.order-row td:nth-child(9)::before{display:none}
+  .online-orders-table tr.order-row td:nth-child(2),
+  .online-orders-table tr.order-row td:nth-child(3),
+  .online-orders-table tr.order-row td:nth-child(4){align-items:flex-start}
+  .order-number-chip{font-size:10px;padding:6px 8px}
+  .order-detail-name{font-size:12px}
+  .customer-cell{flex:1;min-width:0}
+  .customer-cell strong,.customer-cell small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+  .table-actions{width:100%;justify-content:flex-end}
+  .table-action{height:38px;padding:0 14px;font-size:11px}
+
+  .online-orders-table tr.order-view-row,
+  .online-orders-table tr.order-confirm-row{display:none}
+  .online-orders-table tr.order-view-row.is-open,
+  .online-orders-table tr.order-confirm-row.is-open{display:block;background:#fff;border:1px solid #e1e9e5;border-radius:13px;margin:-2px 0 10px;box-shadow:0 5px 16px rgba(32,76,58,.045)}
+  .online-orders-table tr.order-view-row > td,
+  .online-orders-table tr.order-confirm-row > td{display:block;padding:0;border:0}
+  .order-view-panel{padding:14px!important}
+  .order-view-grid{grid-template-columns:1fr!important;gap:10px!important}
+  .order-view-card{padding:13px!important}
+  .order-items-table-wrap{overflow-x:auto}
+  .order-items-table{min-width:520px}
+  .order-editor-form{padding:14px!important}
+  .order-editor-heading{display:flex!important;flex-direction:column!important;gap:8px!important}
+  .order-editor-current{align-self:flex-start}
+  .order-editor-form>label{width:100%!important}
+  .order-editor-actions{width:100%!important;display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important}
+  .order-editor-actions .order-save-btn{width:100%!important}
+
+  .orders-table-footer{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:12px 4px!important}
+}
+
+@media (min-width:701px) and (max-width:1024px){
+  .online-orders-table-card{overflow:hidden}
+  .orders-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .online-orders-table{min-width:1050px}
+  .order-view-grid{grid-template-columns:1.2fr 1fr!important}
+}
+</style>
