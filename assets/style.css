@@ -3200,3 +3200,64 @@ html, body, body *, button, input, select, textarea {
     pointer-events:auto !important;
   }
 }
+
+/* V44 — Mobile & tablet sidebar navigation cleanup
+   Remove legacy bullet dots and keep icon/text alignment clean. */
+@media (max-width:1100px){
+  .app-body .sidebar nav a::before,
+  .app-body .side-nav a::before{
+    content:none !important;
+    display:none !important;
+  }
+}
+
+/* Tablet: keep the expanded navigation readable instead of replacing labels with bullets. */
+@media (min-width:851px) and (max-width:1100px){
+  .app-body>.sidebar{
+    width:276px !important;
+    min-width:276px !important;
+    flex-basis:276px !important;
+    padding:20px 14px !important;
+  }
+  .app-body>.sidebar .side-nav a{
+    font-size:16px !important;
+    justify-content:flex-start !important;
+    padding:14px !important;
+  }
+  .app-body>.sidebar .side-nav .nav-ico{
+    width:28px !important;
+    flex:0 0 28px !important;
+    font-size:23px !important;
+    text-align:center !important;
+  }
+  .app-body>.content{
+    margin-left:276px !important;
+    width:calc(100% - 276px) !important;
+    max-width:calc(100% - 276px) !important;
+  }
+}
+
+/* Mobile: when the menu is opened, show clean icon + label rows with no bullets. */
+@media (max-width:850px){
+  .app-body.sidebar-open > .sidebar .side-nav a::before,
+  .app-body.sidebar-mobile-open > .sidebar .side-nav a::before{
+    content:none !important;
+    display:none !important;
+  }
+  .app-body.sidebar-open > .sidebar .side-nav a,
+  .app-body.sidebar-mobile-open > .sidebar .side-nav a{
+    font-size:16px !important;
+    line-height:1.2 !important;
+    justify-content:flex-start !important;
+    align-items:center !important;
+    text-align:left !important;
+    gap:15px !important;
+    padding:14px !important;
+  }
+  .app-body.sidebar-open > .sidebar .side-nav .nav-ico,
+  .app-body.sidebar-mobile-open > .sidebar .side-nav .nav-ico{
+    width:28px !important;
+    flex:0 0 28px !important;
+    text-align:center !important;
+  }
+}
