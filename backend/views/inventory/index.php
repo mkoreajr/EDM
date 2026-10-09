@@ -15,7 +15,7 @@
           <td><?= e(package_label($r, ' Kg')) ?></td>
           <td><?= e(unit_label($r['category'], $r['purchased'])) ?></td>
           <td><?= e(unit_label($r['category'], $r['sold'])) ?></td>
-          <td class="<?= (float)$r['stock_quantity'] <= 5 ? 'low' : '' ?>"><?= e(unit_label($r['category'], $r['stock_quantity'])) ?></td>
+          <td class="<?= (float)$r['stock_quantity'] <= 0 ? 'low' : '' ?>"><?= e(unit_label($r['category'], $r['stock_quantity'])) ?></td>
         </tr>
       <?php endforeach; ?>
       <?php if (!$rows): ?><tr><td colspan="6">No products yet.</td></tr><?php endif; ?>

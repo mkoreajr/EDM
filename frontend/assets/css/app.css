@@ -117,6 +117,13 @@ body.sidebar-collapsed .content{margin-left:0}
 .n-copy strong{font-size:14px;font-weight:650}
 .n-copy small{font-size:13px;color:var(--ink-500);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .unread-mark{flex:none;font-size:0;width:8px;height:8px;margin-top:6px;border-radius:50%;background:var(--green-500)}
+/* Out-of-stock alerts at the top of the bell (one per product, worked out live) */
+.stock-alert-list{max-height:min(320px,45vh);overflow-y:auto;padding:6px;border-bottom:1px solid var(--line-soft);background:var(--danger-50)}
+.stock-alert-heading{padding:6px 10px 4px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--danger-700)}
+.stock-alert-item{padding:10px 12px}
+a.stock-alert-item:hover{background:#fbe3e3}
+.stock-alert-item .n-icon{background:#fff;color:var(--danger-600);box-shadow:var(--shadow-sm)}
+.stock-alert-item .n-copy strong{color:var(--danger-700)}
 .all-notifications{display:flex;justify-content:center;gap:6px;padding:13px;border-top:1px solid var(--line-soft);font-size:14px;font-weight:650;color:var(--green-700);text-decoration:none}
 .all-notifications:hover{background:var(--green-50)}
 .profile-dropdown{padding:6px}
@@ -154,17 +161,6 @@ body.sidebar-collapsed .content{margin-left:0}
 .clear-confirm-no:hover{background:var(--canvas)}
 .clear-confirm-yes{border:0;background:var(--danger-600);color:#fff}
 .clear-confirm-yes:hover{background:var(--danger-700)}
-
-/* Stock notice (only shown when a product is out of stock) */
-.low-stock-alert{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:12px;border-radius:var(--radius-md);
-  background:var(--danger-50);border:1px solid var(--danger-200);color:var(--danger-700);font-size:14.5px}
-.low-stock-alert-icon{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--danger-600);box-shadow:var(--shadow-sm)}
-.low-stock-alert-icon svg{width:18px;height:18px}
-.low-stock-alert > span:not(.low-stock-alert-icon){flex:1 1 220px;min-width:0}
-.low-stock-alert strong{font-weight:700}
-.low-stock-alert a{margin-left:auto;flex:none;height:36px;padding:0 14px;border-radius:var(--radius-sm);display:inline-flex;align-items:center;background:var(--danger-600);color:#fff;font-size:13.5px;font-weight:650;text-decoration:none}
-.low-stock-alert a:hover{background:var(--danger-700)}
-.low-stock-alert:last-of-type{margin-bottom:24px}
 
 /* 5. Dashboard ---------------------------------------------- */
 .welcome-banner{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:32px;padding:36px 40px;border-radius:var(--radius-xl);color:#fff;
@@ -529,8 +525,6 @@ body.password-required-mode .content{margin-left:0;padding:0}
   .stat-card .arrow{display:none}
   .stat-icon{width:38px;height:38px}
   .welcome-tagline{display:none}
-  .low-stock-alert{flex-wrap:wrap}
-  .low-stock-alert a{margin-left:50px}
   .footer-content{justify-content:center;text-align:center}
   .cards{gap:10px}
   .card{padding:16px}

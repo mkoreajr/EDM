@@ -15,9 +15,12 @@
 - New design for every staff page, the staff login, the customer portal (shop, cart, checkout,
   My Orders, order details, sign-in, registration), the receipt, admin recovery and error pages.
   Page addresses, forms and behaviour are unchanged.
-- Stock notices: the "Stock Low" warnings are removed. A notice is shown only when a product's
-  stock is 0 ("Out of Stock: … has no stock left."), checked per product. The Settings option is
-  now labelled **Out-of-Stock Alert**.
+- Stock alerts: the "Stock Low" warnings are removed, and the Home page no longer shows stock
+  notices. Out-of-stock alerts appear in the notification bell only — one per product, and only
+  when its stock is 0. Rows with the same name, type and package size count as one product, so
+  duplicate rows never repeat an alert. Alerts are worked out live and disappear once stock is
+  added. Inventory marks stock in red only at 0. The Settings option is now labelled
+  **Out-of-Stock Alert**.
 - Online Orders: on smaller laptops and tablets the order list is shown as cards.
 - `render.yaml` uses the existing Render names (`egg-sales-system`, `egg-sales-db`) and builds
   from `backend/Dockerfile`.

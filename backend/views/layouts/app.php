@@ -12,6 +12,7 @@
 use App\Core\Auth;
 use App\Core\DB;
 use App\Services\Notifications;
+use App\Services\StockAlerts;
 
 $pageTitle = $pageTitle ?? 'Dashboard';
 $active = $active ?? '';
@@ -20,6 +21,8 @@ $nav = static fn(string $key): string => $active === $key ? 'active' : '';
 $userId = Auth::id();
 $unread = Notifications::unreadCount($userId);
 $notifItems = Notifications::latest($userId, 5);
+$stockAlerts = StockAlerts::outOfStock();
+$bellCount = $unread + count($stockAlerts);
 $userName = Auth::name();
 $userRole = Auth::role() ?: 'Admin';
 $initials = strtoupper(mb_substr($userName, 0, 2));
@@ -69,10 +72,21 @@ $pendingOrders = Auth::isAdmin() ? (int)DB::value("SELECT COUNT(*) FROM orders W
     <div class="dropdown-wrap notification-wrap">
       <button class="notify" id="notificationButton" type="button" aria-label="Notifications" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <?php if ($unread > 0): ?><i id="notificationCount"><?= min($unread, 99) ?></i><?php endif; ?>
+        <?php if ($bellCount > 0): ?><i id="notificationCount"><?= min($bellCount, 99) ?></i><?php endif; ?>
       </button>
       <div class="dropdown notification-dropdown" id="notificationDropdown">
         <div class="dropdown-head"><strong>Notifications</strong><span><?= number_format($unread) ?> unread</span></div>
+        <?php if ($stockAlerts): ?>
+        <div class="stock-alert-list" aria-label="Out-of-stock alerts">
+          <div class="stock-alert-heading">Out of stock · <?= count($stockAlerts) ?></div>
+          <?php foreach ($stockAlerts as $alert): ?>
+            <<?= Auth::isAdmin() ? 'a href="/inventory"' : 'div' ?> class="notification-item stock-alert-item">
+              <span class="n-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5 21 20H3L12 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9.5v4.5M12 17v.1" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+              <span class="n-copy"><strong><?= e($alert['name']) ?> (<?= e($alert['package']) ?>)</strong><small>No stock left. Add stock to sell it again.</small></span>
+            </<?= Auth::isAdmin() ? 'a' : 'div' ?>>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
         <div class="notification-list">
         <?php if (!$notifItems): ?>
           <div class="empty-notifications">No notifications.</div>

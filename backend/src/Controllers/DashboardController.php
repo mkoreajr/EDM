@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\DB;
-use App\Services\Settings;
 
 final class DashboardController
 {
@@ -25,28 +24,11 @@ final class DashboardController
                 (SELECT COUNT(*) FROM sales WHERE sale_date = CURRENT_DATE)                  AS today_count"
         );
 
+        // Out-of-stock alerts are shown in the notification bell (layouts/app.php), not here.
         view('dashboard/index', [
             'pageTitle' => 'Home',
             'active'    => 'dashboard',
             'stats'     => $stats,
-            'alerts'    => Settings::get('low_stock_alert') === '1' ? $this->stockAlerts() : [],
         ]);
-    }
-
-    /**
-     * Out-of-stock notices only: one per product whose stock has run out completely.
-     * There are deliberately no "stock low" warnings.
-     *
-     * @return list<array{empty:bool,title:string,text:string}>
-     */
-    private function stockAlerts(): array
-    {
-        $products = DB::all('SELECT name FROM products WHERE stock_quantity <= 0 ORDER BY name');
-
-        return array_map(static fn(array $p): array => [
-            'empty' => true,
-            'title' => 'Out of Stock:',
-            'text'  => "{$p['name']} has no stock left.",
-        ], $products);
     }
 }

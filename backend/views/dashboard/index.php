@@ -1,21 +1,10 @@
 <?php
 /**
  * @var array<string,mixed> $stats
- * @var list<array{empty:bool,title:string,text:string,value?:string}> $alerts
  */
 
 use App\Core\Auth;
-
-$warningIcon = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 21 20H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.2v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 ?>
-<?php foreach ($alerts as $alert): ?>
-<div class="low-stock-alert <?= $alert['empty'] ? 'stock-alert-empty' : '' ?>" role="alert">
-  <span class="low-stock-alert-icon"><?= $warningIcon ?></span>
-  <span><strong><?= e($alert['title']) ?></strong> <?= e($alert['text']) ?><?php if (!empty($alert['value'])): ?> <b><?= e($alert['value']) ?></b><?php endif; ?></span>
-  <?php if (Auth::isAdmin()): ?><a href="/inventory">View Stock</a><?php endif; ?>
-</div>
-<?php endforeach; ?>
-
 <section class="welcome-banner">
   <div class="welcome-copy">
     <div class="welcome-kicker">GOOD DAY,</div>
