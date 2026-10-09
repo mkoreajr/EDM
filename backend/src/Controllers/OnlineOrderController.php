@@ -63,7 +63,7 @@ final class OnlineOrderController
             $ids = array_map(static fn($o) => (int)$o['id'], $orders);
             $placeholders = implode(',', array_fill(0, count($ids), '?'));
             foreach (DB::all(
-                "SELECT oi.order_id, oi.quantity, oi.unit_price, oi.total, p.name
+                "SELECT oi.order_id, oi.quantity, oi.unit_price, oi.total, COALESCE(oi.product_name, p.name) AS name
                  FROM order_items oi JOIN products p ON p.id = oi.product_id
                  WHERE oi.order_id IN ($placeholders) ORDER BY oi.id",
                 $ids

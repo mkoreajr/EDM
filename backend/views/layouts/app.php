@@ -41,9 +41,11 @@ $pendingOrders = Auth::isAdmin() ? (int)DB::value("SELECT COUNT(*) FROM orders W
 <body class="app-body <?= e($bodyClass ?? '') ?>" data-idle-timeout="<?= Auth::idleTimeout() ?>">
 <aside class="sidebar">
   <div class="side-brand side-brand-logo">
-    <img src="<?= asset('img/brand/msinda-emblem.png') ?>" alt="MSINDA Food Shop" class="sidebar-edm-logo">
+    <img src="<?= asset('img/brand/msinda-emblem.png') ?>" alt="" class="sidebar-edm-logo">
+    <span class="side-brand-name"><strong>MSINDA</strong><small>Food Shop</small></span>
   </div>
   <nav class="side-nav">
+    <div class="side-nav-label">Menu</div>
     <a class="<?= $nav('dashboard') ?>" href="/dashboard"><span class="nav-ico"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v8a1 1 0 0 1-1 1h-4v-5H9v5H5a1 1 0 0 1-1-1v-8Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Home</a>
     <a class="<?= $nav('sales') ?>" href="/sales"><span class="nav-ico"><svg viewBox="0 0 24 24"><path d="M3 4h2l2 11h10l2-8H6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></span>Sales (POS)</a>
     <?php if (Auth::isAdmin()): ?>
@@ -56,12 +58,13 @@ $pendingOrders = Auth::isAdmin() ? (int)DB::value("SELECT COUNT(*) FROM orders W
     <a class="<?= $nav('settings') ?>" href="/settings"><span class="nav-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19 12a7 7 0 0 0-.2-1.7l1.5-1-1.7-3-1.7.7a7 7 0 0 0-2.3-1.3L14.3 4h-3l-.3 1.7A7 7 0 0 0 8.7 7L7 6.3l-1.7 3 1.5 1A7 7 0 0 0 6.5 12c0 .6.1 1.2.3 1.7l-1.5 1 1.7 3 1.7-.7a7 7 0 0 0 2.3 1.3l.3 1.7h3l.3-1.7a7 7 0 0 0 2.3-1.3l1.7.7 1.7-3-1.5-1c.1-.5.2-1.1.2-1.7Z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>Settings</a>
     <?php endif; ?>
   </nav>
-  <div class="side-slogan">Mchele Bora,<br>Unga Bora,<br>Mayai Bora</div>
+  <div class="side-slogan">Mchele Bora, Unga Bora, Mayai Bora</div>
   <div class="side-bottom">Mchele<br>Unga<br>Mayai</div>
 </aside>
 <main class="content">
 <header class="topbar app-topbar">
   <button class="menu-btn" type="button" aria-label="Menu">☰</button>
+  <div class="topbar-title"><small>MSINDA Food Shop</small><strong><?= e($pageTitle) ?></strong></div>
   <div class="top-actions">
     <div class="dropdown-wrap notification-wrap">
       <button class="notify" id="notificationButton" type="button" aria-label="Notifications" aria-expanded="false">

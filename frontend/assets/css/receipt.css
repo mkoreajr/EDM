@@ -1,50 +1,60 @@
 /* Inter, self-hosted (frontend/assets/fonts, SIL Open Font License). One variable file covers weights 100-900. */
 @font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url("../fonts/inter-latin-wght-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url("../fonts/inter-latin-ext-wght-normal.woff2") format("woff2");unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
 /* Printable sales receipt */
+:root{--green-900:#0d3b2c;--green-800:#124a37;--green-600:#1b7a57;--green-500:#22935f;--green-100:#e3f1ea;--green-50:#f1f8f4;--gold-400:#f2c94c;
+  --ink-900:#14231d;--ink-700:#34463e;--ink-500:#64756d;--ink-400:#8a9891;--line:#e3e8e5;--line-soft:#eef1ef;--canvas:#f5f6f2}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#eef8f3,#f9fbea);color:#17332a;min-height:100vh}
-.receipt-shell{width:min(760px,100%);margin:0 auto;padding:22px 16px 30px}
-.action-bar{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.action-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:142px;height:42px;padding:0 17px;border-radius:8px;border:1px solid #d2dfda;background:#fff;color:#164333;font:700 13px Inter,Arial,Helvetica,sans-serif;text-decoration:none;cursor:pointer}
+body{min-height:100vh;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink-900);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(600px 300px at 100% 0,rgba(242,201,76,.14),transparent 70%),radial-gradient(600px 320px at 0 100%,rgba(34,147,95,.10),transparent 70%),var(--canvas)}
+.receipt-shell{width:min(720px,100%);margin:0 auto;padding:28px 16px 36px}
+.action-bar{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.action-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink-700);font:650 14px Inter,system-ui,Arial,sans-serif;text-decoration:none;cursor:pointer}
 .action-btn svg{width:17px;height:17px}
-.action-btn:hover{background:#f3f8f5}
-.action-btn.primary{background:#008e5b;border-color:#008e5b;color:#fff}
-.action-btn.primary:hover{background:#007249}
+.action-btn:hover{border-color:#b4beb9;color:var(--ink-900)}
+.action-btn.primary{border-color:transparent;background:linear-gradient(180deg,var(--green-500),var(--green-600));color:#fff;box-shadow:0 8px 18px -10px rgba(27,122,87,.8)}
+.action-btn.primary:hover{filter:brightness(1.06)}
 .action-btn:disabled{opacity:.7;cursor:wait}
-.receipt-card{background:#fff;border:1px solid #dce8e3;border-radius:13px;box-shadow:0 14px 40px rgba(0,72,48,.10);overflow:hidden}
-.receipt-header{text-align:center;padding:18px 25px 10px}
-.shop-logo{width:180px;height:auto;max-height:72px;margin:0 auto 2px;display:block;object-fit:contain}
-.receipt-title{border-top:1px dashed #bfcfca;border-bottom:1px dashed #bfcfca;margin:0 16px;padding:9px 0;text-align:center;font-size:18px;font-weight:800;color:#172d27}
-.sale-meta{padding:13px 22px 5px;display:grid;grid-template-columns:1fr 1fr;gap:7px 28px;font-size:11px}
-.meta-row{display:grid;grid-template-columns:78px minmax(0,1fr);align-items:start;gap:7px;min-width:0}
-.meta-row b{color:#405b52;white-space:nowrap}
-.meta-row span{text-align:left;color:#1f302c;min-width:0;overflow-wrap:anywhere}
-.receipt-table{width:calc(100% - 32px);margin:9px 16px;border-collapse:collapse;font-size:11px}
-.receipt-table th{background:#f0f7f3;color:#2b4d41;font-weight:800}
-.receipt-table th,.receipt-table td{padding:8px 6px;border-bottom:1px solid #e3ebe7}
-.receipt-table th:first-child,.receipt-table td:first-child{text-align:left}
-.receipt-table th:not(:first-child),.receipt-table td:not(:first-child){text-align:right}
-.totals{margin:6px 16px 0;border-top:1px dashed #bfcfca;padding:9px 6px 0;font-size:12px}
-.total-row{display:flex;justify-content:space-between;padding:3px 0}
-.grand-total{margin-top:5px;padding:9px;border-radius:7px;background:#e3f6ed;display:flex;justify-content:space-between;font-size:16px;font-weight:800;color:#10372b}
-.payment-row{text-align:center;padding:10px 6px 0;font-size:12px;font-weight:700}
-.receipt-thanks{text-align:center;padding:17px 16px 7px;color:#4e665e;font-size:11px;font-weight:700;font-style:italic}
-.receipt-tagline{text-align:center;color:#5d6e69;font-size:10px;font-style:italic;padding-bottom:5px}
 
-@media(max-width:560px){
-  .receipt-shell{padding:12px 9px 20px}
-  .action-bar{gap:7px;margin-bottom:10px}
-  .action-btn{min-width:0;flex:1;height:39px;padding:0 9px;font-size:11px}
+.receipt-card{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 2px 4px rgba(20,35,29,.04),0 24px 48px -16px rgba(20,35,29,.22)}
+.receipt-card:before{content:"";display:block;height:6px;background:linear-gradient(90deg,var(--green-600),var(--green-900) 70%,var(--gold-400))}
+.receipt-header{text-align:center;padding:24px 24px 12px}
+.shop-logo{width:84px;height:84px;margin:0 auto;display:block;object-fit:contain}
+.receipt-title{margin:0 24px;padding:10px 0;border-top:1px dashed #c9d2cd;border-bottom:1px dashed #c9d2cd;text-align:center;font-size:15px;font-weight:800;letter-spacing:.16em;color:var(--green-800)}
+.sale-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;padding:16px 24px 6px;font-size:12.5px}
+.meta-row{display:grid;grid-template-columns:84px minmax(0,1fr);align-items:start;gap:8px;min-width:0}
+.meta-row b{font-weight:600;color:var(--ink-500);white-space:nowrap}
+.meta-row span{font-weight:600;color:var(--ink-900);min-width:0;overflow-wrap:anywhere}
+.receipt-table{width:calc(100% - 48px);margin:12px 24px;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.receipt-table th{padding:9px 8px;background:var(--green-50);color:var(--green-800);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.receipt-table th:first-child{border-radius:8px 0 0 8px}
+.receipt-table th:last-child{border-radius:0 8px 8px 0}
+.receipt-table td{padding:10px 8px;border-bottom:1px solid var(--line-soft)}
+.receipt-table th:nth-child(-n+2),.receipt-table td:nth-child(-n+2){text-align:left}
+.receipt-table th:nth-child(n+3),.receipt-table td:nth-child(n+3){text-align:right}
+.totals{margin:6px 24px 0;padding:10px 8px 0;border-top:1px dashed #c9d2cd;font-size:13px;font-variant-numeric:tabular-nums}
+.total-row{display:flex;justify-content:space-between;padding:4px 0;color:var(--ink-500)}
+.total-row b{color:var(--ink-900);font-weight:650}
+.grand-total{display:flex;justify-content:space-between;margin-top:8px;padding:12px 14px;border-radius:10px;background:var(--green-900);color:#fff;font-size:17px;font-weight:800}
+.grand-total span:last-child{color:var(--gold-400)}
+.payment-row{padding:14px 8px 0;text-align:center;font-size:13px;color:var(--ink-500)}
+.payment-row b{color:var(--ink-900)}
+.receipt-thanks{padding:18px 16px 6px;text-align:center;font-size:13px;font-weight:600;color:var(--ink-700)}
+.receipt-tagline{padding-bottom:20px;text-align:center;font-size:12px;font-weight:600;color:var(--green-600);letter-spacing:.04em}
+
+@media (max-width:560px){
+  .receipt-shell{padding:14px 10px 24px}
+  .action-bar{gap:8px;margin-bottom:12px}
+  .action-btn{flex:1;min-width:0;height:42px;padding:0 10px;font-size:12.5px}
   .action-btn svg{width:15px;height:15px}
-  .receipt-header{padding:20px 15px 12px}
-  .receipt-title{font-size:16px;margin:0 11px}
-  .sale-meta{padding:11px 14px 4px;grid-template-columns:1fr;gap:5px}
-  .meta-row{grid-template-columns:76px minmax(0,1fr);gap:6px}
-  .receipt-table{width:calc(100% - 20px);margin:8px 10px;font-size:9px}
-  .receipt-table th,.receipt-table td{padding:6px 4px}
-  .totals{margin:5px 10px 0}
+  .receipt-header{padding:20px 14px 10px}
+  .receipt-title{margin:0 14px}
+  .sale-meta{grid-template-columns:1fr;gap:6px;padding:14px 14px 4px}
+  .receipt-table{width:calc(100% - 20px);margin:10px;font-size:11px}
+  .receipt-table th,.receipt-table td{padding:7px 4px}
+  .totals{margin:6px 10px 0}
 }
 @media print{
   @page{size:A4;margin:10mm}
@@ -52,5 +62,5 @@ body{font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(135
   .receipt-shell{width:100%;padding:0}
   .action-bar{display:none!important}
   .receipt-card{border:0;box-shadow:none;border-radius:0}
-  .receipt-header{padding-top:8px}
+  .receipt-card,.grand-total,.receipt-table th,.receipt-card:before{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }

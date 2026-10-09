@@ -25,7 +25,7 @@ final class ReceiptController
         }
 
         $items = DB::all(
-            'SELECT si.*, p.name, p.unit, p.category, p.package_size_kg
+            'SELECT si.*, COALESCE(si.product_name, p.name) AS name, p.unit, p.category, p.package_size_kg
              FROM sale_items si JOIN products p ON p.id = si.product_id
              WHERE si.sale_id = ? ORDER BY si.id',
             [$id]

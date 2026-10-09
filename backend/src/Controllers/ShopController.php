@@ -132,7 +132,7 @@ final class ShopController
                         throw new DomainException('Stock changed for ' . ($product['name'] ?? 'a product') . '. Please update your cart.');
                     }
                     $price = (float)$product['selling_price'];
-                    $lines[] = [(int)$productId, $quantity, $price, $quantity * $price];
+                    $lines[] = [(int)$productId, $quantity, $price, $quantity * $price, $product['name']];
                     $total += $quantity * $price;
                 }
                 if (!$lines) {
@@ -145,10 +145,11 @@ final class ShopController
                      VALUES (?, ?, 'Pending', ?, ?, ?, ?, ?) RETURNING id",
                     [$number, $customer['id'], $address, $phone, $payment, $notes !== '' ? $notes : null, $total]
                 );
-                foreach ($lines as [$productId, $quantity, $price, $lineTotal]) {
+                foreach ($lines as [$productId, $quantity, $price, $lineTotal, $productName]) {
+                    // The name is kept on the line so later renames never change this order.
                     DB::execute(
-                        'INSERT INTO order_items (order_id, product_id, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?)',
-                        [$orderId, $productId, $quantity, $price, $lineTotal]
+                        'INSERT INTO order_items (order_id, product_id, product_name, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?, ?)',
+                        [$orderId, $productId, $productName, $quantity, $price, $lineTotal]
                     );
                 }
                 return [$orderId, $number, $total];
@@ -192,7 +193,7 @@ final class ShopController
             abort(404, 'Order not found.');
         }
         $items = DB::all(
-            'SELECT oi.*, p.name, p.category, p.unit, p.package_size_kg
+            'SELECT oi.*, COALESCE(oi.product_name, p.name) AS name, p.category, p.unit, p.package_size_kg
              FROM order_items oi JOIN products p ON p.id = oi.product_id
              WHERE oi.order_id = ? ORDER BY oi.id',
             [$order['id']]

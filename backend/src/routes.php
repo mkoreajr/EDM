@@ -81,6 +81,7 @@ $router->post('/online-orders/status', [OnlineOrderController::class, 'updateSta
 $router->get('/products',          [ProductController::class, 'index'], $admin);
 $router->post('/products',         [ProductController::class, 'save'], $admin);
 $router->post('/products/delete',  [ProductController::class, 'delete'], $admin);
+$router->post('/products/rename',  [ProductController::class, 'rename'], $admin);
 $router->get('/inventory',         [InventoryController::class, 'index'], $admin);
 $router->get('/purchases',         [PurchaseController::class, 'index'], $admin);
 $router->post('/purchases',        [PurchaseController::class, 'store'], $admin);

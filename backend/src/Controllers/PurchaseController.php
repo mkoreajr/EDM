@@ -16,7 +16,7 @@ final class PurchaseController
              FROM purchases pu
              LEFT JOIN suppliers s ON s.id = pu.supplier_id
              LEFT JOIN LATERAL (
-                 SELECT p.name, p.category, p.package_size_kg, pi.quantity
+                 SELECT COALESCE(pi.product_name, p.name) AS name, p.category, p.package_size_kg, pi.quantity
                  FROM purchase_items pi JOIN products p ON p.id = pi.product_id
                  WHERE pi.purchase_id = pu.id ORDER BY pi.id LIMIT 1
              ) item ON TRUE
@@ -54,9 +54,11 @@ final class PurchaseController
                      VALUES (?, CURRENT_DATE, ?, ?) RETURNING id',
                     [$supplierId > 0 ? $supplierId : null, $total, Auth::id()]
                 );
+                // The name is kept on the line so later renames never change this purchase.
+                $productName = DB::value('SELECT name FROM products WHERE id = ?', [$productId]);
                 DB::execute(
-                    'INSERT INTO purchase_items (purchase_id, product_id, quantity, unit_cost, total) VALUES (?, ?, ?, ?, ?)',
-                    [$purchaseId, $productId, $quantity, $cost, $total]
+                    'INSERT INTO purchase_items (purchase_id, product_id, product_name, quantity, unit_cost, total) VALUES (?, ?, ?, ?, ?, ?)',
+                    [$purchaseId, $productId, $productName, $quantity, $cost, $total]
                 );
                 DB::execute('UPDATE products SET stock_quantity = stock_quantity + ? WHERE id = ?', [$quantity, $productId]);
                 DB::execute(

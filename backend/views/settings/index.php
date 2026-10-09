@@ -49,16 +49,16 @@ $selected = static fn(string $key, string $value): string => ($settings[$key] ??
             <label for="currency">Currency</label>
             <select id="currency" name="currency"><option value="TZS" selected>Tanzanian Shilling (TSh)</option></select>
           </div>
-          <div class="settings-field">
+          <div class="settings-field full">
             <label for="date_format">Date Format</label>
             <select id="date_format" name="date_format"><option value="DD MMM YYYY" selected>DD MMM YYYY (e.g. 11 Sep 2024)</option></select>
           </div>
-          <div class="settings-field">
+          <div class="settings-field full">
             <label for="time_format">Time Format</label>
             <select id="time_format" name="time_format"><option value="24 Hours" selected>24 Hours (e.g. 14:30)</option></select>
           </div>
           <div class="settings-field">
-            <label for="low_stock_alert">Low Stock Alert</label>
+            <label for="low_stock_alert">Out-of-Stock Alert</label>
             <select id="low_stock_alert" name="low_stock_alert">
               <option value="1" <?= $selected('low_stock_alert', '1') ?>>Enable</option>
               <option value="0" <?= $selected('low_stock_alert', '0') ?>>Disable</option>
@@ -151,9 +151,9 @@ $selected = static fn(string $key, string $value): string => ($settings[$key] ??
           <div class="settings-field"><label for="user_name">Full Name</label><input id="user_name" name="user_name" type="text" maxlength="100" required></div>
           <div class="settings-field"><label for="user_username">Username</label><input id="user_username" name="user_username" type="text" maxlength="50" pattern="[A-Za-z0-9._\-]+" title="Letters, numbers, dots, dashes and underscores only." required></div>
           <div class="settings-field"><label for="user_role">Role</label><select id="user_role" name="user_role"><option value="Cashier">Cashier</option><option value="Admin">Admin</option></select></div>
+          <div class="password-rules create-user-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div>
           <div class="settings-field">
             <label for="user_password">Temporary Password</label>
-            <div class="password-rules">Password must contain: <b>8+ characters</b>, uppercase, lowercase, number, and special character.</div>
             <input id="user_password" name="user_password" type="password" minlength="8" pattern="<?= e($passwordPattern) ?>" title="Use at least 8 characters with uppercase, lowercase, a number, and a special character." autocomplete="new-password" required>
           </div>
           <div class="settings-field"><label for="user_password_confirm">Confirm Password</label><input id="user_password_confirm" name="user_password_confirm" type="password" minlength="8" autocomplete="new-password" required></div>

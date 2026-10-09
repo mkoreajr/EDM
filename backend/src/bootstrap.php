@@ -18,7 +18,7 @@ spl_autoload_register(static function (string $class): void {
 
 require BASE_PATH . '/src/helpers.php';
 
-define('APP_VERSION', env('APP_VERSION', '2.1.0'));
+define('APP_VERSION', env('APP_VERSION', '2.2.0'));
 
 date_default_timezone_set(env('APP_TIMEZONE', 'Africa/Dar_es_Salaam'));
 

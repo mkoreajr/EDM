@@ -73,7 +73,7 @@ final class SalesController
                     $price = (float)$product['selling_price'];
                     $lineTotal = $quantity * $price;
                     $total += $lineTotal;
-                    $checked[] = [$productId, $quantity, $price, $lineTotal];
+                    $checked[] = [$productId, $quantity, $price, $lineTotal, $product['name']];
                 }
 
                 $saleNumber = 'SALE-' . date('YmdHis') . '-' . random_int(100, 999);
@@ -83,10 +83,11 @@ final class SalesController
                     [$saleNumber, $customerId > 0 ? $customerId : null, $payment, $total, Auth::id()]
                 );
 
-                foreach ($checked as [$productId, $quantity, $price, $lineTotal]) {
+                foreach ($checked as [$productId, $quantity, $price, $lineTotal, $productName]) {
+                    // The name is kept on the line so later renames never change this sale.
                     DB::execute(
-                        'INSERT INTO sale_items (sale_id, product_id, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?)',
-                        [$saleId, $productId, $quantity, $price, $lineTotal]
+                        'INSERT INTO sale_items (sale_id, product_id, product_name, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?, ?)',
+                        [$saleId, $productId, $productName, $quantity, $price, $lineTotal]
                     );
                     DB::execute('UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?', [$quantity, $productId]);
                     DB::execute(

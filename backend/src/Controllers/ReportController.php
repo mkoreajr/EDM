@@ -12,7 +12,7 @@ final class ReportController
 
     private const ITEMS_SQL = "
         SELECT s.sale_number, s.sale_date, COALESCE(c.name, 'Walk-in Customer') AS customer, u.name AS cashier,
-               s.payment_method, p.name AS product, p.category, p.package_size_kg, p.unit,
+               s.payment_method, COALESCE(si.product_name, p.name) AS product, p.category, p.package_size_kg, p.unit,
                si.quantity, si.unit_price, si.total
         FROM sale_items si
         JOIN sales s ON s.id = si.sale_id

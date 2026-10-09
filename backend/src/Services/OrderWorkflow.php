@@ -145,7 +145,7 @@ final class OrderWorkflow
     private static function reserveStock(int $orderId): void
     {
         $items = DB::all(
-            'SELECT oi.product_id, oi.quantity, p.name, p.stock_quantity
+            'SELECT oi.product_id, oi.quantity, COALESCE(oi.product_name, p.name) AS name, p.stock_quantity
              FROM order_items oi JOIN products p ON p.id = oi.product_id
              WHERE oi.order_id = ? ORDER BY oi.id FOR UPDATE OF p',
             [$orderId]
@@ -206,10 +206,17 @@ final class OrderWorkflow
             ]
         );
 
-        foreach (DB::all('SELECT product_id, quantity, unit_price, total FROM order_items WHERE order_id = ? ORDER BY id', [$order['id']]) as $item) {
+        $items = DB::all(
+            'SELECT oi.product_id, COALESCE(oi.product_name, p.name) AS product_name, oi.quantity, oi.unit_price, oi.total
+             FROM order_items oi JOIN products p ON p.id = oi.product_id
+             WHERE oi.order_id = ? ORDER BY oi.id',
+            [$order['id']]
+        );
+        foreach ($items as $item) {
+            // The sale keeps the name the customer ordered, even if the product was renamed since.
             DB::execute(
-                'INSERT INTO sale_items (sale_id, product_id, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?)',
-                [$saleId, $item['product_id'], $item['quantity'], $item['unit_price'], $item['total']]
+                'INSERT INTO sale_items (sale_id, product_id, product_name, quantity, unit_price, total) VALUES (?, ?, ?, ?, ?, ?)',
+                [$saleId, $item['product_id'], $item['product_name'], $item['quantity'], $item['unit_price'], $item['total']]
             );
             DB::execute(
                 "INSERT INTO stock_movements (product_id, movement_type, quantity, reference_id) VALUES (?, 'Sale', ?, ?)",

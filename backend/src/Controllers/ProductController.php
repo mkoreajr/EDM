@@ -9,6 +9,7 @@ final class ProductController
 {
     private const PER_PAGE = 10;
     private const CATEGORIES = ['Eggs', 'Rice', 'Flour'];
+    private const NAME_MAX = 100;
 
     public function index(): void
     {
@@ -36,14 +37,18 @@ final class ProductController
     {
         $id = (int)input('id', 0);
         $category = (string)input('category', 'Eggs');
-        $name = (string)input('name');
+        $name = self::cleanName((string)input('name'));
         $price = (float)input('selling_price', 0);
         $stock = (float)input('stock_quantity', 0);
         $isEgg = $category === 'Eggs';
         $package = $isEgg ? null : (float)input('package_size_kg', 0);
 
+        if ($name === '') {
+            flash('error', 'Please enter a product name (up to ' . self::NAME_MAX . ' characters).');
+            redirect(url('/products', ['edit' => $id ?: null]));
+        }
+
         $valid = in_array($category, self::CATEGORIES, true)
-            && in_array($name, self::CATEGORIES, true)
             && $price >= 0 && $stock >= 0
             && ($isEgg || ($package >= 1 && $package <= 20));
 
@@ -67,6 +72,43 @@ final class ProductController
 
         flash('success', 'Product saved successfully.');
         redirect('/products');
+    }
+
+    /**
+     * Change only a product's name (e.g. when the rice source changes).
+     * The customer shop reads names live; past sales, orders and purchases
+     * keep the name stored on their own lines.
+     */
+    public function rename(): void
+    {
+        $id = (int)input('id', 0);
+        $name = self::cleanName((string)input('name'));
+        $back = url('/products', ['page' => (int)input('page', 0) ?: null]);
+
+        $product = $id > 0 ? DB::one('SELECT name FROM products WHERE id = ?', [$id]) : null;
+        if ($product === null) {
+            flash('error', 'Product not found.');
+            redirect($back);
+        }
+        if ($name === '') {
+            flash('error', 'Please enter the new product name (up to ' . self::NAME_MAX . ' characters).');
+            redirect($back);
+        }
+        if ($name === $product['name']) {
+            flash('success', 'The product name is unchanged.');
+            redirect($back);
+        }
+
+        DB::execute('UPDATE products SET name = ? WHERE id = ?', [$name, $id]);
+        flash('success', "Product renamed from \u{201C}{$product['name']}\u{201D} to \u{201C}{$name}\u{201D}. The customer shop now shows the new name.");
+        redirect($back);
+    }
+
+    /** Collapse whitespace; '' when empty or longer than the column allows. */
+    private static function cleanName(string $name): string
+    {
+        $name = trim((string)preg_replace('/\s+/u', ' ', $name));
+        return mb_strlen($name) <= self::NAME_MAX ? $name : '';
     }
 
     public function delete(): void

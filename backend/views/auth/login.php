@@ -29,23 +29,32 @@ $slideList = $slides
 <div class="login-page">
   <section class="left" aria-label="EDM products">
     <div class="login-slideshow">
-      <?php foreach ($slideList as $i => $slide): ?>
-        <div class="login-slide <?= $i === 0 ? 'active' : '' ?>">
-          <img <?= $i === 0 ? 'src' : 'data-src' ?>="<?= e($slide['src']) ?>" alt="<?= e($slide['alt']) ?>" decoding="async" <?= $i === 0 ? 'fetchpriority="high"' : '' ?>>
-        </div>
-      <?php endforeach; ?>
-      <div class="login-slide-overlay"></div>
-      <div class="slide-dots" aria-hidden="true">
-        <?php foreach ($slideList as $i => $slide): ?><span class="dot <?= $i === 0 ? 'active' : '' ?>"></span><?php endforeach; ?>
+      <div class="left-copy">
+        <div class="left-kicker">MSINDA Food Shop</div>
+        <h2 class="left-title">Mchele Bora, Unga Bora,<br><span>Mayai Bora.</span></h2>
+        <p class="left-sub">Sales, stock, customers and online orders for your shop — all in one place.</p>
       </div>
-      <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Food Businesses</div>
+      <div class="slide-stage">
+        <?php foreach ($slideList as $i => $slide): ?>
+          <div class="login-slide <?= $i === 0 ? 'active' : '' ?>">
+            <img <?= $i === 0 ? 'src' : 'data-src' ?>="<?= e($slide['src']) ?>" alt="<?= e($slide['alt']) ?>" decoding="async" <?= $i === 0 ? 'fetchpriority="high"' : '' ?>>
+          </div>
+        <?php endforeach; ?>
+        <div class="login-slide-overlay"></div>
+      </div>
+      <div class="left-foot">
+        <div class="slide-dots" aria-hidden="true">
+          <?php foreach ($slideList as $i => $slide): ?><span class="dot <?= $i === 0 ? 'active' : '' ?>"></span><?php endforeach; ?>
+        </div>
+        <div class="left-secure"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>Secure • Reliable • Built for Food Businesses</div>
+      </div>
     </div>
   </section>
   <section class="right-panel">
     <main class="login-card">
       <div class="logo-wrap"><img src="<?= asset('img/brand/msinda-emblem.png') ?>" alt="MSINDA Food Shop"></div>
-      <div class="welcome">WELCOME BACK</div>
-      <h1 class="login-title">LOGIN</h1>
+      <div class="welcome">Welcome back</div>
+      <h1 class="login-title">Sign in to your shop</h1>
       <p class="sub">Access your MSINDA Food Shop dashboard.</p>
       <?php if ($error): ?><div class="error" role="alert"><?= e($error) ?></div><?php endif; ?>
       <form method="post" action="/login">
@@ -66,13 +75,13 @@ $slideList = $slides
           <button class="eye" type="button" id="togglePassword" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg></button>
         </div>
         <div class="forgot-row"><a class="forgot" href="/admin-recovery">Forgot password?</a></div>
-        <button class="btn" type="submit">LOGIN</button>
+        <button class="btn" type="submit">Sign in</button>
       </form>
       <a class="customer-portal-link" href="/shop">Customer Portal → Order Online</a>
     </main>
     <div class="right-footer">
-      <div class="support">ICT Support : <a href="tel:+255682657202">+255 682 657 202</a></div>
-      <div class="footer">© <?= date('Y') ?> | MSINDA Food Shop | v<?= e(APP_VERSION) ?></div>
+      <div class="support">ICT Support: <a href="tel:+255682657202">+255 682 657 202</a></div>
+      <div class="footer">© <?= date('Y') ?> MSINDA Food Shop · v<?= e(APP_VERSION) ?></div>
     </div>
   </section>
 </div>

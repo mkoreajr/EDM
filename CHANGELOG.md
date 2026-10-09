@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.2.0 — New look, product renaming, out-of-stock-only alerts
+
+### Added
+- **Rename products** (Admin → Products → **Rename**): change a product's name, e.g. when the rice
+  source changes. The customer shop shows the new name immediately.
+- The Product Name field is now free text (e.g. "Mbeya Rice"); Product Type (Eggs / Rice / Flour)
+  still sets the unit and package size.
+- Migration `004_item_product_names.sql`: sale, online-order and purchase lines store the product
+  name at the time they were made, so receipts, reports and order history never change after a
+  rename. Existing lines are stamped with the product's name when the migration runs.
+
+### Changed
+- New design for every staff page, the staff login, the customer portal (shop, cart, checkout,
+  My Orders, order details, sign-in, registration), the receipt, admin recovery and error pages.
+  Page addresses, forms and behaviour are unchanged.
+- Stock notices: the "Stock Low" warnings are removed. A notice is shown only when a product's
+  stock is 0 ("Out of Stock: … has no stock left."), checked per product. The Settings option is
+  now labelled **Out-of-Stock Alert**.
+- Online Orders: on smaller laptops and tablets the order list is shown as cards.
+- `render.yaml` uses the existing Render names (`egg-sales-system`, `egg-sales-db`) and builds
+  from `backend/Dockerfile`.
+
 ## 2.1.0 — Online orders & customer portal
 
 Brings over the features from the v1 "online-orders-view-mobile-tablet-v47" build
