@@ -26,6 +26,7 @@ $slideList = $slides
 <script src="<?= asset('js/login.js') ?>" defer></script>
 </head>
 <body>
+<div class="login-stage">
 <div class="login-page">
   <section class="left" aria-label="EDM products">
     <div class="login-slideshow">
@@ -79,11 +80,12 @@ $slideList = $slides
       </form>
       <a class="customer-portal-link" href="/shop">Customer Portal → Order Online</a>
     </main>
-    <div class="right-footer">
-      <div class="support">ICT Support: <a href="tel:+255682657202">+255 682 657 202</a></div>
-      <div class="footer">© <?= date('Y') ?> MSINDA Food Shop · v<?= e(APP_VERSION) ?></div>
-    </div>
   </section>
+</div>
+<div class="right-footer">
+  <div class="support">ICT Support: <a href="tel:+255682657202">+255 682 657 202</a></div>
+  <div class="footer">© <?= date('Y') ?> MSINDA Food Shop · v<?= e(APP_VERSION) ?></div>
+</div>
 </div>
 </body>
 </html>

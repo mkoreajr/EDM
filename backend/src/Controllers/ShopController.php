@@ -33,8 +33,9 @@ final class ShopController
             return;
         }
 
+        // Only products the shop has in stock are offered; they disappear at 0 and return when restocked.
         $products = DB::all(
-            "SELECT * FROM products WHERE category IN ('Eggs', 'Flour', 'Rice')
+            "SELECT * FROM products WHERE category IN ('Eggs', 'Flour', 'Rice') AND stock_quantity >= 1
              ORDER BY CASE category WHEN 'Eggs' THEN 1 WHEN 'Flour' THEN 2 ELSE 3 END, package_size_kg NULLS FIRST, name, id"
         );
         $categories = array_values(array_intersect(self::CATEGORIES, array_unique(array_column($products, 'category'))));
@@ -56,6 +57,7 @@ final class ShopController
             'active'    => 'cart',
             'items'     => $cart['items'],
             'total'     => $cart['total'],
+            'adjusted'  => $cart['adjusted'],
             'error'     => flash('error'),
         ], 'layouts/shop');
     }
@@ -78,7 +80,11 @@ final class ShopController
     public function checkout(): void
     {
         $cart = Cart::lines();
-        if (!$cart['items']) {
+        if (!$cart['items'] || $cart['adjusted']) {
+            // Stock changed since items were added: show the corrected cart before checkout.
+            if ($cart['adjusted']) {
+                flash('error', Cart::adjustmentMessage($cart['adjusted']));
+            }
             redirect('/shop/cart');
         }
         view('shop/checkout', [

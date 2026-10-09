@@ -21,6 +21,11 @@
   duplicate rows never repeat an alert. Alerts are worked out live and disappear once stock is
   added. Inventory marks stock in red only at 0. The Settings option is now labelled
   **Out-of-Stock Alert**.
+- Customer shop shows only products that are in stock: an item disappears when its stock reaches 0
+  and comes back when stock is added (search and category filters follow the same rule). There
+  are no "Out of stock" cards; with nothing in stock the shop says "Bidhaa zitapatikana hivi
+  karibuni". If stock drops after an item is in a customer's cart, the cart lowers the quantity to
+  what is available and says so before checkout.
 - Online Orders: on smaller laptops and tablets the order list is shown as cards.
 - `render.yaml` uses the existing Render names (`egg-sales-system`, `egg-sales-db`) and builds
   from `backend/Dockerfile`.

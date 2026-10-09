@@ -17,6 +17,7 @@
 <script src="<?= asset('js/portal.js') ?>" defer></script>
 </head>
 <body class="portal-auth-body customer-login-page">
+<div class="auth-stage">
 <div class="customer-auth-shell">
   <?php partial('shop/partials/auth-visual', [
       'eyebrow'  => 'CUSTOMER PORTAL',
@@ -62,8 +63,9 @@
       <div class="auth-switch">Don't have an account? <a href="/shop/register">Register Now</a></div>
       <a class="customer-back-link" href="/">Staff login →</a>
     </div>
-    <div class="customer-auth-footer">© <?= date('Y') ?> MSINDA Food Shop | All Rights Reserved</div>
   </section>
+</div>
+<div class="customer-auth-footer">© <?= date('Y') ?> MSINDA Food Shop | All Rights Reserved</div>
 </div>
 </body>
 </html>

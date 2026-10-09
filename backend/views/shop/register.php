@@ -20,6 +20,7 @@ $old = $old + ['name' => '', 'phone' => '', 'address' => '', 'username' => ''];
 <script src="<?= asset('js/portal.js') ?>" defer></script>
 </head>
 <body class="portal-auth-body customer-login-page">
+<div class="auth-stage">
 <div class="customer-auth-shell registration-shell">
   <?php partial('shop/partials/auth-visual', [
       'eyebrow'  => 'CUSTOMER REGISTRATION',
@@ -81,8 +82,9 @@ $old = $old + ['name' => '', 'phone' => '', 'address' => '', 'username' => ''];
 
       <div class="auth-switch">Already registered? <a href="/shop">Sign in</a></div>
     </div>
-    <div class="customer-auth-footer">© <?= date('Y') ?> MSINDA Food Shop | All Rights Reserved</div>
   </section>
+</div>
+<div class="customer-auth-footer">© <?= date('Y') ?> MSINDA Food Shop | All Rights Reserved</div>
 </div>
 </body>
 </html>

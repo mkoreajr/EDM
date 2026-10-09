@@ -252,40 +252,46 @@ button,input,select,textarea{font:inherit;color:inherit}
 .admin-note strong{font-size:13px;font-weight:700;color:#8a6206}
 .admin-note p{margin-top:4px;color:var(--ink-900)}
 
-/* 9. Customer sign-in & registration ------------------------ */
-.portal-auth-body{min-height:100vh;background:var(--surface)}
-.customer-auth-shell{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(440px,.9fr)}
-.registration-shell{grid-template-columns:minmax(0,.85fr) minmax(520px,1fr)}
-.customer-auth-visual{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:32px;padding:40px clamp(28px,5vw,64px);color:#fff;
-  background:radial-gradient(900px 520px at 85% -10%,rgba(242,201,76,.20),transparent 60%),radial-gradient(700px 500px at -10% 110%,rgba(34,147,95,.35),transparent 60%),linear-gradient(160deg,var(--green-900),var(--green-950))}
+/* 9. Customer sign-in & registration: one card (~950 × 560) floating in the centre */
+.portal-auth-body{min-height:100vh;
+  background:radial-gradient(700px 420px at 100% 0,rgba(242,201,76,.20),transparent 70%),radial-gradient(700px 460px at 0 100%,rgba(34,147,95,.16),transparent 70%),var(--canvas);
+  background-attachment:fixed}
+.auth-stage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 24px}
+.customer-auth-shell{width:100%;max-width:950px;min-height:560px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:24px;background:var(--surface);
+  box-shadow:0 2px 6px rgba(13,59,44,.06),0 30px 70px -24px rgba(13,59,44,.38)}
+.registration-shell{grid-template-columns:.8fr 1.2fr}
+.customer-auth-visual{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:32px;color:#fff;
+  background:radial-gradient(520px 320px at 100% -10%,rgba(242,201,76,.22),transparent 60%),radial-gradient(420px 320px at -10% 110%,rgba(34,147,95,.38),transparent 60%),linear-gradient(160deg,var(--green-900),var(--green-950))}
 .customer-auth-visual:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;background-image:repeating-linear-gradient(135deg,#fff 0 1px,transparent 1px 22px)}
 .customer-auth-visual > *{position:relative;z-index:1}
-.customer-auth-brand{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:800}
-.customer-auth-brand img{width:46px;height:46px;border-radius:50%;background:#fff;padding:2px;box-shadow:0 0 0 3px rgba(242,201,76,.35)}
-.customer-auth-copy{max-width:540px}
+.customer-auth-brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800}
+.customer-auth-brand img{width:40px;height:40px;border-radius:50%;background:#fff;padding:2px;box-shadow:0 0 0 3px rgba(242,201,76,.35)}
 .eyebrow.light{color:var(--gold-400)}
-.customer-auth-copy h1{margin:14px 0 12px;font-size:clamp(28px,3.2vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
-.customer-auth-copy p{color:rgba(255,255,255,.74);font-size:15.5px;max-width:480px}
-.customer-auth-benefits{display:flex;flex-direction:column;gap:12px;margin-top:28px}
-.customer-auth-benefits > div{display:grid;grid-template-columns:36px 1fr;column-gap:14px;align-items:center;padding:14px 16px;border-radius:var(--radius-md);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
-.customer-auth-benefits span{grid-row:span 2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--gold-400);color:var(--green-950);font-weight:800}
-.customer-auth-benefits strong{font-size:15px}
-.customer-auth-benefits small{font-size:13.5px;color:rgba(255,255,255,.7)}
-.customer-auth-visual-footer{font-size:13px;font-weight:600;color:rgba(255,255,255,.7)}
+.customer-auth-copy h1{margin:10px 0 8px;font-size:24px;font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.customer-auth-copy p{color:rgba(255,255,255,.74);font-size:13.5px}
+.customer-auth-benefits{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.customer-auth-benefits > div{display:grid;grid-template-columns:30px 1fr;column-gap:12px;align-items:center;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.customer-auth-benefits span{grid-row:span 2;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--gold-400);color:var(--green-950);font-size:13px;font-weight:800}
+.customer-auth-benefits strong{font-size:13.5px}
+.customer-auth-benefits small{font-size:12px;color:rgba(255,255,255,.7)}
+.customer-auth-visual-footer{font-size:12px;font-weight:600;color:rgba(255,255,255,.7)}
 
-.customer-auth-panel{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px clamp(20px,5vw,64px) 24px}
-.customer-auth-card{width:100%;max-width:400px;margin:auto 0}
-.registration-card-modern{max-width:520px}
-.auth-logo{width:68px;height:68px;margin-bottom:22px}
+.customer-auth-panel{display:flex;align-items:center;justify-content:center;padding:30px 44px}
+.customer-auth-card{width:100%;max-width:340px}
+.registration-card-modern{max-width:460px}
+/* Header of the form (logo, eyebrow, title, intro) is centred; the form below is not. */
+.auth-logo{width:60px;height:60px;margin:0 auto 12px}
 .auth-logo img{width:100%;height:100%;object-fit:contain}
-.customer-auth-card h2{margin:6px 0 6px;font-size:28px;font-weight:800;letter-spacing:-.025em}
-.auth-intro{margin-bottom:24px!important;color:var(--ink-500);font-size:14.5px}
-.customer-auth-form{display:flex;flex-direction:column;gap:16px}
-.registration-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.registration-wide{grid-column:1 / -1}
+.customer-auth-card > .eyebrow{display:flex;justify-content:center}
+.customer-auth-card h2{margin:4px 0 6px;font-size:24px;font-weight:800;letter-spacing:-.025em;text-align:center}
+.auth-intro{margin-bottom:20px!important;color:var(--ink-500);font-size:13.5px;text-align:center}
+.customer-auth-form{display:flex;flex-direction:column;gap:12px}
+.registration-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.registration-wide{grid-column:auto}
+.registration-card-modern .password-help{padding:8px 10px;font-size:12.5px}
 .customer-field{display:flex;flex-direction:column;gap:7px;min-width:0}
-.customer-field label{font-size:13.5px;font-weight:600;color:var(--ink-700)}
-.customer-input-wrap{position:relative;display:flex;align-items:center;height:48px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:var(--surface);transition:border-color .15s,box-shadow .15s}
+.customer-field label{font-size:13px;font-weight:600;color:var(--ink-700)}
+.customer-input-wrap{position:relative;display:flex;align-items:center;height:44px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:var(--surface);transition:border-color .15s,box-shadow .15s}
 .customer-input-wrap:hover{border-color:#cdd6d1}
 .customer-input-wrap:focus-within{border-color:var(--green-500);box-shadow:var(--focus)}
 .customer-input-icon{width:44px;flex:none;display:grid;place-items:center}
@@ -301,23 +307,33 @@ button,input,select,textarea{font:inherit;color:inherit}
 .password-eye .eye-closed,.password-eye.is-visible .eye-open{display:none}
 .password-eye.is-visible .eye-closed{display:block}
 .password-help{padding:10px 12px;border-radius:var(--radius-sm);background:var(--gold-50);border:1px solid var(--gold-100);color:#7a5604;font-size:13px}
-.customer-auth-btn{height:50px;margin-top:4px;border:0;border-radius:var(--radius-sm);cursor:pointer;font-size:15.5px;font-weight:700;color:#fff;
+.customer-auth-btn{height:46px;margin-top:4px;border:0;border-radius:var(--radius-sm);cursor:pointer;font-size:15.5px;font-weight:700;color:#fff;
   background:linear-gradient(180deg,var(--green-500),var(--green-600));box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 10px 24px -10px rgba(27,122,87,.7)}
 .customer-auth-btn:hover{filter:brightness(1.06)}
 .customer-auth-btn:disabled{opacity:.7;cursor:progress}
-.auth-switch{margin-top:20px;text-align:center;font-size:14.5px;color:var(--ink-500)}
+.auth-switch{margin-top:14px;text-align:center;font-size:14px;color:var(--ink-500)}
 .auth-switch a{font-weight:650;color:var(--green-600);text-decoration:none}
 .auth-switch a:hover{text-decoration:underline}
 .customer-back-link{display:block;margin-top:10px;text-align:center;font-size:13.5px;font-weight:600;color:var(--ink-400);text-decoration:none}
 .customer-back-link:hover{color:var(--green-700)}
-.customer-auth-footer{margin-top:28px;font-size:12.5px;color:var(--ink-400)}
+.customer-auth-footer{font-size:12.5px;color:var(--ink-400);text-align:center}
 
 /* Responsive ------------------------------------------------ */
-@media (max-width:1020px){
-  .customer-auth-shell,.registration-shell{grid-template-columns:1fr}
-  .customer-auth-visual{display:none}
-  .customer-auth-panel{min-height:100vh;background:radial-gradient(600px 300px at 100% 0,rgba(242,201,76,.16),transparent 70%),radial-gradient(600px 320px at 0 100%,rgba(34,147,95,.10),transparent 70%),var(--canvas)}
-  .customer-auth-card{padding:30px 26px;border-radius:var(--radius-xl);background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 48px -28px rgba(13,59,44,.35)}
+@media (max-width:860px){
+  .customer-auth-shell,.registration-shell{max-width:720px}
+  .customer-auth-panel{padding:28px 26px}
+  .customer-auth-visual{padding:26px 22px}
+  .customer-auth-copy h1{font-size:20px}
+  .registration-grid{grid-template-columns:1fr}
+}
+/* Phones: a small card with the form; the green panel becomes a short strip on top */
+@media (max-width:640px){
+  .auth-stage{padding:20px 16px}
+  .customer-auth-shell,.registration-shell{max-width:420px;min-height:0;grid-template-columns:1fr}
+  .customer-auth-visual{padding:14px 18px;gap:0}
+  .customer-auth-copy,.customer-auth-visual-footer{display:none}
+  .customer-auth-panel{padding:22px 20px 24px}
+  .customer-auth-card h2{font-size:22px}
 }
 @media (max-width:960px){
   .shop-hero{grid-template-columns:1fr}
@@ -357,9 +373,6 @@ button,input,select,textarea{font:inherit;color:inherit}
   .order-row > span:nth-child(4){grid-area:status;margin-top:4px}
   .order-row > span:last-child{grid-area:link;align-self:end}
 
-  .customer-auth-panel{padding:20px 16px}
-  .customer-auth-card{padding:24px 18px}
-  .registration-grid{grid-template-columns:1fr}
 
   .order-stage-card{padding:22px 20px}
   .stage-track{left:40px;right:auto;top:43px;bottom:43px;width:4px;height:auto}

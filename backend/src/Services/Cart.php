@@ -55,27 +55,55 @@ final class Cart
     }
 
     /**
-     * Cart lines with current product data.
-     * @return array{items: list<array<string,mixed>>, total: float}
+     * Cart lines with current product data. Quantities are brought in line with
+     * the stock available right now: items that ran out are removed and larger
+     * quantities are lowered, and the cart in the session is updated to match.
+     *
+     * @return array{items: list<array<string,mixed>>, total: float, adjusted: list<string>}
+     *         adjusted = names of products whose quantity was changed or removed
      */
     public static function lines(): array
     {
         $cart = array_filter(self::raw(), static fn($q) => (int)$q > 0);
         if (!$cart) {
-            return ['items' => [], 'total' => 0.0];
+            return ['items' => [], 'total' => 0.0, 'adjusted' => []];
         }
         $ids = array_map('intval', array_keys($cart));
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
         $products = DB::all("SELECT * FROM products WHERE id IN ($placeholders) ORDER BY category, name, package_size_kg", $ids);
 
         $items = [];
+        $adjusted = [];
+        $kept = [];
         $total = 0.0;
         foreach ($products as $p) {
-            $p['cart_qty'] = (int)$cart[(int)$p['id']];
-            $p['line_total'] = $p['cart_qty'] * (float)$p['selling_price'];
+            $wanted = (int)$cart[(int)$p['id']];
+            $available = (int)floor((float)$p['stock_quantity']);
+            $quantity = min($wanted, $available);
+            if ($quantity < $wanted) {
+                $adjusted[] = (string)$p['name'];
+            }
+            if ($quantity <= 0) {
+                continue;
+            }
+            $kept[(int)$p['id']] = $quantity;
+            $p['cart_qty'] = $quantity;
+            $p['line_total'] = $quantity * (float)$p['selling_price'];
             $total += $p['line_total'];
             $items[] = $p;
         }
-        return ['items' => $items, 'total' => $total];
+
+        // Products deleted since they were added simply drop out.
+        if ($kept != $cart) {
+            $_SESSION[self::KEY] = $kept;
+        }
+        return ['items' => $items, 'total' => $total, 'adjusted' => $adjusted];
+    }
+
+    /** @param list<string> $names */
+    public static function adjustmentMessage(array $names): string
+    {
+        return 'Stock changed for ' . implode(', ', array_unique($names))
+            . '. Your cart now shows the quantity still available — please check it before you continue.';
     }
 }

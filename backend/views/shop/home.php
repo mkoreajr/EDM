@@ -31,6 +31,7 @@ use App\Services\Cart;
   <div><div class="eyebrow">SHOP WITH CONFIDENCE</div><h2>Available products</h2><p>Choose a product, set the quantity, and add it to your cart.</p></div>
 </section>
 
+<?php if ($products): ?>
 <div class="shop-toolbar">
   <label class="search-box" aria-label="Search products">
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -43,19 +44,19 @@ use App\Services\Cart;
     <?php endforeach; ?>
   </div>
 </div>
+<?php endif; ?>
 
 <?php if (!$products): ?>
-  <div class="empty-card"><div class="empty-illustration">🛒</div><h3>No products available right now</h3><p>Please check again later. We will keep the shop updated.</p></div>
+  <div class="empty-card"><div class="empty-illustration">🛒</div><h3>Bidhaa zitapatikana hivi karibuni</h3><p>Products will be available again soon. Please check back later.</p></div>
 <?php else: ?>
   <div class="product-grid" id="productGrid">
     <?php foreach ($products as $p):
         $package = package_label($p);
-        $inStock = (float)$p['stock_quantity'] >= 1;
     ?>
       <article class="product-card" data-category="<?= e(strtolower($p['category'])) ?>" data-name="<?= e(strtolower($p['name'] . ' ' . $p['category'] . ' ' . $package)) ?>">
         <div class="product-top">
           <div class="product-icon <?= e(strtolower($p['category'])) ?><?= $p['category'] === 'Eggs' ? ' plain-product-icon' : '' ?>"></div>
-          <span class="stock-badge <?= $inStock ? '' : 'out-of-stock' ?>"><?= $inStock ? 'In stock' : 'Out of stock' ?></span>
+          <span class="stock-badge">In stock</span>
         </div>
         <div class="product-meta">
           <span><?= e($p['category']) ?></span>
@@ -67,8 +68,8 @@ use App\Services\Cart;
           <?= csrf_field() ?>
           <input type="hidden" name="action" value="add">
           <input type="hidden" name="product_id" value="<?= (int)$p['id'] ?>">
-          <input aria-label="Quantity" type="number" name="quantity" value="1" min="1" max="<?= max(1, (int)$p['stock_quantity']) ?>" <?= $inStock ? '' : 'disabled' ?>>
-          <button class="portal-btn small" type="submit" <?= $inStock ? '' : 'disabled aria-disabled="true"' ?>><?= $inStock ? 'Add to cart' : 'Out of stock' ?></button>
+          <input aria-label="Quantity" type="number" name="quantity" value="1" min="1" max="<?= (int)$p['stock_quantity'] ?>">
+          <button class="portal-btn small" type="submit">Add to cart</button>
         </form>
       </article>
     <?php endforeach; ?>

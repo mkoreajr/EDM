@@ -2,6 +2,7 @@
 /**
  * @var list<array<string,mixed>> $items
  * @var float $total
+ * @var list<string> $adjusted names of products whose quantity was lowered to the stock available
  * @var string|null $error
  */
 
@@ -13,7 +14,8 @@ $icons = ['Eggs' => '🥚', 'Rice' => '🍚', 'Flour' => '🌾'];
   <div><div class="eyebrow">YOUR ORDER</div><h1>Shopping Cart</h1><p>Review your products before sending the order to MSINDA Food Shop.</p></div>
 </section>
 
-<?php if ($error): ?><div class="portal-alert error"><?= e($error) ?></div><?php endif; ?>
+<?php if ($error): ?><div class="portal-alert error"><?= e($error) ?></div>
+<?php elseif ($adjusted): ?><div class="portal-alert error" role="alert"><?= e(Cart::adjustmentMessage($adjusted)) ?></div><?php endif; ?>
 
 <?php if (!$items): ?>
   <div class="empty-card"><h3>Your cart is empty</h3><p>Choose products from the shop to get started.</p><a class="portal-btn" href="/shop">Browse Products</a></div>
