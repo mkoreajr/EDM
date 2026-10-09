@@ -1,0 +1,78 @@
+/* Inter, self-hosted (frontend/assets/fonts, SIL Open Font License). One variable file covers weights 100-900. */
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url("../fonts/inter-latin-wght-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url("../fonts/inter-latin-ext-wght-normal.woff2") format("woff2");unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+/* Login page */
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;font-family:Inter,Arial,Helvetica,sans-serif;background:#eef3f1;color:#17352b}
+body{overflow:auto}
+.login-page{min-height:100vh;width:100%;display:flex;align-items:center;justify-content:center;padding:34px 24px 26px;position:relative;overflow:hidden;background:linear-gradient(135deg,#f4f7f5 0%,#e8efec 100%)}
+.login-page:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:rgba(0,117,75,.06);left:-180px;top:-220px}
+.login-page:after{content:"";position:absolute;width:430px;height:430px;border-radius:50%;background:rgba(0,117,75,.045);right:-180px;bottom:-210px}
+.left{position:relative;width:min(920px,92vw);height:560px;display:flex;overflow:hidden;border-radius:18px 0 0 18px;background:linear-gradient(145deg,#086f49,#034d35);z-index:2;box-shadow:0 24px 60px rgba(18,58,45,.18)}
+.login-page>.right-panel{position:relative;width:min(460px,46vw);height:560px;background:#fff;border-radius:0 18px 18px 0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:38px 48px;z-index:2;box-shadow:0 24px 60px rgba(18,58,45,.18)}
+
+/* Left promotional slideshow */
+.login-slideshow{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(145deg,#08734a,#045236)}
+.login-slide{position:absolute;left:50%;top:51%;width:80%;max-width:680px;aspect-ratio:3/2;height:auto;transform:translate(-50%,-50%);opacity:0;transition:opacity .7s ease;z-index:1;overflow:hidden;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 40px rgba(0,0,0,.22)}
+.login-slide.active{opacity:1}
+.login-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;background:transparent}
+.login-slide-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,58,38,.08),rgba(0,48,31,.18))}
+.slide-dots{position:absolute;z-index:7;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px}
+.slide-dots .dot{display:block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.18);transition:.25s}
+.slide-dots .dot.active{width:22px;border-radius:8px;background:#ffd447}
+.left-secure{position:absolute;z-index:7;left:30px;bottom:8px;color:#fff;font-size:13px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.2);white-space:nowrap}
+.left-secure svg{width:15px;height:15px;vertical-align:middle;margin-right:5px;fill:none;stroke:#ffd447;stroke-width:2}
+
+/* Right login form */
+.login-card{position:relative;z-index:3;width:100%;padding:0;background:transparent;border:0;box-shadow:none}
+.logo-wrap{height:82px;width:210px;margin:0 auto 17px;display:flex;align-items:center;justify-content:center}
+.logo-wrap img{width:100%;height:100%;object-fit:contain;display:block}
+.welcome{font-size:12px;letter-spacing:1.1px;font-weight:800;color:#60746c;margin:0 0 7px}
+.login-title{font-size:26px;line-height:1;font-weight:800;margin:0 0 8px;color:#163b2f;letter-spacing:-.3px}
+.sub{font-size:12px;color:#74857f;margin:0 0 22px;line-height:1.45}
+.error{background:#fff0f0;border:1px solid #f1b5b5;color:#b33b3b;border-radius:8px;padding:9px 11px;margin:0 0 14px;font-size:11px}
+.field{margin:0 0 14px}
+.field label{display:block;font-size:11px;font-weight:500;color:#566961;margin:0 0 6px}
+.input{height:43px;display:flex;align-items:center;border-radius:8px;background:#fff;border:1px solid #d5dfdb;overflow:hidden;transition:.2s}
+.input:focus-within{border-color:#15945f;box-shadow:0 0 0 3px rgba(21,148,95,.08)}
+.input-icon{width:40px;height:100%;display:grid;place-items:center;flex:none}
+.input-icon svg{width:16px;height:16px;fill:none;stroke:#8b9b95;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.input input{width:100%;height:100%;border:0;outline:0;background:#fff;color:#233b32;font-family:Inter,Arial,Helvetica,sans-serif;font-size:13px;padding:0 10px 0 0}
+.input input::placeholder{color:#a3aea9}
+.input input:-webkit-autofill,.input input:-webkit-autofill:hover,.input input:-webkit-autofill:focus,.input input:-webkit-autofill:active{-webkit-text-fill-color:#233b32!important;caret-color:#233b32!important;-webkit-box-shadow:0 0 0 1000px #fff inset!important;box-shadow:0 0 0 1000px #fff inset!important}
+.pass-wrap{position:relative}
+.pass-wrap .input{padding-right:40px}
+.eye{position:absolute;right:5px;top:22px;width:34px;height:34px;border:0;background:transparent;color:#8b9b95;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.eye svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.forgot-row{display:flex;justify-content:flex-end;margin:-1px 0 17px}
+.forgot{color:#157d57;text-decoration:none;font-size:11px;font-weight:700}
+.customer-portal-link{display:block;text-align:center;margin-top:14px;color:#157d57;text-decoration:none;font-size:12px;font-weight:800}
+.customer-portal-link:hover{text-decoration:underline}
+.btn{width:100%;height:45px;border:0;border-radius:8px;background:#159b62;color:#fff;font-family:Inter,Arial,Helvetica,sans-serif;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(21,155,98,.18);transition:.2s}
+.btn:hover{background:#12a568}
+.right-footer{position:absolute;z-index:3;left:50%;bottom:-69px;transform:translateX(-50%);width:100%;text-align:center;color:#71847c}
+.support{text-align:center;color:#75867f;font-size:13px;line-height:1.5;margin:0}
+.support a{color:#157d57;text-decoration:none}
+.footer{text-align:center;color:#87958f;font-size:12px;margin-top:7px}
+
+@media(max-width:920px) and (min-width:761px){
+  .left{width:52vw;height:520px}
+  .login-page>.right-panel{width:42vw;height:520px;padding:32px 34px}
+  .login-slide{width:88%}
+}
+@media(max-width:760px){
+  html,body{background:#eef3f1}
+  .login-page{display:flex;min-height:100vh;height:auto;padding:24px 14px 70px;align-items:center;justify-content:center;background:linear-gradient(145deg,#edf4f1,#f7f9f8)}
+  .left{display:none}
+  .login-page>.right-panel{width:min(430px,100%);height:auto;min-height:0;border-radius:16px;padding:28px 24px 26px;box-shadow:0 18px 45px rgba(18,58,45,.14)}
+  .logo-wrap{height:78px;width:200px;margin-bottom:14px}
+  .login-title{font-size:25px}
+  .sub{margin-bottom:20px}
+  .right-footer{position:relative;left:auto;bottom:auto;transform:none;width:100%;margin-top:16px}
+  .support{font-size:13px}
+  .footer{font-size:12px}
+}
+
+/* Round emblem logo */
+.logo-wrap{height:96px;width:96px}
+@media(max-width:760px){.logo-wrap{height:84px;width:84px}}

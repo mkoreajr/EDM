@@ -1,19 +1,32 @@
+# Render Blueprint — single container (PHP-FPM + Nginx) + managed PostgreSQL.
+# Render → New → Blueprint → select this repository.
+
 services:
   - type: web
-    name: egg-sales-system
+    name: agizapoa
     runtime: docker
     plan: free
     region: frankfurt
-    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: egg-sales-db
+          name: agizapoa-db
           property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: APP_TIMEZONE
+        value: Africa/Dar_es_Salaam
+      - key: ADMIN_RECOVERY_CODE
+        sync: false
+      - key: ADMIN_IDLE_TIMEOUT
+        value: "120"
 
 databases:
-  - name: egg-sales-db
+  - name: agizapoa-db
     plan: free
     region: frankfurt
-    databaseName: egg_sales_system
-    user: egg_sales_user
+    databaseName: agizapoa
+    user: agizapoa

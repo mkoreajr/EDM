@@ -1,0 +1,73 @@
+# AgizaPoa — local / self-hosted stack
+#
+#   docker compose up -d --build                       # start (production-like)
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build   # live-edit mode
+#   docker compose --profile tools up -d adminer       # optional database UI on :8081
+#
+# Settings come from .env (copy .env.example to .env first).
+
+name: agizapoa
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-agizapoa}
+      POSTGRES_USER: ${DB_USER:-agizapoa}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in your .env file}
+      TZ: ${APP_TIMEZONE:-Africa/Dar_es_Salaam}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: app
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-0}
+      APP_TIMEZONE: ${APP_TIMEZONE:-Africa/Dar_es_Salaam}
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME:-agizapoa}
+      DB_USER: ${DB_USER:-agizapoa}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL:-}
+      ADMIN_RECOVERY_CODE: ${ADMIN_RECOVERY_CODE:-}
+      ADMIN_IDLE_TIMEOUT: ${ADMIN_IDLE_TIMEOUT:-120}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  adminer:
+    image: adminer:4
+    profiles: ["tools"]
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "127.0.0.1:${ADMINER_PORT:-8081}:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

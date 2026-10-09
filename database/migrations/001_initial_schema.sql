@@ -1,0 +1,147 @@
+-- 001 — Initial schema (v1 compatible).
+-- Every statement is idempotent so this also runs safely against an
+-- existing v1 production database.
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE TABLE IF NOT EXISTS users (
+    id                   BIGSERIAL PRIMARY KEY,
+    name                 VARCHAR(100) NOT NULL,
+    username             VARCHAR(50)  UNIQUE NOT NULL,
+    password             VARCHAR(255) NOT NULL,
+    role                 VARCHAR(30)  NOT NULL DEFAULT 'Admin',
+    must_change_password BOOLEAN      NOT NULL DEFAULT FALSE,
+    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE TABLE IF NOT EXISTS products (
+    id             BIGSERIAL PRIMARY KEY,
+    name           VARCHAR(100)  NOT NULL,
+    unit           VARCHAR(20)   NOT NULL DEFAULT 'Tray',
+    selling_price  NUMERIC(12,2) DEFAULT 0,
+    stock_quantity NUMERIC(12,2) DEFAULT 0,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE products ADD COLUMN IF NOT EXISTS category VARCHAR(30) NOT NULL DEFAULT 'Eggs';
+ALTER TABLE products ADD COLUMN IF NOT EXISTS package_size_kg NUMERIC(6,2) NULL;
+ALTER TABLE products DROP CONSTRAINT IF EXISTS products_unit_check;
+ALTER TABLE products ADD CONSTRAINT products_unit_check CHECK (unit IN ('Tray', 'Bag'));
+UPDATE products SET category = 'Eggs', unit = 'Tray', package_size_kg = NULL WHERE category IS NULL OR category = '';
+
+CREATE TABLE IF NOT EXISTS customers (
+    id         BIGSERIAL PRIMARY KEY,
+    name       VARCHAR(100) NOT NULL,
+    phone      VARCHAR(30),
+    address    VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS suppliers (
+    id         BIGSERIAL PRIMARY KEY,
+    name       VARCHAR(100) NOT NULL,
+    phone      VARCHAR(30),
+    address    VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sales (
+    id             BIGSERIAL PRIMARY KEY,
+    sale_number    VARCHAR(30) UNIQUE NOT NULL,
+    customer_id    BIGINT REFERENCES customers(id) ON DELETE SET NULL,
+    sale_date      DATE NOT NULL,
+    payment_method VARCHAR(30) NOT NULL CHECK (payment_method IN ('Cash', 'Mobile Money', 'Bank')),
+    total_amount   NUMERIC(12,2) DEFAULT 0,
+    created_by     BIGINT NOT NULL REFERENCES users(id),
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sale_items (
+    id         BIGSERIAL PRIMARY KEY,
+    sale_id    BIGINT NOT NULL REFERENCES sales(id) ON DELETE CASCADE,
+    product_id BIGINT NOT NULL REFERENCES products(id),
+    quantity   NUMERIC(12,2) NOT NULL,
+    unit_price NUMERIC(12,2) NOT NULL,
+    total      NUMERIC(12,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS purchases (
+    id            BIGSERIAL PRIMARY KEY,
+    supplier_id   BIGINT REFERENCES suppliers(id) ON DELETE SET NULL,
+    purchase_date DATE NOT NULL,
+    total_amount  NUMERIC(12,2) DEFAULT 0,
+    created_by    BIGINT NOT NULL REFERENCES users(id),
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS purchase_items (
+    id          BIGSERIAL PRIMARY KEY,
+    purchase_id BIGINT NOT NULL REFERENCES purchases(id) ON DELETE CASCADE,
+    product_id  BIGINT NOT NULL REFERENCES products(id),
+    quantity    NUMERIC(12,2) NOT NULL,
+    unit_cost   NUMERIC(12,2) NOT NULL,
+    total       NUMERIC(12,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+    id           BIGSERIAL PRIMARY KEY,
+    expense_name VARCHAR(100) NOT NULL,
+    amount       NUMERIC(12,2) NOT NULL,
+    expense_date DATE NOT NULL,
+    description  TEXT,
+    created_by   BIGINT NOT NULL REFERENCES users(id),
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS stock_movements (
+    id            BIGSERIAL PRIMARY KEY,
+    product_id    BIGINT NOT NULL REFERENCES products(id),
+    movement_type VARCHAR(20) NOT NULL CHECK (movement_type IN ('Purchase', 'Sale', 'Adjustment')),
+    quantity      NUMERIC(12,2) NOT NULL,
+    reference_id  BIGINT,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS app_settings (
+    setting_key   VARCHAR(100) PRIMARY KEY,
+    setting_value TEXT NOT NULL
+);
+
+-- Login slideshow images uploaded by administrators (kept in the DB so they survive redeploys).
+CREATE TABLE IF NOT EXISTS login_slides (
+    id         BIGSERIAL PRIMARY KEY,
+    filename   VARCHAR(255) NOT NULL,
+    mime_type  VARCHAR(100) NOT NULL,
+    image_data TEXT NOT NULL,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id         BIGSERIAL PRIMARY KEY,
+    user_id    BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title      VARCHAR(150) NOT NULL,
+    message    TEXT NOT NULL,
+    read_at    TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- One-time admin password recovery state (see docs/ADMIN-RECOVERY.md).
+CREATE TABLE IF NOT EXISTS system_recovery (
+    id                  SMALLINT PRIMARY KEY,
+    admin_recovery_used BOOLEAN NOT NULL DEFAULT FALSE
+);
+INSERT INTO system_recovery (id, admin_recovery_used) VALUES (1, FALSE) ON CONFLICT (id) DO NOTHING;
+
+-- Default administrator for a brand-new database: admin / admin123.
+-- The password must be changed at first sign-in, and is upgraded to bcrypt on login.
+INSERT INTO users (name, username, password, role, must_change_password)
+SELECT 'Administrator', 'admin', encode(digest('admin123', 'sha256'), 'hex'), 'Admin', TRUE
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'admin');
+
+INSERT INTO notifications (user_id, title, message)
+SELECT u.id, 'Welcome to EDM Kienyeji Food Shop',
+       'Your administrator account is ready. You can manage sales, products and stock from the dashboard.'
+FROM users u
+WHERE u.username = 'admin'
+  AND NOT EXISTS (SELECT 1 FROM notifications n WHERE n.user_id = u.id);

@@ -1,0 +1,26 @@
+# Development overrides: edit files on your machine and refresh the browser.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+#
+# - PHP code, views and migrations are mounted live (no rebuild needed)
+# - CSS/JS/images are mounted live and never cached
+# - Detailed error pages are shown
+# - PostgreSQL is reachable from your machine on localhost:5432
+
+services:
+  backend:
+    environment:
+      APP_ENV: development
+      APP_DEBUG: "1"
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "1"
+    volumes:
+      - ./backend:/var/www/app
+      - ./database:/var/www/database:ro
+
+  nginx:
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+
+  db:
+    ports:
+      - "127.0.0.1:${DB_PORT_HOST:-5432}:5432"

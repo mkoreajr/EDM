@@ -1,8 +1,0 @@
-RewriteEngine On
-
-# Customer Portal
-RewriteRule ^shop/?$ customer_portal/index.php [END]
-RewriteRule ^shop/(.*)$ customer_portal/$1 [END]
-
-# Admin Portal
-RewriteRule ^admin/?$ admin_entry/index.php [END]

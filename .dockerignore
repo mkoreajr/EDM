@@ -1,0 +1,15 @@
+.git
+.gitignore
+.gitattributes
+.env
+.env.*
+!.env.example
+docs
+*.md
+docker-compose*.yml
+render.yaml
+.editorconfig
+.idea
+.vscode
+Thumbs.db
+desktop.ini

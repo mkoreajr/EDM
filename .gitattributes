@@ -1,0 +1,10 @@
+# Normalise line endings; shell scripts and configs must stay LF for Linux containers.
+* text=auto eol=lf
+*.sh       text eol=lf
+*.conf     text eol=lf
+*.template text eol=lf
+Dockerfile text eol=lf
+
+*.png  binary
+*.jpg  binary
+*.webp binary
