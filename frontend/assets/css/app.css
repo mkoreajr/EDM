@@ -518,6 +518,18 @@ body.password-required-mode .content{margin-left:0;padding:0}
   .page-head,.page-intro,.settings-heading{margin-bottom:16px}
   .settings-breadcrumb{display:none}
 }
+/* Phones: the bell and profile menus open as a panel centred under the top bar,
+   12px from each edge, never taller than the screen; long lists scroll inside. */
+@media (max-width:640px){
+  .dropdown-wrap{position:static}
+  .dropdown{left:12px;right:12px;top:calc(100% + 8px);width:auto;min-width:0;max-width:none;
+    max-height:calc(100vh - var(--topbar-h) - 24px);max-height:calc(100dvh - var(--topbar-h) - 24px)}
+  .notification-dropdown{display:flex;flex-direction:column}
+  .notification-dropdown > .dropdown-head,.notification-dropdown > .all-notifications{flex:none}
+  .notification-dropdown > .stock-alert-list{flex:0 1 auto;min-height:0;max-height:40%}
+  .notification-dropdown > .notification-list{flex:1 1 auto;min-height:0;max-height:none}
+  .profile-dropdown{overflow-y:auto}
+}
 @media (max-width:520px){
   .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
   .stat-card{padding:16px;gap:10px}

@@ -233,7 +233,9 @@ body.mobile-order-detail-open .online-orders-page{display:none}
   .order-summary-card{padding:14px;gap:10px}
   .summary-icon{width:36px;height:36px}
   .order-summary-card strong{font-size:20px}
-  .orders-search-form{display:grid;grid-template-columns:1fr auto 1fr}
+  .orders-search-form{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+  .orders-date{min-width:0;padding:0 8px}
+  .orders-date input{width:100%;min-width:0;font-size:13.5px}
   .orders-search{grid-column:1 / -1}
   .orders-search-btn{grid-column:1 / -1}
   .cancel-modal-actions button{flex:1}
